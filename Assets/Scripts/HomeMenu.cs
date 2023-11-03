@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class HomeMenu : MonoBehaviour
@@ -8,6 +9,7 @@ public class HomeMenu : MonoBehaviour
     void Start()
     {
         Debug.Log("Main menu loaded");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Game", UnityEngine.SceneManagement.LoadSceneMode.Additive);
     }
 
     // Update is called once per frame
@@ -21,11 +23,27 @@ public class HomeMenu : MonoBehaviour
         Debug.Log("Quit button pressed");
         Application.Quit();
     }
+    
+    
 
     public void OnPlayButtonPressed()
     {
         Debug.Log("Play button pressed");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
+        //load the scene but don't switch to it yet
+        
+        //get the network manager from Game scene in DontDestroyOnLoad
+        NetworkManager networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        if (networkManager != null)
+        {
+            Debug.Log("Network manager found");
+            networkManager.StartHost();
+            //destroy the main menu
+            Destroy(gameObject);
+        }
+        else
+        {
+            Debug.Log("Network manager not found");
+        }
     }
     
     public void OnKeyboardSettingsButtonPressed()

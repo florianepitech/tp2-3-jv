@@ -12,8 +12,11 @@ public class Movement : NetworkBehaviour
     {
         if (IsLocalPlayer)
         {
-            float horizontalInput = Input.GetAxis("Horizontal");
+            float horizontalInput = KeyboardEvent.TurnCrossHairDirection(); 
             float verticalInput = Input.GetAxis("Vertical");
+                    
+            Debug.Log("Horizontal input: " + horizontalInput + " Vertical input: " + verticalInput);
+            
             currentInput = new Vector3(horizontalInput, 0, verticalInput).normalized;
 
             // Send the updated input to the server
@@ -39,7 +42,7 @@ public class Movement : NetworkBehaviour
     private void HandleMovement(Vector3 input)
     {
         // Apply movement on the server
-        Vector3 moveDirection = input * moveSpeed * Time.fixedDeltaTime;
+        Vector3 moveDirection = input * (moveSpeed * Time.fixedDeltaTime);
         transform.position += moveDirection;
 
         // Update the position on clients

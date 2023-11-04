@@ -42,22 +42,23 @@ public class Game : NetworkBehaviour
         {
             SceneManager.LoadScene("PauseMenu", LoadSceneMode.Additive);
         }
+
         // Game loop
         if (connectedClients.Count != 1)
         {
             Debug.Log("Waiting for another player to join...");
             return;
         }
+
         var firstPlayer = connectedClients[0];
         setShootBarPosition(firstPlayer);
     }
-    
+
     private void FixedUpdate()
     {
         //only the server can get the number of connected clients
         if (IsServer)
             getPlayersConnectedServerRpc();
-        
     }
 
     private void setShootBarPosition(NetworkClient networkClient)
@@ -69,38 +70,40 @@ public class Game : NetworkBehaviour
             Debug.Log("ShootBar not found");
             return;
         }
-        
+
         // Set the ShootBar position to the networkClient position
         shootBar.transform.position = networkClient.PlayerObject.transform.position;
-        
+
         /*
          * Compute rotation
          */
-        
+
         // Define the pivot point as the bottom of the cylinder
         var pivotPoint = shootBar.transform.position;
-        
+
         // HORIZONTAL ROTATION
-        
+
         // Calculate the rotation amount based on your desired input or method
         var rotation = KeyboardEvent.TurnCrossHairDirectionHorizontal();
         // Rotate the ShootBar around the Y-axis with respect to the pivot point
         shootBar.transform.RotateAround(pivotPoint, Vector3.up, rotation);
-        
+
         // VERTICAL ROTATION
         var rotationVerticalInput = KeyboardEvent.TurnCrossHairDirectionVertical();
         var rotationBar = shootBar.transform.rotation;
+
+        var newXRotation = rotationBar.eulerAngles.x + rotationVerticalInput;
+
         shootBar.transform.rotation = Quaternion.Euler(
-            Mathf.Clamp(rotationBar.eulerAngles.x + rotationVerticalInput, 0, -180),
+            newXRotation,
             rotationBar.eulerAngles.y,
             rotationBar.eulerAngles.z
         );
     }
-    
+
     [ServerRpc]
     void getPlayersConnectedServerRpc()
     {
-         connectedClients = NetworkManager.Singleton.ConnectedClientsList;
+        connectedClients = NetworkManager.Singleton.ConnectedClientsList;
     }
-    
 }

@@ -9,15 +9,6 @@ public class HomeMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Main menu loaded");
-        //if Game scene is loaded not reload it
-        if (GameObject.Find("NetworkManager") == null)
-        {
-            Debug.Log("Loading Game scene");
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Game",
-                UnityEngine.SceneManagement.LoadSceneMode.Additive);
-            
-        }
     }
 
     // Update is called once per frame
@@ -36,22 +27,15 @@ public class HomeMenu : MonoBehaviour
 
     public void OnPlayButtonPressed()
     {
-        Debug.Log("Play button pressed");
-        //load the scene but don't switch to it yet
         
-        //get the network manager from Game scene in DontDestroyOnLoad
-        NetworkManager networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
-        if (networkManager != null)
-        {
-            Debug.Log("Network manager found");
-            //destroy the main menu
-            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-            networkManager.StartHost();
-        }
-        else
-        {
-            Debug.Log("Network manager not found");
-        }
+        // Get the network manager
+        var networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        
+        // Set the network address
+        networkManager.StartHost();
+        //unloads the HomeMenu scene
+        UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("HomeMenu");
+        
     }
     
     public void OnKeyboardSettingsButtonPressed()
@@ -63,8 +47,10 @@ public class HomeMenu : MonoBehaviour
     public void OnJoinGameButtonPressed()
     {
         Debug.Log("Join game button pressed");
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-        UnityEngine.SceneManagement.SceneManager.LoadScene("JoinGameMenu", UnityEngine.SceneManagement.LoadSceneMode.Additive);
+        //unload the HomeMenu scene
+        UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("HomeMenu");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("JoinGameMenu", LoadSceneMode.Additive);
+        
         
         //don't destroy the Game scene but replace the HomeMenu scene with JoinGameMenu scene
     }

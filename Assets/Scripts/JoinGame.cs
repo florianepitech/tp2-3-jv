@@ -34,19 +34,16 @@ public class JoinGame : MonoBehaviour
         // Get the text input
         Debug.Log("Ask to join " + _hostInputFieldValue + ":" + _portInputFieldValue);
         
-        //get the network manager from Game scene in DontDestroyOnLoad
-        NetworkManager networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
-        if (networkManager != null)
-        {
-            Debug.Log("Network manager found");
-            networkManager.StartClient();
-        }
-        else
-        {
-            Debug.Log("Network manager not found");
-        }
+        // Get the network manager
+        var networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         
+        // Set the network address
+        networkManager.StartClient();
+        //unloads the JoinGameMenu scene
+        UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("JoinGameMenu");
         
+
+
     }
 
     public void OnBackButtonPressed()

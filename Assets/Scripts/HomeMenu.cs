@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HomeMenu : MonoBehaviour
 {
@@ -9,7 +10,14 @@ public class HomeMenu : MonoBehaviour
     void Start()
     {
         Debug.Log("Main menu loaded");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Game", UnityEngine.SceneManagement.LoadSceneMode.Additive);
+        //if Game scene is loaded not reload it
+        if (GameObject.Find("NetworkManager") == null)
+        {
+            Debug.Log("Loading Game scene");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Game",
+                UnityEngine.SceneManagement.LoadSceneMode.Additive);
+            
+        }
     }
 
     // Update is called once per frame
@@ -36,9 +44,9 @@ public class HomeMenu : MonoBehaviour
         if (networkManager != null)
         {
             Debug.Log("Network manager found");
-            networkManager.StartHost();
             //destroy the main menu
-            Destroy(gameObject);
+            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+            networkManager.StartHost();
         }
         else
         {
@@ -55,7 +63,10 @@ public class HomeMenu : MonoBehaviour
     public void OnJoinGameButtonPressed()
     {
         Debug.Log("Join game button pressed");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("JoinGameMenu");
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("JoinGameMenu", UnityEngine.SceneManagement.LoadSceneMode.Additive);
+        
+        //don't destroy the Game scene but replace the HomeMenu scene with JoinGameMenu scene
     }
     
 }

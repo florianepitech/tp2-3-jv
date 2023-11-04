@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Unity.Netcode.Transports.UTP;
 public class JoinGame : MonoBehaviour
 {
     private string _hostInputFieldValue = "";
@@ -34,10 +34,16 @@ public class JoinGame : MonoBehaviour
         // Get the text input
         Debug.Log("Ask to join " + _hostInputFieldValue + ":" + _portInputFieldValue);
         
+        if (_hostInputFieldValue == "")
+        {
+            Debug.Log("Host input field is empty");
+            return;
+        }
         // Get the network manager
         var networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         
         // Set the network address
+        networkManager.GetComponent<UnityTransport>().ConnectionData.Address = _hostInputFieldValue;
         networkManager.StartClient();
         //unloads the JoinGameMenu scene
         UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("JoinGameMenu");

@@ -20,12 +20,17 @@ public class ShootController : NetworkBehaviour
         // Ensure that the shooting logic is only executed on the local player's client.
         if (IsLocalPlayer)
         {
+            var shootBarContainer = GameObject.Find("ShootBarContainer");
+            if (shootBarContainer.active == false)
+                return;
             // Apply a force to the sphere's Rigidbody to simulate shooting.
             sphereRigidbody = gameObject.GetComponent<Rigidbody>();
             //allow to shoot in the direction of the camera
             //get the transform of the ShootBarContainer
             var shootBarContainerTransform = GameObject.Find("ShootBarContainer").transform;
             sphereRigidbody.AddForce(shootBarContainerTransform.forward * shootForce, ForceMode.Impulse);
+            // Get ShootBarContainer and not display it
+            shootBarContainer.SetActive(false);
         }
     }
 }

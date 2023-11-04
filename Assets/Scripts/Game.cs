@@ -70,7 +70,11 @@ public class Game : NetworkBehaviour
             Debug.Log("ShootBar not found");
             return;
         }
-
+        
+        // If the ShootBar is not display do nothin
+        if (shootBar.active == false)
+            return;
+        
         // Set the ShootBar position to the networkClient position
         shootBar.transform.position = networkClient.PlayerObject.transform.position;
 

@@ -34,7 +34,7 @@ public class HomeMenu : MonoBehaviour
     public void OnKeyboardSettingsButtonPressed()
     {
         Debug.Log("Keyboard settings button pressed");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("KeyboardSettings");
+        SceneManager.LoadScene("KeyboardSettings");
     }
 
     public void OnJoinGameButtonPressed()

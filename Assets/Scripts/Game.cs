@@ -44,14 +44,18 @@ public class Game : MonoBehaviour
     private void spawnShootBar()
     {
         // Get the ShootBar cylinder
-        var shootBar = GameObject.Find("ShootBar");
+        var shootBar = GameObject.Find("ShootBarContainer");
         if (shootBar == null)
         {
             Debug.Log("ShootBar not found");
             return;
         }
-        float rotation = KeyboardEvent.TurnCrossHairDirection();
-        shootBar.transform.Rotate(0, 0, rotation);
+        // Calculate the rotation amount based on your desired input or method
+        var rotation = KeyboardEvent.TurnCrossHairDirection();
+        // Define the pivot point as the bottom of the cylinder
+        var pivotPoint = shootBar.transform.position;
+        // Rotate the ShootBar around the Y-axis with respect to the pivot point
+        shootBar.transform.RotateAround(pivotPoint, Vector3.up, rotation);
     }
     
 }

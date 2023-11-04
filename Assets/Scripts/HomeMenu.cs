@@ -34,7 +34,7 @@ public class HomeMenu : MonoBehaviour
         // Set the network address
         networkManager.StartHost();
         //unloads the HomeMenu scene
-        UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("HomeMenu");
+        SceneManager.UnloadSceneAsync("HomeMenu");
         
     }
     

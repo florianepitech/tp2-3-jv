@@ -26,8 +26,10 @@ public class Game : NetworkBehaviour
                 networkManager.StartHost();
                 break;
             default:
-                Debug.LogError("Invalid game type");
-                throw new ArgumentOutOfRangeException();
+                gameType = GameType.HostGame;
+                Debug.Log("Invalid game type, starting host game by default...");
+                networkManager.StartHost();
+                break;
         }
     }
 
@@ -46,7 +48,6 @@ public class Game : NetworkBehaviour
             Debug.Log("Waiting for another player to join...");
             return;
         }
-        Debug.Log("Game started");
         var firstPlayer = connectedClients[0];
         setShootBarPosition(firstPlayer);
     }
@@ -79,17 +80,21 @@ public class Game : NetworkBehaviour
         // Define the pivot point as the bottom of the cylinder
         var pivotPoint = shootBar.transform.position;
         
-        // VERTICAL ROTATION
+        // HORIZONTAL ROTATION
         
         // Calculate the rotation amount based on your desired input or method
-        var rotation = KeyboardEvent.TurnCrossHairDirectionVertical();
+        var rotation = KeyboardEvent.TurnCrossHairDirectionHorizontal();
         // Rotate the ShootBar around the Y-axis with respect to the pivot point
         shootBar.transform.RotateAround(pivotPoint, Vector3.up, rotation);
         
-        // VERICAL ROTATION
-        var rotationVertical = KeyboardEvent.TurnCrossHairDirectionHorizontal();
-        shootBar.transform.RotateAround(pivotPoint, Vector3.right, rotationVertical);
-        
+        // VERTICAL ROTATION
+        var rotationVerticalInput = KeyboardEvent.TurnCrossHairDirectionVertical();
+        var rotationBar = shootBar.transform.rotation;
+        shootBar.transform.rotation = Quaternion.Euler(
+            Mathf.Clamp(rotationBar.eulerAngles.x + rotationVerticalInput, 0, -180),
+            rotationBar.eulerAngles.y,
+            rotationBar.eulerAngles.z
+        );
     }
     
     [ServerRpc]

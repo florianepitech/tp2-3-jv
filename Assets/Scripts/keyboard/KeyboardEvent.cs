@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class KeyboardEvent : MonoBehaviour
 {
-    // TODO: Review mapping inversed for AZERTY and QWERTY
     public static float TurnCrossHairDirectionVertical()
     {
         var result = KeyboardSettings.KeyboardType switch
@@ -44,7 +43,7 @@ public abstract class KeyboardEvent : MonoBehaviour
     private static float TurnCrossHairVerticalQwerty()
     {
         var verticalInput = 0f;
-        if (Input.GetKey(KeyCode.Z))
+        if (Input.GetKey(KeyCode.W))
         {
             verticalInput = 1f; // Up
         }
@@ -58,7 +57,7 @@ public abstract class KeyboardEvent : MonoBehaviour
     private static float TurnCrossHairVerticalAzerty()
     {
         var verticalInput = 0f;
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.Z))
         {
             verticalInput = 1f; // Up
         }
@@ -75,12 +74,14 @@ public abstract class KeyboardEvent : MonoBehaviour
     {
         var horizontalInput = 0f;
         
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.A))
         {
+            Debug.Log("Qwerty A pressed !");
             horizontalInput = -1f; // Left
         }
         else if (Input.GetKey(KeyCode.D))
         {
+            Debug.Log("Qwerty D pressed !");
             horizontalInput = 1f; // Right
         }
 
@@ -91,12 +92,14 @@ public abstract class KeyboardEvent : MonoBehaviour
     {
         var horizontalInput = 0f;
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.Q))
         {
+            Debug.Log("Azerty Q pressed !");
             horizontalInput = -1f; // Left
         }
         else if (Input.GetKey(KeyCode.D))
         {
+            Debug.Log("Azerty D pressed !");
             horizontalInput = 1f; // Right
         }
 

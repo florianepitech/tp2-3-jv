@@ -10,12 +10,6 @@ public class KeyboardSettings : MonoBehaviour
     {
         Debug.Log("Keyboard settings loaded");
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
     public void OnBackButtonPressed()
     {
@@ -25,7 +19,7 @@ public class KeyboardSettings : MonoBehaviour
  
     public void OnKeyboardSettingsChanged(int index)
     {
-        Debug.Log("Keyboard settings changed to " + index);
+        Debug.Log("Last value is " + KeyboardType);
         switch (index)
         {
             case 0:
@@ -38,5 +32,6 @@ public class KeyboardSettings : MonoBehaviour
                 Debug.LogError("Unknown keyboard type");
                 break;
         }
+        Debug.Log("Keyboard settings changed to " + index + " " + KeyboardType);
     }
 }

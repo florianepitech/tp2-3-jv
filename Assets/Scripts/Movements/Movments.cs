@@ -14,8 +14,7 @@ public class Movement : NetworkBehaviour
         {
             float horizontalInput = KeyboardEvent.TurnCrossHairDirection(); 
             float verticalInput = Input.GetAxis("Vertical");
-                    
-            Debug.Log("Horizontal input: " + horizontalInput + " Vertical input: " + verticalInput);
+            
             
             currentInput = new Vector3(horizontalInput, 0, verticalInput).normalized;
 

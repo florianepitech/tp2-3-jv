@@ -8,7 +8,7 @@ public class SceneSwitcher : MonoBehaviour
     void Start()
     {
         //load the network manager and switch to the menu scene
-        UnityEngine.SceneManagement.SceneManager.LoadScene("HomeMenu");
+        //UnityEngine.SceneManagement.SceneManager.LoadScene("HomeMenu");
     }
 
     // Update is called once per frame

@@ -7,8 +7,8 @@ using UnityEngine.UI;
 using Unity.Netcode.Transports.UTP;
 public class JoinGame : MonoBehaviour
 {
-    private string _hostInputFieldValue = "";
-    private string _portInputFieldValue = "";
+    public static string HostInputFieldValue = "";
+    public static string PortInputFieldValue = "";
     
     // Start is called before the first frame update
     void Start()
@@ -32,24 +32,16 @@ public class JoinGame : MonoBehaviour
     public void OnPlayButtonPressed()
     {
         // Get the text input
-        Debug.Log("Ask to join " + _hostInputFieldValue + ":" + _portInputFieldValue);
+        Debug.Log("Ask to join " + HostInputFieldValue + ":" + PortInputFieldValue);
         
-        if (_hostInputFieldValue == "")
+        if (HostInputFieldValue == "")
         {
             Debug.Log("Host input field is empty");
             return;
         }
-        // Get the network manager
-        var networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
-        
-        // Set the network address
-        networkManager.GetComponent<UnityTransport>().ConnectionData.Address = _hostInputFieldValue;
-        networkManager.StartClient();
-        //unloads the JoinGameMenu scene
-        UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("JoinGameMenu");
-        
-
-
+        // Load Game scene
+        Game.gameType = GameType.JOIN_GAME;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
     }
 
     public void OnBackButtonPressed()
@@ -61,13 +53,13 @@ public class JoinGame : MonoBehaviour
     public void OnHostInputFieldChanged(String value)
     {
         Debug.Log("Host input field changed to " + value);
-        _hostInputFieldValue = value;
+        HostInputFieldValue = value;
     }
     
     public void OnPortInputFieldChanged(String value)
     {
         Debug.Log("Port input field changed to " + value);
-        _portInputFieldValue = value;
+        PortInputFieldValue = value;
     }
     
 }

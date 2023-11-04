@@ -29,13 +29,15 @@ public class HomeMenu : MonoBehaviour
     {
         
         // Get the network manager
-        var networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
-        
-        // Set the network address
-        networkManager.StartHost();
-        //unloads the HomeMenu scene
-        SceneManager.UnloadSceneAsync("HomeMenu");
-        
+         //var networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        //
+        // // Set the network address
+        // networkManager.StartHost();
+        // //unloads the HomeMenu scene
+        // SceneManager.UnloadSceneAsync("HomeMenu");
+
+        Game.gameType = GameType.HOST_GAME;
+        SceneManager.LoadScene("Game");
     }
     
     public void OnKeyboardSettingsButtonPressed()

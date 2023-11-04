@@ -36,7 +36,7 @@ public class HomeMenu : MonoBehaviour
         // //unloads the HomeMenu scene
         // SceneManager.UnloadSceneAsync("HomeMenu");
 
-        Game.gameType = GameType.HOST_GAME;
+        Game.gameType = GameType.HostGame;
         SceneManager.LoadScene("Game");
     }
     

@@ -15,11 +15,11 @@ public class Game : MonoBehaviour
 
         switch (gameType)
         {
-            case GameType.JOIN_GAME:
+            case GameType.JoinGame:
                 networkManager.GetComponent<UnityTransport>().ConnectionData.Address = JoinGame.HostInputFieldValue;
                 networkManager.StartClient();
                 break;
-            case GameType.HOST_GAME:
+            case GameType.HostGame:
                 networkManager.StartHost();
                 break;
             default:

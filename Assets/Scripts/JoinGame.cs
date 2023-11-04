@@ -35,7 +35,7 @@ public class JoinGame : MonoBehaviour
             return;
         }
         // Load Game scene
-        Game.gameType = GameType.JOIN_GAME;
+        Game.gameType = GameType.JoinGame;
         UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
     }
 

@@ -11,6 +11,8 @@ public class CameraFollow : MonoBehaviour
     void LateUpdate()
     {
         target = GameObject.Find("Player(Clone)").transform;
+        if (target == null)
+            return;
         //i want third person camera with mouse rotation
         offset = new Vector3(0, 2, -5);
         //calculate the offset position

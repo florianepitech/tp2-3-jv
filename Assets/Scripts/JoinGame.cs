@@ -13,12 +13,7 @@ public class JoinGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //if the HomeMenu is still load unload it
-        if (GameObject.Find("HomeMenu") != null)
-        {
-            Debug.Log("Unloading HomeMenu");
-            UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("HomeMenu");
-        }
+        
     }
 
     // Update is called once per frame

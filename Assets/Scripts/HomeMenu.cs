@@ -50,8 +50,7 @@ public class HomeMenu : MonoBehaviour
     {
         Debug.Log("Join game button pressed");
         //unload the HomeMenu scene
-        UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("HomeMenu");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("JoinGameMenu", LoadSceneMode.Additive);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("JoinGameMenu");
         
         
         //don't destroy the Game scene but replace the HomeMenu scene with JoinGameMenu scene

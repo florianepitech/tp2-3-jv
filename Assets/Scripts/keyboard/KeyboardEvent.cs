@@ -38,6 +38,20 @@ public abstract class KeyboardEvent : MonoBehaviour
         return (Input.GetKeyDown(KeyCode.Escape));
     }
     
+    public static float ArrowKeysHorizontal()
+    {
+        float horizontalInput = 0f;
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            horizontalInput = -1f; // Left
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            horizontalInput = 1f; // Right
+        }
+        return horizontalInput;
+    }
+    
     // Vertical
 
     private static float TurnCrossHairVerticalQwerty()

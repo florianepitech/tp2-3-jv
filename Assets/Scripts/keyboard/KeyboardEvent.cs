@@ -5,17 +5,28 @@ using UnityEngine;
 public abstract class KeyboardEvent : MonoBehaviour
 {
     // TODO: Review mapping inversed for AZERTY and QWERTY
-    public static float TurnCrossHairDirection()
+    public static float TurnCrossHairDirectionVertical()
     {
         var result = KeyboardSettings.KeyboardType switch
         {
-            KeyboardType.Azerty => TurnCrossHairAzerty(),
-            KeyboardType.Qwerty => TurnCrossHairQwerty(),
+            KeyboardType.Azerty => TurnCrossHairVerticalAzerty(),
+            KeyboardType.Qwerty => TurnCrossHairVerticalQwerty(),
             _ => throw new ArgumentOutOfRangeException()
         };
         return (result);
     }
 
+    public static float TurnCrossHairDirectionHorizontal()
+    {
+        var result = KeyboardSettings.KeyboardType switch
+        {
+            KeyboardType.Azerty => TurnCrossHairHorizontalAzerty(),
+            KeyboardType.Qwerty => TurnCrossHairHorizontalQwerty(),
+            _ => throw new ArgumentOutOfRangeException()
+        };
+        return (result);
+    }
+    
     public static bool IsShoot()
     {
         // Verify if the player press the space bar
@@ -28,7 +39,39 @@ public abstract class KeyboardEvent : MonoBehaviour
         return (Input.GetKeyDown(KeyCode.Escape));
     }
     
-    private static float TurnCrossHairQwerty()
+    // Vertical
+
+    private static float TurnCrossHairVerticalQwerty()
+    {
+        var verticalInput = 0f;
+        if (Input.GetKey(KeyCode.Z))
+        {
+            verticalInput = 1f; // Up
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            verticalInput = -1f; // Down
+        }
+        return verticalInput;
+    }
+    
+    private static float TurnCrossHairVerticalAzerty()
+    {
+        var verticalInput = 0f;
+        if (Input.GetKey(KeyCode.W))
+        {
+            verticalInput = 1f; // Up
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            verticalInput = -1f; // Down
+        }
+        return verticalInput;
+    }
+    
+    // Horizontal
+    
+    private static float TurnCrossHairHorizontalQwerty()
     {
         var horizontalInput = 0f;
         
@@ -44,7 +87,7 @@ public abstract class KeyboardEvent : MonoBehaviour
         return horizontalInput;
     }
 
-    private static float TurnCrossHairAzerty()
+    private static float TurnCrossHairHorizontalAzerty()
     {
         var horizontalInput = 0f;
 

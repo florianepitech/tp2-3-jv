@@ -40,8 +40,15 @@ public class Game : NetworkBehaviour
         {
             SceneManager.LoadScene("PauseMenu", LoadSceneMode.Additive);
         }
-        // Check for shoot bar
-        spawnShootBar();
+        // Game loop
+        if (connectedClients.Count != 1)
+        {
+            Debug.Log("Waiting for another player to join...");
+            return;
+        }
+        Debug.Log("Game started");
+        var firstPlayer = connectedClients[0];
+        setShootBarPosition(firstPlayer);
     }
     
     private void FixedUpdate()
@@ -52,7 +59,7 @@ public class Game : NetworkBehaviour
         
     }
 
-    private void spawnShootBar()
+    private void setShootBarPosition(NetworkClient networkClient)
     {
         // Get the ShootBar cylinder
         var shootBar = GameObject.Find("ShootBarContainer");
@@ -61,20 +68,34 @@ public class Game : NetworkBehaviour
             Debug.Log("ShootBar not found");
             return;
         }
-        // Calculate the rotation amount based on your desired input or method
-        var rotation = KeyboardEvent.TurnCrossHairDirection();
+        
+        // Set the ShootBar position to the networkClient position
+        shootBar.transform.position = networkClient.PlayerObject.transform.position;
+        
+        /*
+         * Compute rotation
+         */
+        
         // Define the pivot point as the bottom of the cylinder
         var pivotPoint = shootBar.transform.position;
+        
+        // VERTICAL ROTATION
+        
+        // Calculate the rotation amount based on your desired input or method
+        var rotation = KeyboardEvent.TurnCrossHairDirectionVertical();
         // Rotate the ShootBar around the Y-axis with respect to the pivot point
         shootBar.transform.RotateAround(pivotPoint, Vector3.up, rotation);
+        
+        // VERICAL ROTATION
+        var rotationVertical = KeyboardEvent.TurnCrossHairDirectionHorizontal();
+        shootBar.transform.RotateAround(pivotPoint, Vector3.right, rotationVertical);
+        
     }
-    
     
     [ServerRpc]
     void getPlayersConnectedServerRpc()
     {
          connectedClients = NetworkManager.Singleton.ConnectedClientsList;
-         Debug.Log("Connected clients: " + connectedClients.Count);
     }
     
 }

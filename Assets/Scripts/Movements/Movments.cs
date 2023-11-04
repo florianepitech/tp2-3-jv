@@ -12,7 +12,7 @@ public class Movement : NetworkBehaviour
     {
         if (IsLocalPlayer)
         {
-            float horizontalInput = KeyboardEvent.TurnCrossHairDirection(); 
+            float horizontalInput = KeyboardEvent.TurnCrossHairDirectionVertical(); 
             float verticalInput = Input.GetAxis("Vertical");
             
             

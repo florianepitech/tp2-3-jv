@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/NetworkManagerScene.unity
     guid: 94e2bac0128d3441b82a99471a2b5e74
+  - enabled: 1
+    path: Assets/Scenes/PauseMenu.unity
+    guid: edcc63e3ebc544161a92420854b8945a
   m_configObjects: {}

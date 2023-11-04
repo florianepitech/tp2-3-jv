@@ -7,7 +7,6 @@ public abstract class KeyboardEvent : MonoBehaviour
     // TODO: Review mapping inversed for AZERTY and QWERTY
     public static float TurnCrossHairDirection()
     {
-        Debug.Log("Keyboard type: " + KeyboardSettings.KeyboardType);
         var result = KeyboardSettings.KeyboardType switch
         {
             KeyboardType.Azerty => TurnCrossHairAzerty(),

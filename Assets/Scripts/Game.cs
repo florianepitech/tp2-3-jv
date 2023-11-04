@@ -17,13 +17,13 @@ public class Game : MonoBehaviour
         {
             case GameType.JOIN_GAME:
                 networkManager.GetComponent<UnityTransport>().ConnectionData.Address = JoinGame.HostInputFieldValue;
-                // networkManager.GetComponent<UnityTransport>().ConnectionData.Port = ushort.Parse(JoinGame.PortInputFieldValue);
                 networkManager.StartClient();
                 break;
             case GameType.HOST_GAME:
                 networkManager.StartHost();
                 break;
             default:
+                Debug.LogError("Invalid game type");
                 throw new ArgumentOutOfRangeException();
         }
     }
@@ -32,7 +32,7 @@ public class Game : MonoBehaviour
     void Update()
     {
         var openPauseMenu = KeyboardEvent.IsEscape();
-        if (openPauseMenu)
+        if (openPauseMenu && !PauseMenu.IsOpen)
         {
             SceneManager.LoadScene("PauseMenu", LoadSceneMode.Additive);
         }

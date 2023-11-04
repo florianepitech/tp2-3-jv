@@ -18,7 +18,7 @@ public class RaibowText : MonoBehaviour
         {
             //random color
             textMeshProUGUI.color = new Color(Random.value, Random.value, Random.value);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }

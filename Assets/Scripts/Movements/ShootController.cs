@@ -23,7 +23,9 @@ public class ShootController : NetworkBehaviour
             // Apply a force to the sphere's Rigidbody to simulate shooting.
             sphereRigidbody = gameObject.GetComponent<Rigidbody>();
             //allow to shoot in the direction of the camera
-            sphereRigidbody.AddForce(transform.forward * shootForce, ForceMode.Impulse);
+            //get the transform of the ShootBarContainer
+            var shootBarContainerTransform = GameObject.Find("ShootBarContainer").transform;
+            sphereRigidbody.AddForce(shootBarContainerTransform.forward * shootForce, ForceMode.Impulse);
         }
     }
 }

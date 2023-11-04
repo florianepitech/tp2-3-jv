@@ -10,8 +10,8 @@ public abstract class KeyboardEvent : MonoBehaviour
         Debug.Log("Keyboard type: " + KeyboardSettings.KeyboardType);
         var result = KeyboardSettings.KeyboardType switch
         {
-            KeyboardType.AZERTY => TurnCrossHairAzerty(),
-            KeyboardType.QWERTY => TurnCrossHairQwerty(),
+            KeyboardType.Azerty => TurnCrossHairAzerty(),
+            KeyboardType.Qwerty => TurnCrossHairQwerty(),
             _ => throw new ArgumentOutOfRangeException()
         };
         return (result);

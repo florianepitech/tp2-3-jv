@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class KeyboardSettings : MonoBehaviour
 {
-    public static KeyboardType KeyboardType { get; private set; } = KeyboardType.QWERTY;
+    public static KeyboardType KeyboardType { get; private set; } = KeyboardType.Qwerty;
 
     // Start is called before the first frame update
     void Start()
@@ -29,10 +29,10 @@ public class KeyboardSettings : MonoBehaviour
         switch (index)
         {
             case 0:
-                KeyboardType = KeyboardType.QWERTY;
+                KeyboardType = KeyboardType.Qwerty;
                 break;
             case 1:
-                KeyboardType = KeyboardType.AZERTY;
+                KeyboardType = KeyboardType.Azerty;
                 break;
             default:
                 Debug.LogError("Unknown keyboard type");

@@ -27,15 +27,6 @@ public class HomeMenu : MonoBehaviour
 
     public void OnPlayButtonPressed()
     {
-        
-        // Get the network manager
-         //var networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
-        //
-        // // Set the network address
-        // networkManager.StartHost();
-        // //unloads the HomeMenu scene
-        // SceneManager.UnloadSceneAsync("HomeMenu");
-
         Game.gameType = GameType.HostGame;
         SceneManager.LoadScene("Game");
     }

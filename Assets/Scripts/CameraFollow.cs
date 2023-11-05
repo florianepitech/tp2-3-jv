@@ -29,11 +29,14 @@ public class CameraFollow : MonoBehaviour
 
         
         float horizontalInput = Input.GetAxis("Mouse X"); 
-        //arrow keys
 
         if (horizontalInput == 0)
             horizontalInput = KeyboardEvent.ArrowKeysHorizontal();
-         
          transform.RotateAround(target.position, Vector3.up, horizontalInput);
+         offset = transform.position - target.position;
+         offset = offset.normalized * 5;
+         offset.y = 2;
+         transform.position = target.position + offset;
+         transform.LookAt(target);
     }
 }

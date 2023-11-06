@@ -10,10 +10,20 @@ public class Game : NetworkBehaviour
 {
     public static GameType gameType;
     public IReadOnlyList<NetworkClient> connectedClients = new List<NetworkClient>();
+    public static List<GameObject> obstacles = new List<GameObject>();
+    public static int passedObstacles = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        //get all gameobject with the tag "Obstacle"
+        var obstaclesArray = GameObject.FindGameObjectsWithTag("Obstacle");
+        foreach (var obstacle in obstaclesArray)
+        {
+            obstacles.Add(obstacle);
+        }
+        
+        
         var networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
 
         switch (gameType)

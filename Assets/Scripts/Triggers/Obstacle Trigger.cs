@@ -7,6 +7,7 @@ using UnityEngine;
 public class ObstacleTrigger : NetworkBehaviour
 {
     // Start is called before the first frame update
+    bool passed = false;
     void Start()
     {
         
@@ -23,7 +24,12 @@ public class ObstacleTrigger : NetworkBehaviour
             
             if (other.gameObject.CompareTag("Player"))
             {
-                Debug.Log("Player has left the trigger");
+                if (passed)
+                {
+                    return;
+                }
+                Game.passedObstacles++;
+                passed = true;
             }
     }
 }

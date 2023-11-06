@@ -5,12 +5,21 @@ public class ShootController : NetworkBehaviour
 {
     public Rigidbody sphereRigidbody;
     public float shootForce = 10f;
+    public float stopTime = 10f; // Adjust this value as needed
+    private bool isShooting = false;
+    private float shotTime;
+
 
     void Update()
     {
         if (IsLocalPlayer && Input.GetKeyDown(KeyCode.Space))
         {
             ShootClientRpc();
+        }
+        
+        if (isShooting && Time.time - shotTime > stopTime)
+        {
+            StopSphere();
         }
     }
 
@@ -31,6 +40,23 @@ public class ShootController : NetworkBehaviour
             sphereRigidbody.AddForce(shootBarContainerTransform.forward * shootForce, ForceMode.Impulse);
             // Get ShootBarContainer and not display it
             shootBarContainer.SetActive(false);
+                
+            isShooting = true;
+            shotTime = Time.time;
+            
         }
+    }
+    
+    void StopSphere()
+    {
+        // You can stop the sphere by counteracting its velocity or applying force in the opposite direction.
+        // For example, to stop it gradually, you can apply an opposing force:
+        Debug.Log("StopSphere called");
+        sphereRigidbody.AddForce(-sphereRigidbody.velocity, ForceMode.Force);
+        // To stop it instantly, you can set its velocity to zero:
+        // sphereRigidbody.velocity = Vector3.zero;
+
+        // Reset the shooting state.
+        isShooting = false;
     }
 }

@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
@@ -10,7 +11,8 @@ public class CameraFollow : MonoBehaviour
     
     void LateUpdate()
     {
-        target = GameObject.Find("Player(Clone)").transform;
+        
+        target = FindLocalPlayerTransform();
         if (target == null)
             return;
         //i want third person camera with mouse rotation
@@ -38,5 +40,17 @@ public class CameraFollow : MonoBehaviour
          offset.y = 2;
          transform.position = target.position + offset;
          transform.LookAt(target);
+    }
+    
+    private Transform FindLocalPlayerTransform()
+    {
+        foreach (var player in FindObjectsOfType<NetworkBehaviour>())
+        {
+            if (player.IsLocalPlayer)
+            {
+                return player.transform;
+            }
+        }
+        return null;
     }
 }

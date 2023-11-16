@@ -6,7 +6,7 @@ public class ShootController : NetworkBehaviour
 {
     public Rigidbody sphereRigidbody;
     public float maxShootForce = 20f; // Maximum shooting force
-    private float currentShootForce = 300f; // Current selected shoot force
+    private float currentShootForce = 50f; // Current selected shoot force
     private bool shotTaken = false;
     private float stopThreshold = 0.3f; // Velocity threshold for stopping
 
@@ -21,7 +21,7 @@ public class ShootController : NetworkBehaviour
             // }
 
             // Take a shot
-            if (KeyboardEvent.IsPressed(KeyMovement.Shoot) && !shotTaken)
+            if (KeyboardEvent.GetKey(KeyMovement.Shoot) && !shotTaken)
             {
                 ShootClientRpc();
                 shotTaken = true; // Prevents further increase in power or re-shooting

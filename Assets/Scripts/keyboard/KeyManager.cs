@@ -7,32 +7,41 @@ namespace keyboard
 {
     public class KeyManager : MonoBehaviour
     {
-        public string keyName;
-        
-        public KeyCode defaultValue;
+        public KeyMovement keyMovement = KeyMovement.None;
     
         private TMP_InputField _inputField;
 
         void Start()
         {
             _inputField = GetComponent<TMP_InputField>();
+            if (keyMovement == KeyMovement.None)
+            {
+                _inputField.text = "Error...";
+                Debug.LogError("Key movement is null");
+                return;
+            }
             if (_inputField == null)
             {
                 Debug.LogError("TMP input field not found");
             }
-            var savedKey = GetSavedKey(keyName);
+            var savedKey = GetSavedKey(keyMovement.ToString());
             if (savedKey != KeyCode.None)
             {
                 _inputField.text = savedKey.ToString();
             }
-            else if (defaultValue != KeyCode.None)
+            else
             {
+                var defaultValue = KeyDefaultValue.GetDefaultCode(keyMovement);
                 _inputField.text = defaultValue.ToString();
             }
         }
     
         void Update()
         {
+            if (keyMovement == KeyMovement.None)
+            {
+                return;
+            }
             if (!_inputField.isFocused)
             {
                 return;
@@ -40,7 +49,7 @@ namespace keyboard
             var lastKeyPressed = GetLastKeyPressed();
             if (lastKeyPressed != KeyCode.None)
             {
-                SaveKey(keyName, lastKeyPressed);
+                SaveKey(keyMovement.ToString(), lastKeyPressed);
                 _inputField.text = lastKeyPressed.ToString();
             }
         }

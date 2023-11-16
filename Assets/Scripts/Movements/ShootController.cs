@@ -1,3 +1,4 @@
+using keyboard;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class ShootController : NetworkBehaviour
 
     void Update()
     {
-        if (IsLocalPlayer && Input.GetKeyDown(KeyCode.Space))
+        if (IsLocalPlayer && KeyboardEvent.IsPressed(KeyMovement.Shoot))
         {
             ShootClientRpc();
         }

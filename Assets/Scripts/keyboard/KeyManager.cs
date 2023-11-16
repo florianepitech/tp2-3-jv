@@ -14,7 +14,7 @@ namespace keyboard
         void Start()
         {
             _inputField = GetComponent<TMP_InputField>();
-            if (keyMovement == null)
+            if (keyMovement == KeyMovement.None)
             {
                 _inputField.text = "Error...";
                 Debug.LogError("Key movement is null");
@@ -38,7 +38,7 @@ namespace keyboard
     
         void Update()
         {
-            if (keyMovement == null)
+            if (keyMovement == KeyMovement.None)
             {
                 return;
             }

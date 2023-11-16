@@ -48,9 +48,10 @@ public class Game : NetworkBehaviour
     void Update()
     {
         // Check for pause menu
-        var openPauseMenu = KeyboardEvent.IsEscape();
+        var openPauseMenu = KeyboardEvent.GetKeyUp(KeyMovement.PauseMenu);
         if (openPauseMenu && !PauseMenu.IsOpen)
         {
+            PauseMenu.IsOpen = true;
             SceneManager.LoadScene("PauseMenu", LoadSceneMode.Additive);
         }
 
@@ -99,12 +100,12 @@ public class Game : NetworkBehaviour
         // HORIZONTAL ROTATION
 
         // Calculate the rotation amount based on your desired input or method
-        var rotation = KeyboardEvent.TurnCrossHairDirectionHorizontal();
+        var rotation = TurnCrossHairDirectionHorizontal();
         // Rotate the ShootBar around the Y-axis with respect to the pivot point
         shootBar.transform.RotateAround(pivotPoint, Vector3.up, rotation);
 
         // VERTICAL ROTATION
-        var rotationVerticalInput = KeyboardEvent.TurnCrossHairDirectionVertical();
+        var rotationVerticalInput = TurnCrossHairDirectionVertical();
         var rotationBar = shootBar.transform.rotation;
 
         var newXRotation = rotationBar.eulerAngles.x + rotationVerticalInput;
@@ -116,6 +117,26 @@ public class Game : NetworkBehaviour
         );
     }
 
+    private int TurnCrossHairDirectionHorizontal()
+    {
+        var result = 0;
+        if (KeyboardEvent.GetKey(KeyMovement.CrossHairLeft))
+            result += -1;
+        if (KeyboardEvent.GetKey(KeyMovement.CrossHairRight))
+            result -= 1;
+        return result;
+    }
+    
+    private int TurnCrossHairDirectionVertical()
+    {
+        var result = 0;
+        if (KeyboardEvent.GetKey(KeyMovement.CrossHairUp))
+            result += -1;
+        if (KeyboardEvent.GetKey(KeyMovement.CrossHairDown))
+            result -= 1;
+        return result;
+    }
+    
     [ServerRpc]
     void getPlayersConnectedServerRpc()
     {

@@ -17,7 +17,7 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var toClose = KeyboardEvent.IsEscape();
+        var toClose = KeyboardEvent.GetKeyUp(KeyMovement.PauseMenu);
         if (toClose && IsOpen)
         {
             Debug.Log("Close pause menu");
@@ -32,6 +32,7 @@ public class PauseMenu : MonoBehaviour
 
     public void OnClickResumeButton()
     {
+        IsOpen = false;
         UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("PauseMenu");
     }
     

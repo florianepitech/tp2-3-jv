@@ -7,7 +7,7 @@ namespace keyboard
     public abstract class KeyboardEvent : MonoBehaviour
     {
 
-        public static bool IsPressed(KeyMovement keyMovement)
+        public static bool GetKey(KeyMovement keyMovement)
         {
             if (keyMovement == KeyMovement.None)
             {
@@ -17,12 +17,23 @@ namespace keyboard
             return Input.GetKey(keyCode);
         }
 
+        public static bool GetKeyUp(KeyMovement keyMovement)
+        {
+            if (keyMovement == KeyMovement.None)
+            {
+                throw new ArgumentException("Key movement cannot be none");
+            }
+            var keyCode = GetKeyCode(keyMovement);
+            return Input.GetKeyUp(keyCode);
+        }
+        
         private static KeyCode GetKeyCode(KeyMovement keyMovement)
         {
             var value = PlayerPrefs.GetString(keyMovement.ToString());
-            if (value != null)
+            if (!string.IsNullOrEmpty(value))
             {
-                return (KeyCode)Enum.Parse(typeof(KeyCode), value);
+                var valueSaved = (KeyCode)Enum.Parse(typeof(KeyCode), value);
+                return valueSaved;
             }
             var defaultValue = KeyDefaultValue.GetDefaultCode(keyMovement);
             return defaultValue;

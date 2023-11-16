@@ -48,9 +48,10 @@ public class Game : NetworkBehaviour
     void Update()
     {
         // Check for pause menu
-        var openPauseMenu = KeyboardEvent.IsEscape();
+        var openPauseMenu = KeyboardEvent.GetKeyUp(KeyMovement.PauseMenu);
         if (openPauseMenu && !PauseMenu.IsOpen)
         {
+            PauseMenu.IsOpen = true;
             SceneManager.LoadScene("PauseMenu", LoadSceneMode.Additive);
         }
 

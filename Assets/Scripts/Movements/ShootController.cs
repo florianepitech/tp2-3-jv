@@ -13,7 +13,7 @@ public class ShootController : NetworkBehaviour
 
     void Update()
     {
-        if (IsLocalPlayer && KeyboardEvent.IsPressed(KeyMovement.Shoot))
+        if (IsLocalPlayer && KeyboardEvent.GetKey(KeyMovement.Shoot))
         {
             ShootClientRpc();
         }

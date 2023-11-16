@@ -13,11 +13,11 @@ GameObject:
   - component: {fileID: 9169359925349762618}
   - component: {fileID: 7010364853852978414}
   - component: {fileID: -2023928336389801261}
-  - component: {fileID: -8697838266094036128}
   - component: {fileID: 7355941263786112804}
   - component: {fileID: 3270585119150125533}
   - component: {fileID: 1885911165542423232}
   - component: {fileID: 3006472427690703301}
+  - component: {fileID: -4412926304424482897}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -131,18 +131,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &-8697838266094036128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7084981699422261968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff8dc3665f10942128526a5ca4e583c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &7355941263786112804
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -226,3 +214,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sphereRigidbody: {fileID: 0}
   maxShootForce: 20
+--- !u!114 &-4412926304424482897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7084981699422261968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff8dc3665f10942128526a5ca4e583c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

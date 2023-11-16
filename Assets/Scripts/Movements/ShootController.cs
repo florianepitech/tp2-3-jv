@@ -10,6 +10,8 @@ public class ShootController : NetworkBehaviour
     private bool shotTaken = false;
     private float stopThreshold = 0.3f; // Velocity threshold for stopping
 
+    
+
     void Update()
     {
         if (IsLocalPlayer)
@@ -28,7 +30,8 @@ public class ShootController : NetworkBehaviour
             }
 
             // Check if the ball's velocity is below the threshold
-            Debug.Log(sphereRigidbody.velocity.magnitude);
+            if (sphereRigidbody == null)
+                return;
             if (shotTaken && sphereRigidbody.velocity.magnitude < stopThreshold)
             {
                 sphereRigidbody.velocity = Vector3.zero;

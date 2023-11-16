@@ -56,9 +56,10 @@ public class Game : NetworkBehaviour
         }
 
         // Game loop
+        Debug.Log("connectedClients.Count: " + connectedClients.Count);
         if (connectedClients.Count != 1)
         {
-            Debug.Log("Waiting for another player to join...");
+           // Debug.Log("Waiting for another player to join...");
             return;
         }
 

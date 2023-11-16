@@ -8,7 +8,7 @@ public class SpawnManager : NetworkBehaviour
     public static int playersSpawned = 0;
     private int playersApproved = 0;
 
-    private void Start()
+    private void Awake()
     {
         if (NetworkManager.Singleton)
         {
@@ -43,7 +43,7 @@ public class SpawnManager : NetworkBehaviour
         {
             response.Approved = true;
             response.CreatePlayerObject = true;
-            response.Position = GetPlayerSpawnPosition();
+            response.Position = new Vector3(0,0,0);
             playersApproved++;
         }
         else
@@ -54,11 +54,31 @@ public class SpawnManager : NetworkBehaviour
     
     Vector3 GetPlayerSpawnPosition()
     {
-        /*
-         * this is just an example, and you change this implementation to make players spawn on specific spawn points
-         * depending on other factors (I.E: player's team)
-         */
-        return new Vector3(10, 0, 0);
+        GameObject spawnObject = GameObject.Find("Spawn");
+        if (spawnObject == null)
+        {
+            Debug.LogError("Spawn object not found");
+            return new Vector3(0,0,0);
+        }
+         
+        GameObject spawnObject2 = GameObject.Find("Spawn 2");
+        if (spawnObject2 == null)
+        {
+            Debug.LogError("Spawn object not found");
+            return new Vector3(0,0,0);
+                
+        }
+
+        if (playersSpawned == 0)
+        {
+            playersSpawned++;
+            return spawnObject.transform.position;
+        }
+        
+        playersSpawned++;
+        return spawnObject2.transform.position;
+        
+            
     }
 
 //     private bool IsServer

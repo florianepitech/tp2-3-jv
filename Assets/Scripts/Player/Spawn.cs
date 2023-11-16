@@ -23,7 +23,7 @@ public class Spawn : NetworkBehaviour
              Debug.LogError("Spawn object not found");
              return;
          }
-
+        
          if (SpawnManager.playersSpawned == 0)
          {
              this.transform.position = spawnObject.transform.position;

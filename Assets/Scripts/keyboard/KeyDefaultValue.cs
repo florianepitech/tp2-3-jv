@@ -11,13 +11,13 @@ namespace keyboard
             return keyMovement switch
             {
                 KeyMovement.CrossHairRight => KeyCode.A,
-                KeyMovement.CrossHairLeft => KeyCode.Z,
-                KeyMovement.CrossHairUp => KeyCode.E,
-                KeyMovement.CrossHairDown => KeyCode.R,
-                KeyMovement.Shoot => KeyCode.T,
-                KeyMovement.CameraRight => KeyCode.Y,
-                KeyMovement.CameraLeft => KeyCode.U,
-                KeyMovement.PauseMenu => KeyCode.I,
+                KeyMovement.CrossHairLeft => KeyCode.D,
+                KeyMovement.CrossHairUp => KeyCode.W,
+                KeyMovement.CrossHairDown => KeyCode.S,
+                KeyMovement.Shoot => KeyCode.Space,
+                KeyMovement.CameraRight => KeyCode.RightArrow,
+                KeyMovement.CameraLeft => KeyCode.LeftArrow,
+                KeyMovement.PauseMenu => KeyCode.Escape,
                 _ => throw new ArgumentOutOfRangeException(nameof(keyMovement), keyMovement, null)
             };
         }

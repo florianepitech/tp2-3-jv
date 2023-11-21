@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class PowerBar : MonoBehaviour
 {
-    TMP_Text _text;
-    private static int _power;
+    private TMP_Text _text;
+    private static float _power;
+    private static bool start = false;
     
     // Start is called before the first frame update
     void Start()
@@ -18,7 +19,9 @@ public class PowerBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _power++;
+        if (!start)
+            return;
+        _power += 0.5f;
         if (_power > 100)
         {
             _power = 0;
@@ -26,9 +29,14 @@ public class PowerBar : MonoBehaviour
         _text.text = "Power: " + _power;
     }
     
-    public static int GetPower()
+    public static float GetPower()
     {
         return _power;
+    }
+ 
+    public static void SetRun(bool value)
+    {
+        start = value;
     }
     
 }

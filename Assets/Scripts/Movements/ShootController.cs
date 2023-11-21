@@ -5,8 +5,7 @@ using UnityEngine;
 public class ShootController : NetworkBehaviour
 {
     public Rigidbody sphereRigidbody;
-    public float maxShootForce = 20f; // Maximum shooting force
-    private float currentShootForce = 50f; // Current selected shoot force
+    private float maxShootForce = 50f; // Current selected shoot force
     private bool shotTaken = false;
     private float stopThreshold = 0.3f; // Velocity threshold for stopping
 
@@ -51,6 +50,8 @@ public class ShootController : NetworkBehaviour
 
             sphereRigidbody = gameObject.GetComponent<Rigidbody>();
             var shootBarContainerTransform = GameObject.Find("ShootBarContainer").transform;
+            PowerBar.SetRun(false);
+            var currentShootForce = PowerBar.GetPower() * maxShootForce / 100f;
             sphereRigidbody.AddForce(shootBarContainerTransform.forward * currentShootForce, ForceMode.Impulse);
             shootBarContainer.SetActive(false);
         }

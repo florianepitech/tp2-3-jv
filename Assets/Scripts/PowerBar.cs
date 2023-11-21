@@ -16,12 +16,11 @@ public class PowerBar : MonoBehaviour
         _power = 0;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         if (!_start)
             return;
-        _power += 0.5f;
+        _power += 1f;
         if (_power > 100)
         {
             _power = 0;

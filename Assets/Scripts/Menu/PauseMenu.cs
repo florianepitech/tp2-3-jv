@@ -38,7 +38,9 @@ public class PauseMenu : MonoBehaviour
     
     public void OnClickExitGameButton()
     {
-        Application.Quit();   
+        UnityEngine.SceneManagement.SceneManager.LoadScene("HomeMenu");
+        Destroy(GameObject.Find("NetworkManager"));
+        
     }
     
 }

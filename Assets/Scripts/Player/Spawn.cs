@@ -24,7 +24,7 @@ public class Spawn : NetworkBehaviour
              return;
          }
         
-         if (NetworkManager.Singleton.ConnectedClientsList.Count == 0)
+         if (NetworkManager.Singleton.ConnectedClientsList.Count == 1)
          {
              this.transform.position = spawnObject.transform.position;
              SpawnManager.playersSpawned++;

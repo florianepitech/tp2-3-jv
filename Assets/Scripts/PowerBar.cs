@@ -7,7 +7,7 @@ public class PowerBar : MonoBehaviour
 {
     private TMP_Text _text;
     private static float _power;
-    private static bool start = false;
+    private static bool _start = false;
     
     // Start is called before the first frame update
     void Start()
@@ -19,24 +19,24 @@ public class PowerBar : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!start)
+        if (!_start)
             return;
         _power += 0.5f;
         if (_power > 100)
         {
             _power = 0;
         }
-        _text.text = "Power: " + _power;
+        _text.text = "Power: " + (int)_power;
     }
     
-    public static float GetPower()
+    public static int GetPower()
     {
-        return _power;
+        return (int)_power;
     }
- 
+    
     public static void SetRun(bool value)
     {
-        start = value;
+        _start = value;
     }
     
 }

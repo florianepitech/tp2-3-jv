@@ -13,6 +13,7 @@ public class Game : NetworkBehaviour
     public IReadOnlyList<NetworkClient> connectedClients = new List<NetworkClient>();
     public static List<GameObject> obstacles = new List<GameObject>();
     public static int passedObstacles = 0;
+    public static bool IsGameStarted = false;
 
     // Start is called before the first frame update
     void Start()
@@ -62,7 +63,11 @@ public class Game : NetworkBehaviour
            // Debug.Log("Waiting for another player to join...");
             return;
         }
-
+        if (!IsGameStarted)
+        {
+            IsGameStarted = true;
+            PowerBar.SetRun(true);
+        }
         var firstPlayer = connectedClients[0];
         setShootBarPosition(firstPlayer);
     }

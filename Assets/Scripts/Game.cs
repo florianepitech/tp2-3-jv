@@ -122,7 +122,7 @@ public class Game : NetworkBehaviour
     {
         var result = 0;
         if (KeyboardEvent.GetKey(KeyMovement.CrossHairLeft))
-            result += -1;
+            result += 1;
         if (KeyboardEvent.GetKey(KeyMovement.CrossHairRight))
             result -= 1;
         return result;
@@ -132,7 +132,7 @@ public class Game : NetworkBehaviour
     {
         var result = 0;
         if (KeyboardEvent.GetKey(KeyMovement.CrossHairUp))
-            result += -1;
+            result += 1;
         if (KeyboardEvent.GetKey(KeyMovement.CrossHairDown))
             result -= 1;
         return result;

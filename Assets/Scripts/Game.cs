@@ -75,20 +75,26 @@ public class Game : NetworkBehaviour
             IsGameStarted.Value = true;
             PowerBar.SetRun(true);
         }
-        // if (BallIsMovement)
-        //     switchTurn = false;
-        // if (!BallIsMovement && !switchTurn)
-        // {
-        //     playerTurn.Value = playerTurn.Value == 1 ? 2 : 1;
-        //     GameInfoMessage.Value = "Player " + playerTurn.Value + " turn";
-        //     // Set the shoot bar visible and set the position to the player position
-        //     var player = connectedClients[playerTurn.Value - 1];
-        //     setShootBarPosition(player);
-        //     var shootController = player.PlayerObject.GetComponent<ShootController>();
-        //     shootController.ShowShootBarServerRpc();
-        //     switchTurn = true;
-        // }
     }
+    
+    public static void CallNextTurn()
+    {
+        var game = GameObject.Find("Terrain").GetComponent<Game>();
+        game.NextTurn();
+    }
+    
+    public void NextTurn()
+    {
+        Debug.Log("Next turn");
+        playerTurn.Value = playerTurn.Value == 1 ? 2 : 1;
+        GameInfoMessage.Value = "Player " + playerTurn.Value + " turn";
+        // Set the shoot bar visible and set the position to the player position
+        var player = connectedClients[playerTurn.Value - 1];
+        setShootBarPosition(player);
+        var shootController = player.PlayerObject.GetComponent<ShootController>();
+        shootController.ShowShootBarServerRpc();
+    }
+    
     
     private void UpdatePlayerClient()
     {

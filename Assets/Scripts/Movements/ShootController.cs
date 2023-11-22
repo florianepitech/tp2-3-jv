@@ -8,6 +8,7 @@ public class ShootController : NetworkBehaviour
     private float maxShootForce = 50f; // Current selected shoot force
     private bool shotTaken = false;
     private float stopThreshold = 0.3f; // Velocity threshold for stopping
+    private bool canBeStopped = false;
 
     void Update()
     {
@@ -22,19 +23,26 @@ public class ShootController : NetworkBehaviour
             // Take a shot
             if (KeyboardEvent.GetKey(KeyMovement.Shoot) && !shotTaken)
             {
+                Debug.Log("Shoot");
                 ShootClientRpc();
                 shotTaken = true; // Prevents further increase in power or re-shooting
-                Game.BallIsMovement = true;
+            }
+            
+            if (sphereRigidbody.velocity.magnitude > stopThreshold)
+            {
+                canBeStopped = true;
             }
 
             // Check if the ball's velocity is below the threshold
             if (sphereRigidbody == null)
                 return;
-            if (shotTaken && sphereRigidbody.velocity.magnitude < stopThreshold)
+            if (shotTaken && sphereRigidbody.velocity.magnitude < stopThreshold && canBeStopped)
             {
+                Debug.Log("Stop");
                 sphereRigidbody.velocity = Vector3.zero;
                 sphereRigidbody.angularVelocity = Vector3.zero;
-                Game.BallIsMovement = false;
+                Game.CallNextTurn();
+                shotTaken = false;
             }
         }
     }
@@ -53,7 +61,7 @@ public class ShootController : NetworkBehaviour
             PowerBar.SetRun(false);
             var currentShootForce = PowerBar.GetPower() * maxShootForce / 100f;
             sphereRigidbody.AddForce(shootBarContainerTransform.forward * currentShootForce, ForceMode.Impulse);
-            HideShootBarServerRpc();
+            //HideShootBarServerRpc();
         }
     }
     

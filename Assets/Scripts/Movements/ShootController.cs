@@ -8,44 +8,41 @@ public class ShootController : NetworkBehaviour
     public Rigidbody sphereRigidbody;
     public GameObject shootBarContainer;
     private float maxShootForce = 50f; // Current selected shoot force
-    private bool shotTaken = false;
+    private bool shotTaken;
     private float stopThreshold = 0.3f; // Velocity threshold for stopping
-    private bool canBeStopped = false;
+    private bool canBeStopped;
+    private int playerNumber;
     
-    
-    void Start()
-    {
-        if (IsLocalPlayer)
-        {
-            //sphereRigidbody = gameObject.GetComponent<Rigidbody>();
-            //get the child
-            //shootBarContainer = gameObject.transform.GetChild(0).gameObject;
-        }
-    }
-
     void Update()
     {
         if (IsOwner)
         {
-            // Increase shoot force
-            // if (KeyboardEvent.IsPressed(KeyMovement.IncreasePower) && !shotTaken)
-            // {
-            //     currentShootForce = Mathf.Min(currentShootForce + Time.deltaTime * 10f, maxShootForce);
-            // }
+            if (Game.playerTurn.Value != gameObject.GetComponent<Spawn>().PlayerNumber)
+            {
+                if (shootBarContainer.activeSelf)
+                {
+                    Debug.Log("Hiding shoot bar");
+                    shootBarContainer.GetComponent<ShootBar>().ToggleShootBarVisibilityOnAllClientsServerRpc(false);
+                }
+                return;
+            } else if (!shootBarContainer.activeSelf)
+            {
+                Debug.Log("Showing shoot bar");
+                shootBarContainer.GetComponent<ShootBar>().ToggleShootBarVisibilityOnAllClientsServerRpc(true);
+            }
             
-            // Take a shot
             if (KeyboardEvent.GetKey(KeyMovement.Shoot) && !shotTaken)
             {
                 Debug.Log("Shoot");
                 shotTaken = true;
-                PowerBar.SetRun(false); 
+                PowerBar.SetRun(false);
+                Game.playerTurn.Value = Game.playerTurn.Value = 0;
                 ShootServerRpc(PowerBar.GetPower());
                  // Prevents further increase in power or re-shooting
             }
             
             if (sphereRigidbody.velocity.magnitude > stopThreshold)
             {
-                Debug.Log("Sphere velocity is above threshold");
                 canBeStopped = true;
             }
 

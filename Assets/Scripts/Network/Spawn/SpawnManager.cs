@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnManager : NetworkBehaviour
 {
     public GameObject PrefabToSpawn;
-    public static int playersSpawned = 0;
+    public static NetworkVariable<int> playersSpawned = new(0);
     private int playersApproved = 0;
 
     private void Awake()
@@ -69,13 +69,13 @@ public class SpawnManager : NetworkBehaviour
                 
         }
 
-        if (playersSpawned == 0)
+        if (playersSpawned.Value == 0)
         {
-            playersSpawned++;
+            playersSpawned.Value++;
             return spawnObject.transform.position;
         }
         
-        playersSpawned++;
+        playersSpawned.Value++;
         return spawnObject2.transform.position;
         
             

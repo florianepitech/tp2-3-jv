@@ -12,15 +12,13 @@ using Object = UnityEngine.Object;
 public class Game : NetworkBehaviour
 {
     public static GameType gameType;
-    public IReadOnlyList<NetworkClient> connectedClients = new List<NetworkClient>();
+    public static IReadOnlyList<NetworkClient> connectedClients = new List<NetworkClient>();
     public static List<GameObject> obstacles = new List<GameObject>();
     public static int passedObstacles = 0;
-    
     private static NetworkVariable<bool> IsGameStarted = new(false);
     private static NetworkVariable<FixedString512Bytes> GameInfoMessage = new("");
-    private static NetworkVariable<int> playerTurn = new(1);
-    public static bool BallIsMovement = false;
-    bool switchTurn = false;
+    public static NetworkVariable<int> playerTurn = new(1);
+    private float timer = 0f;
     
 
     // Start is called before the first frame update
@@ -62,6 +60,8 @@ public class Game : NetworkBehaviour
         UpdateAllPlayer();
     }
 
+    
+
     private void UpdatePlayerHost()
     {
         if (connectedClients.Count != 2)
@@ -85,12 +85,12 @@ public class Game : NetworkBehaviour
     
     public void NextTurn()
     {
-        playerTurn.Value = playerTurn.Value == 1 ? 2 : 1;
-        GameInfoMessage.Value = "Player " + playerTurn.Value + " turn";
+       // playerTurn.Value = playerTurn.Value == 1 ? 2 : 1;
+       // GameInfoMessage.Value = "Player " + playerTurn.Value + " turn";
         // Set the shoot bar visible and set the position to the player position
-        var player = connectedClients[playerTurn.Value - 1];
-        setShootBarPosition(player);
-        var shootController = player.PlayerObject.GetComponent<ShootController>();
+        //var player = connectedClients[playerTurn.Value - 1];
+        //setShootBarPosition(player);
+        //var shootController = player.PlayerObject.GetComponent<ShootController>();
         //shootController.ShowShootBarServerRpc();
     }
     
@@ -122,6 +122,16 @@ public class Game : NetworkBehaviour
     
     private void FixedUpdate()
     {
+        
+        //Say hello every 5 seconds below
+        timer += Time.deltaTime;
+
+        if (timer >= 3f)
+        {
+            playerTurn.Value = playerTurn.Value == 1 ? 2 : 1;
+            timer = 0f;
+        }
+        
         //only the server can get the number of connected clients
         if (IsServer)
             getPlayersConnectedServerRpc();

@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Spawn : NetworkBehaviour
 {
+    public  int PlayerNumber = 0;
+    
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -24,15 +27,19 @@ public class Spawn : NetworkBehaviour
              return;
          }
          
-         if (NetworkManager.Singleton.ConnectedClientsList.Count == 1)
+         if (SpawnManager.playersSpawned.Value == 0)
          {
              this.transform.position = spawnObject.transform.position;
-             SpawnManager.playersSpawned++;
+             PlayerNumber = 1;
+             SpawnManager.playersSpawned.Value++;
+             Debug.Log(SpawnManager.playersSpawned.Value + " 1");
          }
-         else
+         else if (PlayerNumber == 0)
          {
              this.transform.position = spawnObject2.transform.position;
-             SpawnManager.playersSpawned++;
+             PlayerNumber = 2;
+             SpawnManager.playersSpawned.Value++;
+                Debug.Log(SpawnManager.playersSpawned.Value + " 2");
          }
         
         

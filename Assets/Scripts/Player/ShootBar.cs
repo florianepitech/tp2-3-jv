@@ -27,7 +27,6 @@ namespace DefaultNamespace.Player
             {
                 UpdateRotation();
             }
-              
         }
 
 
@@ -39,22 +38,11 @@ namespace DefaultNamespace.Player
                 var playerNetworkObjectId = transform.parent.GetComponent<NetworkObject>().NetworkObjectId;
                 setShootBarPositionServerRpc(playerNetworkObjectId);
             }
+            
+           
         }
-
         
-        //Follow the center of his parent server side
         
-
-        public void ShowShootBar()
-        {
-            shootBar.SetActive(true);
-            // Additional logic to initialize/update shoot bar
-        }
-
-        public void HideShootBar()
-        {
-            shootBar.SetActive(false);
-        }
         
         private void UpdateRotation()
         {
@@ -141,8 +129,57 @@ namespace DefaultNamespace.Player
                 shootBar.transform.position = player.transform.position;
             }
         }
-
         
+        [ServerRpc]
+        public void ShowShootBarServerRpc()
+        {
+            ShowShootBarClientRpc(); // Call the client RPC from the server RPC
+        }
+        
+        [ClientRpc]
+        void ShowShootBarClientRpc()
+        {
+            if (shootBar != null)
+            {
+                shootBar.SetActive(true); // Show the shoot bar on all clients
+            }
+            else
+            {
+                Debug.LogError("Shoot bar not found");
+            }
+        }
+        
+        [ServerRpc]
+        public void HideShootBarServerRpc()
+        {
+            HideShootBarClientRpc(); // Call the client RPC from the server RPC
+        }
+        
+        [ClientRpc]
+        void HideShootBarClientRpc()
+        {
+            if (shootBar != null)
+            {
+                shootBar.SetActive(false); // Hide the shoot bar on all clients
+            }
+        }
+        
+        
+        [ServerRpc (RequireOwnership = false)]
+        public void ToggleShootBarVisibilityOnAllClientsServerRpc(bool isVisible)
+        {
+            ToggleShootBarVisibilityOnAllClientsClientRpc(isVisible);
+        }
+
+        [ClientRpc]
+        public void ToggleShootBarVisibilityOnAllClientsClientRpc(bool isVisible)
+        {
+            if (shootBar != null)
+            {
+                shootBar.SetActive(isVisible);
+            }
+        }
+
     }
 
 }

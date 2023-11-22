@@ -1,3 +1,4 @@
+using DefaultNamespace.Player;
 using keyboard;
 using Unity.Netcode;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class ShootController : NetworkBehaviour
 
     void Update()
     {
-        if (IsLocalPlayer)
+        if (IsOwner)
         {
             // Increase shoot force
             // if (KeyboardEvent.IsPressed(KeyMovement.IncreasePower) && !shotTaken)
@@ -43,19 +44,20 @@ public class ShootController : NetworkBehaviour
             
             if (sphereRigidbody.velocity.magnitude > stopThreshold)
             {
+                Debug.Log("Sphere velocity is above threshold");
                 canBeStopped = true;
             }
 
             // Check if the ball's velocity is below the threshold
             if (sphereRigidbody == null)
+            {
+                Debug.Log("Sphere rigidbody is null");
                 return;
+            }
+
             if (shotTaken && sphereRigidbody.velocity.magnitude < stopThreshold && canBeStopped)
             {
-                Debug.Log("Stop");
-                sphereRigidbody.velocity = Vector3.zero;
-                sphereRigidbody.angularVelocity = Vector3.zero;
-               // Game.CallNextTurn();
-                shotTaken = false;
+                StopSphereServerRpc();
             }
         }
     }
@@ -90,41 +92,33 @@ public class ShootController : NetworkBehaviour
 
         var shootDirection = shootBarContainer.transform.forward;
         Debug.Log($"Shoot direction: {shootDirection}");
+        shootBarContainer.GetComponent<ShootBar>().ToggleShootBarVisibilityOnAllClientsServerRpc(false);
 
         sphereRigidbody.AddForce(shootDirection * currentShootForce, ForceMode.Impulse);
     }
-
-
     
-    [ServerRpc]
-    void HideShootBarServerRpc()
-    {
-        HideShootBarClientRpc(); // Call the client RPC from the server RPC
-    }
-
     
     [ServerRpc (RequireOwnership = false)]
-    public void ShowShootBarServerRpc()
+    void StopSphereServerRpc()
     {
-        ShowShootBarClientRpc(); // Call the client RPC from the server RPC
-    }
-    
-    [ClientRpc]
-    void HideShootBarClientRpc()
-    {
-        if (shootBarContainer != null)
+        if (sphereRigidbody != null && shotTaken)
         {
-            shootBarContainer.SetActive(false); // Hide the shoot bar on all clients
+            Debug.Log("StopSphereServerRpc");
+            sphereRigidbody.velocity = Vector3.zero;
+            sphereRigidbody.angularVelocity = Vector3.zero;
+            shotTaken = false;
         }
+        
     }
-    
+
     [ClientRpc]
-    void ShowShootBarClientRpc()
+    void NotifyStopSphereClientRpc()
     {
-        if (shootBarContainer != null)
+        if (!IsServer && sphereRigidbody != null) // Check if not the server to avoid double execution
         {
-            Debug.Log("Show shoot bar");
-            shootBarContainer.SetActive(true); // Hide the shoot bar on all clients
+            Debug.Log("NotifyStopSphereClientRpc");
+            sphereRigidbody.velocity = Vector3.zero;
+            sphereRigidbody.angularVelocity = Vector3.zero;
         }
     }
 }

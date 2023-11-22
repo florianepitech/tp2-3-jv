@@ -91,7 +91,7 @@ public class Game : NetworkBehaviour
         var player = connectedClients[playerTurn.Value - 1];
         setShootBarPosition(player);
         var shootController = player.PlayerObject.GetComponent<ShootController>();
-        shootController.ShowShootBarServerRpc();
+        //shootController.ShowShootBarServerRpc();
     }
     
     

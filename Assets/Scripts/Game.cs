@@ -67,7 +67,7 @@ public class Game : NetworkBehaviour
         if (connectedClients.Count != 2)
         {
             GameInfoMessage.Value = "Waiting for another player to join...";
-            return;
+            //return;
         }
 
         if (!IsGameStarted.Value)
@@ -85,7 +85,6 @@ public class Game : NetworkBehaviour
     
     public void NextTurn()
     {
-        Debug.Log("Next turn");
         playerTurn.Value = playerTurn.Value == 1 ? 2 : 1;
         GameInfoMessage.Value = "Player " + playerTurn.Value + " turn";
         // Set the shoot bar visible and set the position to the player position
@@ -98,24 +97,18 @@ public class Game : NetworkBehaviour
     
     private void UpdatePlayerClient()
     {
-        
+        PowerBar.SetRun(true);
     }
 
     private void UpdateAllPlayer()
     {
+        
         // Check for pause menu
         var openPauseMenu = KeyboardEvent.GetKeyUp(KeyMovement.PauseMenu);
         if (openPauseMenu && !PauseMenu.IsOpen)
         {
             PauseMenu.IsOpen = true;
             SceneManager.LoadScene("PauseMenu", LoadSceneMode.Additive);
-        }
-
-        // Check for shoot bar activation
-        if (IsGameStarted.Value)
-        {
-            var player = connectedClients[playerTurn.Value - 1];
-            setShootBarPosition(player);
         }
         
         // Update the game info message
@@ -203,4 +196,7 @@ public class Game : NetworkBehaviour
     {
         connectedClients = NetworkManager.Singleton.ConnectedClientsList;
     }
+    
+    
+
 }

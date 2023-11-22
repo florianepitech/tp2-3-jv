@@ -23,7 +23,7 @@ public class Spawn : NetworkBehaviour
              Debug.LogError("Spawn object not found");
              return;
          }
-        
+         
          if (NetworkManager.Singleton.ConnectedClientsList.Count == 1)
          {
              this.transform.position = spawnObject.transform.position;

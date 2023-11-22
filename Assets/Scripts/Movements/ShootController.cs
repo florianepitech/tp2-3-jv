@@ -38,6 +38,7 @@ public class ShootController : NetworkBehaviour
             {
                 Debug.Log("Shoot");
                 shotTaken = true;
+                PowerBar.SetRun(false); 
                 ShootServerRpc(PowerBar.GetPower());
                  // Prevents further increase in power or re-shooting
             }

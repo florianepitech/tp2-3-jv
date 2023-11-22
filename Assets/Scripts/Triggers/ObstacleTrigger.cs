@@ -29,6 +29,20 @@ public class ObstacleTrigger : NetworkBehaviour
 
             Game.passedObstacles++;
             passed = true;
+            UpdateLedColor();
         }
     }
+
+    /**
+     * Update the color of the led of the player who passed the obstacle
+     */
+    private void UpdateLedColor()
+    {
+        // Get the sphere child game object
+        var index = IsHost ? 0 : 1;
+        var sphere = transform.GetChild(index).gameObject;
+        // Update the color to green
+        sphere.GetComponent<Renderer>().material.color = Color.green;
+    }
+    
 }

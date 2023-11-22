@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using keyboard;
+using TMPro;
+using Unity.Collections;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
@@ -13,7 +15,13 @@ public class Game : NetworkBehaviour
     public IReadOnlyList<NetworkClient> connectedClients = new List<NetworkClient>();
     public static List<GameObject> obstacles = new List<GameObject>();
     public static int passedObstacles = 0;
-    public static bool IsGameStarted = false;
+    
+    private static NetworkVariable<bool> IsGameStarted = new(false);
+    private static NetworkVariable<FixedString512Bytes> GameInfoMessage = new("");
+    private static NetworkVariable<int> playerTurn = new(1);
+    public static bool BallIsMovement = false;
+    bool switchTurn = false;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +32,6 @@ public class Game : NetworkBehaviour
         {
             obstacles.Add(obstacle);
         }
-        
         
         var networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
 
@@ -48,6 +55,48 @@ public class Game : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (IsServer)
+            UpdatePlayerHost();
+        else if (IsClient)
+            UpdatePlayerClient();
+        UpdateAllPlayer();
+    }
+
+    private void UpdatePlayerHost()
+    {
+        if (connectedClients.Count != 2)
+        {
+            GameInfoMessage.Value = "Waiting for another player to join...";
+            return;
+        }
+
+        if (!IsGameStarted.Value)
+        {
+            IsGameStarted.Value = true;
+            PowerBar.SetRun(true);
+        }
+        if (BallIsMovement)
+            switchTurn = false;
+        if (!BallIsMovement && !switchTurn)
+        {
+            playerTurn.Value = playerTurn.Value == 1 ? 2 : 1;
+            GameInfoMessage.Value = "Player " + playerTurn.Value + " turn";
+            // Set the shoot bar visible and set the position to the player position
+            var player = connectedClients[playerTurn.Value - 1];
+            setShootBarPosition(player);
+            var shootController = player.PlayerObject.GetComponent<ShootController>();
+            shootController.ShowShootBarServerRpc();
+            switchTurn = true;
+        }
+    }
+    
+    private void UpdatePlayerClient()
+    {
+        
+    }
+
+    private void UpdateAllPlayer()
+    {
         // Check for pause menu
         var openPauseMenu = KeyboardEvent.GetKeyUp(KeyMovement.PauseMenu);
         if (openPauseMenu && !PauseMenu.IsOpen)
@@ -56,22 +105,22 @@ public class Game : NetworkBehaviour
             SceneManager.LoadScene("PauseMenu", LoadSceneMode.Additive);
         }
 
-        // Game loop
-        Debug.Log("connectedClients.Count: " + connectedClients.Count);
-        if (connectedClients.Count != 1)
+        // Check for shoot bar activation
+        if (IsGameStarted.Value)
         {
-           // Debug.Log("Waiting for another player to join...");
+            var player = connectedClients[playerTurn.Value - 1];
+            setShootBarPosition(player);
+        }
+        
+        // Update the game info message
+        var gameInfoMessage = GameObject.FindWithTag("GameInfo");
+        if (gameInfoMessage == null)
             return;
-        }
-        if (!IsGameStarted)
-        {
-            IsGameStarted = true;
-            PowerBar.SetRun(true);
-        }
-        var firstPlayer = connectedClients[0];
-        setShootBarPosition(firstPlayer);
+        var gameInfoMessageText = gameInfoMessage.GetComponent<TextMeshProUGUI>();
+        if (gameInfoMessageText != null)
+            gameInfoMessageText.text = GameInfoMessage.Value.ToString();
     }
-
+    
     private void FixedUpdate()
     {
         //only the server can get the number of connected clients
@@ -90,7 +139,7 @@ public class Game : NetworkBehaviour
         }
         
         // If the ShootBar is not display do nothin
-        if (shootBar.active == false)
+        if (shootBar.activeSelf == false)
             return;
         
         // Set the ShootBar position to the networkClient position

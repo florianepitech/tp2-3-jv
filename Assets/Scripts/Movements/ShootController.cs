@@ -9,8 +9,6 @@ public class ShootController : NetworkBehaviour
     private bool shotTaken = false;
     private float stopThreshold = 0.3f; // Velocity threshold for stopping
 
-    
-
     void Update()
     {
         if (IsLocalPlayer)
@@ -26,6 +24,7 @@ public class ShootController : NetworkBehaviour
             {
                 ShootClientRpc();
                 shotTaken = true; // Prevents further increase in power or re-shooting
+                Game.BallIsMovement = true;
             }
 
             // Check if the ball's velocity is below the threshold
@@ -35,6 +34,7 @@ public class ShootController : NetworkBehaviour
             {
                 sphereRigidbody.velocity = Vector3.zero;
                 sphereRigidbody.angularVelocity = Vector3.zero;
+                Game.BallIsMovement = false;
             }
         }
     }
@@ -53,7 +53,41 @@ public class ShootController : NetworkBehaviour
             PowerBar.SetRun(false);
             var currentShootForce = PowerBar.GetPower() * maxShootForce / 100f;
             sphereRigidbody.AddForce(shootBarContainerTransform.forward * currentShootForce, ForceMode.Impulse);
-            shootBarContainer.SetActive(false);
+            HideShootBarServerRpc();
+        }
+    }
+    
+    [ServerRpc]
+    void HideShootBarServerRpc()
+    {
+        HideShootBarClientRpc(); // Call the client RPC from the server RPC
+    }
+
+    
+    [ServerRpc (RequireOwnership = false)]
+    public void ShowShootBarServerRpc()
+    {
+        ShowShootBarClientRpc(); // Call the client RPC from the server RPC
+    }
+    
+    [ClientRpc]
+    void HideShootBarClientRpc()
+    {
+        var shootBarContainer = GameObject.Find("ShootBarContainer");
+        if (shootBarContainer != null)
+        {
+            shootBarContainer.SetActive(false); // Hide the shoot bar on all clients
+        }
+    }
+    
+    [ClientRpc]
+    void ShowShootBarClientRpc()
+    {
+        var shootBarContainer = GameObject.Find("ShootBarContainer");
+        if (shootBarContainer != null)
+        {
+            Debug.Log("Show shoot bar");
+            shootBarContainer.SetActive(true); // Hide the shoot bar on all clients
         }
     }
 }

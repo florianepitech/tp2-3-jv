@@ -8,28 +8,27 @@ public class ObstacleTrigger : NetworkBehaviour
 {
     // Start is called before the first frame update
     bool passed = false;
+
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     private void OnTriggerExit(Collider other)
     {
-            
-            if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (passed)
             {
-                if (passed)
-                {
-                    return;
-                }
-                Game.passedObstacles++;
-                passed = true;
+                return;
             }
+
+            Game.passedObstacles++;
+            passed = true;
+        }
     }
 }

@@ -18,7 +18,7 @@ public class Game : NetworkBehaviour
     public static NetworkVariable<int> PassedObstaclesPlayer2 = new(0);
     private static NetworkVariable<bool> IsGameStarted = new(false);
     private static NetworkVariable<FixedString512Bytes> GameInfoMessage = new("");
-    public static NetworkVariable<int> playerTurn = new(1);
+    public static NetworkVariable<int> playerTurn = new(2);
     private float timer = 0f;
     
 

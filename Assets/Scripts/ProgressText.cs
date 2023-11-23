@@ -21,7 +21,6 @@ public class ProgressTextPlayer1 : MonoBehaviour
         
         //get the specific TextMeshProUGUI component
         textMeshProUGUI = GetComponent<TextMeshProUGUI>();
-        Debug.Log(Game.PassedObstaclesPlayer1.Value);
         textMeshProUGUI.text = Game.PassedObstaclesPlayer1.Value.ToString();
     }
 }

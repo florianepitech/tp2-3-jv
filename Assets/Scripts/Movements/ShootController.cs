@@ -9,14 +9,15 @@ public class ShootController : NetworkBehaviour
     public GameObject shootBarContainer;
     private float maxShootForce = 50f; // Current selected shoot force
     private bool shotTaken = false;
-    private float stopThreshold = 0.3f; // Velocity threshold for stopping
-    private bool canBeStopped;
+    private float stopThreshold = 0.4f; // Velocity threshold for stopping
+    private bool canBeStopped = false;
     private int playerNumber;
     
     void Update()
     {
         if (IsOwner)
         {
+            StopSphereServerRpc();
             if (Game.playerTurn.Value != gameObject.GetComponent<Spawn>().PlayerNumber)
             {
                 if (shootBarContainer.activeSelf)
@@ -39,10 +40,7 @@ public class ShootController : NetworkBehaviour
                  // Prevents further increase in power or re-shooting
             }
             
-            if (sphereRigidbody.velocity.magnitude > stopThreshold)
-            {
-                canBeStopped = true;
-            }
+           
 
             // Check if the ball's velocity is below the threshold
             if (sphereRigidbody == null)
@@ -50,11 +48,7 @@ public class ShootController : NetworkBehaviour
                 Debug.Log("Sphere rigidbody is null");
                 return;
             }
-
-            if (shotTaken && sphereRigidbody.velocity.magnitude < stopThreshold && canBeStopped)
-            {
-                StopSphereServerRpc();
-            }
+            
         }
     }
 
@@ -99,14 +93,24 @@ public class ShootController : NetworkBehaviour
     [ServerRpc (RequireOwnership = false)]
     void StopSphereServerRpc()
     {
-        if (sphereRigidbody != null && shotTaken)
+        if (sphereRigidbody.velocity.magnitude > stopThreshold && shotTaken)
         {
-            Debug.Log("StopSphereServerRpc");
-            sphereRigidbody.velocity = Vector3.zero;
-            sphereRigidbody.angularVelocity = Vector3.zero;
-            shotTaken = false;
+            canBeStopped = true;
         }
-        
+        Debug.Log( "Magnitude " + sphereRigidbody.velocity.magnitude);
+        Debug.Log(canBeStopped);
+        if (shotTaken && sphereRigidbody.velocity.magnitude < stopThreshold && canBeStopped)
+        {
+            if (sphereRigidbody != null && shotTaken)
+            {
+                Debug.Log("StopSphereServerRpc");
+                sphereRigidbody.velocity = Vector3.zero;
+                sphereRigidbody.angularVelocity = Vector3.zero;
+                shotTaken = false;
+                NotifyStopSphereClientRpc();
+            }
+        }
+
     }
 
     [ClientRpc]

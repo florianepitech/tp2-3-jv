@@ -64,9 +64,15 @@ public class ObstacleTrigger : NetworkBehaviour
     {
         // Server-side logic to update passed obstacles count
         if (playerNumber == 1)
+        {
+            Debug.Log("Passed obstacle player 1");
             Game.PassedObstaclesPlayer1.Value++;
+        }
         else if (playerNumber == 2)
+        {
+            Debug.Log("Passed obstacle player 2");
             Game.PassedObstaclesPlayer2.Value++;
+        }
 
         // Update color on all clients
         UpdateLedColorClientRpc(playerNumber);

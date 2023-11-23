@@ -416,7 +416,7 @@ GameObject:
   - component: {fileID: 459159856}
   - component: {fileID: 459159859}
   - component: {fileID: 459159858}
-  - component: {fileID: 459159857}
+  - component: {fileID: 459159860}
   m_Layer: 5
   m_Name: Passed Obstacle
   m_TagString: Untagged
@@ -443,18 +443,6 @@ RectTransform:
   m_AnchoredPosition: {x: -9.350067, y: 0.000015258789}
   m_SizeDelta: {x: 120, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &459159857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 459159855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 349d6409651e1452f801fced4aa69a11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &459159858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -552,6 +540,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 459159855}
   m_CullTransparentMesh: 1
+--- !u!114 &459159860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459159855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e38f0a83d11ed411fb1acc1f69f7fd21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &515849562
 PrefabInstance:
   m_ObjectHideFlags: 0

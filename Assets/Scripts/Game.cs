@@ -18,7 +18,7 @@ public class Game : NetworkBehaviour
     public static NetworkVariable<int> PassedObstaclesPlayer2 = new(0);
     private static NetworkVariable<bool> IsGameStarted = new(false);
     private static NetworkVariable<FixedString512Bytes> GameInfoMessage = new("");
-    public static NetworkVariable<int> playerTurn = new(2);
+    public static NetworkVariable<int> playerTurn = new(1);
     private float timer = 0f;
     
 
@@ -124,7 +124,6 @@ public class Game : NetworkBehaviour
         var gameInfoMessageText = gameInfoMessage.GetComponent<TextMeshProUGUI>();
         if (gameInfoMessageText != null)
         {
-            Debug.Log("GameInfoMessage: " + GameInfoMessage.Value);
             gameInfoMessageText.text = GameInfoMessage.Value.ToString();
         }
     }

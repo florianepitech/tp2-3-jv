@@ -26,20 +26,24 @@ public class ObstacleTrigger : NetworkBehaviour
             {
                 return;
             }
-
+            var playerNumber = other.gameObject.GetComponent<Spawn>().PlayerNumber;
+            if (playerNumber > 2)
+                return;
+            if (playerNumber == 0)
+                return;
+            UpdateLedColor(playerNumber);
             Game.passedObstacles++;
             passed = true;
-            UpdateLedColor();
         }
     }
 
     /**
      * Update the color of the led of the player who passed the obstacle
      */
-    private void UpdateLedColor()
+    private void UpdateLedColor(int playerNumber)
     {
         // Get the sphere child game object
-        var index = IsHost ? 0 : 1;
+        var index = playerNumber - 1;
         var sphere = transform.GetChild(index).gameObject;
         // Update the color to green
         sphere.GetComponent<Renderer>().material.color = Color.green;

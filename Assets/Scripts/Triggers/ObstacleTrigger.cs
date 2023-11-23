@@ -31,8 +31,8 @@ public class ObstacleTrigger : NetworkBehaviour
                 return;
             if (playerNumber == 0)
                 return;
-            UpdateLedColor(playerNumber);
-            Game.passedObstacles++;
+            UpdateLedColorServerRpc(playerNumber);
+            
             passed = true;
         }
     }
@@ -42,11 +42,41 @@ public class ObstacleTrigger : NetworkBehaviour
      */
     private void UpdateLedColor(int playerNumber)
     {
-        // Get the sphere child game object
+        Debug.Log("UpdateLedColor");
+        
+        // if (playerNumber == 1)
+        //     Game.PassedObstaclesPlayer1.Value++;
+        // else if (playerNumber == 2)
+        //     Game.PassedObstaclesPlayer2.Value++;
+        // else
+        // {
+        //     Debug.LogError("Invalid player number");
+        //     return;
+        // }
         var index = playerNumber - 1;
         var sphere = transform.GetChild(index).gameObject;
         // Update the color to green
         sphere.GetComponent<Renderer>().material.color = Color.green;
     }
+    
+    [ServerRpc(RequireOwnership = false)]
+    private void UpdateLedColorServerRpc(int playerNumber)
+    {
+        // Server-side logic to update passed obstacles count
+        if (playerNumber == 1)
+            Game.PassedObstaclesPlayer1.Value++;
+        else if (playerNumber == 2)
+            Game.PassedObstaclesPlayer2.Value++;
+
+        // Update color on all clients
+        UpdateLedColorClientRpc(playerNumber);
+    }
+
+    [ClientRpc]
+    private void UpdateLedColorClientRpc(int playerNumber, ClientRpcParams rpcParams = default)
+    {
+        UpdateLedColor(playerNumber);
+    }
+
     
 }

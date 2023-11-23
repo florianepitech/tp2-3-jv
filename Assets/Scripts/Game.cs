@@ -14,7 +14,8 @@ public class Game : NetworkBehaviour
     public static GameType gameType;
     public static IReadOnlyList<NetworkClient> connectedClients = new List<NetworkClient>();
     public static List<GameObject> obstacles = new List<GameObject>();
-    public static int passedObstacles = 0;
+    public static NetworkVariable<int> PassedObstaclesPlayer1 = new(0);
+    public static NetworkVariable<int> PassedObstaclesPlayer2 = new(0);
     private static NetworkVariable<bool> IsGameStarted = new(false);
     private static NetworkVariable<FixedString512Bytes> GameInfoMessage = new("");
     public static NetworkVariable<int> playerTurn = new(2);
@@ -58,6 +59,7 @@ public class Game : NetworkBehaviour
         else if (IsClient)
             UpdatePlayerClient();
         UpdateAllPlayer();
+        
     }
 
     
@@ -67,7 +69,7 @@ public class Game : NetworkBehaviour
         if (connectedClients.Count != 2)
         {
             GameInfoMessage.Value = "Waiting for another player to join...";
-            return;
+            //return;
         }  if (playerTurn.Value == 2) {
             GameInfoMessage.Value = "Player 2 turn";
         } else if (playerTurn.Value == 1) {

@@ -31,18 +31,25 @@ public class Spawn : NetworkBehaviour
          {
              this.transform.position = spawnObject.transform.position;
              PlayerNumber = 1;
-             SpawnManager.playersSpawned.Value++;
+             AddPlayerSpawnedServerRpc();
              Debug.Log(SpawnManager.playersSpawned.Value + " 1");
          }
          else if (PlayerNumber == 0)
          {
              this.transform.position = spawnObject2.transform.position;
              PlayerNumber = 2;
-             SpawnManager.playersSpawned.Value++;
+             AddPlayerSpawnedServerRpc();
                 Debug.Log(SpawnManager.playersSpawned.Value + " 2");
          }
-        
-        
+
+
+         
+    }
+    
+    [ServerRpc (RequireOwnership = false)]
+    void AddPlayerSpawnedServerRpc()
+    {
+        SpawnManager.playersSpawned.Value++;
     }
     
     

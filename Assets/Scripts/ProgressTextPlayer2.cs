@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ProgressTextPlayer1 : MonoBehaviour
+public class ProgressTextPlayer2 : MonoBehaviour
 {
     // Start is called before the first frame update
     //get obstacle static list
@@ -21,6 +21,6 @@ public class ProgressTextPlayer1 : MonoBehaviour
         
         //get the specific TextMeshProUGUI component
         textMeshProUGUI = GetComponent<TextMeshProUGUI>();
-        textMeshProUGUI.text = Game.PassedObstaclesPlayer1.Value.ToString();
+        textMeshProUGUI.text = Game.PassedObstaclesPlayer2.Value.ToString();
     }
 }

@@ -67,7 +67,11 @@ public class Game : NetworkBehaviour
         if (connectedClients.Count != 2)
         {
             GameInfoMessage.Value = "Waiting for another player to join...";
-            //return;
+            return;
+        }  if (playerTurn.Value == 2) {
+            GameInfoMessage.Value = "Player 2 turn";
+        } else if (playerTurn.Value == 1) {
+            GameInfoMessage.Value = "Player 1 turn";
         }
 
         if (!IsGameStarted.Value)

@@ -17,7 +17,7 @@ public class Game : NetworkBehaviour
     public static int passedObstacles = 0;
     private static NetworkVariable<bool> IsGameStarted = new(false);
     private static NetworkVariable<FixedString512Bytes> GameInfoMessage = new("");
-    public static NetworkVariable<int> playerTurn = new(1);
+    public static NetworkVariable<int> playerTurn = new(2);
     private float timer = 0f;
     
 
@@ -124,13 +124,15 @@ public class Game : NetworkBehaviour
     {
         
         //Say hello every 5 seconds below
-        timer += Time.deltaTime;
-
-        if (timer >= 3f)
-        {
-            playerTurn.Value = playerTurn.Value == 1 ? 2 : 1;
-            timer = 0f;
-        }
+        // if (!IsServer)
+        //     return;
+        // timer += Time.deltaTime;
+        //
+        // if (timer >= 3f)
+        // {
+        //     playerTurn.Value = playerTurn.Value == 1 ? 2 : 1;
+        //     timer = 0f;
+        // }
         
         //only the server can get the number of connected clients
         if (IsServer)

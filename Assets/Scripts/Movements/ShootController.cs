@@ -8,7 +8,7 @@ public class ShootController : NetworkBehaviour
     public Rigidbody sphereRigidbody;
     public GameObject shootBarContainer;
     private float maxShootForce = 50f; // Current selected shoot force
-    private bool shotTaken;
+    private bool shotTaken = false;
     private float stopThreshold = 0.3f; // Velocity threshold for stopping
     private bool canBeStopped;
     private int playerNumber;
@@ -25,8 +25,7 @@ public class ShootController : NetworkBehaviour
                     shootBarContainer.GetComponent<ShootBar>().ToggleShootBarVisibilityOnAllClientsServerRpc(false);
                 }
                 return;
-            } else if (!shootBarContainer.activeSelf)
-            {
+            } else if (!shootBarContainer.activeSelf) {
                 Debug.Log("Showing shoot bar");
                 shootBarContainer.GetComponent<ShootBar>().ToggleShootBarVisibilityOnAllClientsServerRpc(true);
             }
@@ -36,7 +35,6 @@ public class ShootController : NetworkBehaviour
                 Debug.Log("Shoot");
                 shotTaken = true;
                 PowerBar.SetRun(false);
-                Game.playerTurn.Value = Game.playerTurn.Value = 0;
                 ShootServerRpc(PowerBar.GetPower());
                  // Prevents further increase in power or re-shooting
             }
@@ -78,6 +76,8 @@ public class ShootController : NetworkBehaviour
     [ServerRpc]
     void ShootServerRpc(int power)
     {
+        Game.playerTurn.Value = Game.playerTurn.Value = 0;
+        
         Debug.Log("ShootServerRpc called");
         if (!shootBarContainer.activeSelf)
         {

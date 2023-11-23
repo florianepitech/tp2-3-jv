@@ -117,7 +117,10 @@ public class Game : NetworkBehaviour
             return;
         var gameInfoMessageText = gameInfoMessage.GetComponent<TextMeshProUGUI>();
         if (gameInfoMessageText != null)
+        {
+            Debug.Log("GameInfoMessage: " + GameInfoMessage.Value);
             gameInfoMessageText.text = GameInfoMessage.Value.ToString();
+        }
     }
     
     private void FixedUpdate()

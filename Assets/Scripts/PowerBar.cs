@@ -33,8 +33,14 @@ public class PowerBar : MonoBehaviour
         return (int)_power;
     }
     
+    public static bool GetRun()
+    {
+        return _start;
+    }
+    
     public static void SetRun(bool value)
     {
+        Debug.Log("SetRun " + value);
         _start = value;
     }
     

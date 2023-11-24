@@ -20,15 +20,22 @@ public class ShootController : NetworkBehaviour
             StopSphereServerRpc();
             if (Game.playerTurn.Value != gameObject.GetComponent<Spawn>().PlayerNumber)
             {
+                
                 if (shootBarContainer.activeSelf)
                 {
                     Debug.Log("Hiding shoot bar");
                     shootBarContainer.GetComponent<ShootBar>().ToggleShootBarVisibilityOnAllClientsServerRpc(false);
+                    PowerBar.SetRun(false);
                 }
                 return;
             } else if (!shootBarContainer.activeSelf) {
                 Debug.Log("Showing shoot bar");
                 shootBarContainer.GetComponent<ShootBar>().ToggleShootBarVisibilityOnAllClientsServerRpc(true);
+            }
+            else
+            {
+                if (!PowerBar.GetRun())
+                    PowerBar.SetRun(true);
             }
             
             if (KeyboardEvent.GetKey(KeyMovement.Shoot) && !shotTaken)
@@ -97,8 +104,8 @@ public class ShootController : NetworkBehaviour
         {
             canBeStopped = true;
         }
-        Debug.Log( "Magnitude " + sphereRigidbody.velocity.magnitude);
-        Debug.Log(canBeStopped);
+        //Debug.Log( "Magnitude " + sphereRigidbody.velocity.magnitude);
+        //Debug.Log(canBeStopped);
         if (shotTaken && sphereRigidbody.velocity.magnitude < stopThreshold && canBeStopped)
         {
             if (sphereRigidbody != null && shotTaken)

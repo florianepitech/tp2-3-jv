@@ -99,15 +99,28 @@ public class Game : NetworkBehaviour
         //var shootController = player.PlayerObject.GetComponent<ShootController>();
         //shootController.ShowShootBarServerRpc();
     }
+
+
+    public void TempSwitchTurn()
+    {
+        //change the value of playerTurn when press ù on keyboard
+        //Don't Use KeyboardsEvent here bu KeyboardMovement
+        if (Input.GetKey(KeyCode.F6))
+        {
+            Debug.Log("Switching turn");
+            playerTurn.Value = playerTurn.Value == 1 ? 2 : 1;
+        }
+    }
     
     
     private void UpdatePlayerClient()
     {
-        PowerBar.SetRun(true);
     }
 
     private void UpdateAllPlayer()
     {
+        
+        TempSwitchTurn();
         
         // Check for pause menu
         var openPauseMenu = KeyboardEvent.GetKeyUp(KeyMovement.PauseMenu);

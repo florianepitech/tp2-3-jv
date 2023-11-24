@@ -14,10 +14,17 @@ public class RaibowText : MonoBehaviour
     IEnumerator RainbowText()
     {
         textMeshProUGUI = GetComponent<TextMeshProUGUI>();
+        //check if the textmeshprogui is null
+        if (textMeshProUGUI == null)
+        {
+            Debug.LogError("TextMeshProUGUI is null");
+            yield break;
+        }
         while (true)
         {
             //random color
-            textMeshProUGUI.color = new Color(Random.value, Random.value, Random.value);
+            Debug.Log("RainbowText");
+            textMeshProUGUI.color = new Color(Random.value, Random.value, Random.value, 1f);
             yield return new WaitForSeconds(0.5f);
         }
     }

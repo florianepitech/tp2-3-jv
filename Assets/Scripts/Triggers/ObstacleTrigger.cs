@@ -37,7 +37,9 @@ public class ObstacleTrigger : NetworkBehaviour
                 return;
             if (playerNumber == 0)
                 return;
-            UpdateLedColorServerRpc(playerNumber);
+            //execute only once
+            if (IsServer)
+                UpdateLedColorServerRpc(playerNumber);
             
             if (playerNumber == 1)
             {

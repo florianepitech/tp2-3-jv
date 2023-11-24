@@ -30,6 +30,7 @@ public class ShootController : NetworkBehaviour
                 return;
             } else if (!shootBarContainer.activeSelf) {
                 Debug.Log("Showing shoot bar");
+                shotTaken = false;
                 shootBarContainer.GetComponent<ShootBar>().ToggleShootBarVisibilityOnAllClientsServerRpc(true);
             }
             else

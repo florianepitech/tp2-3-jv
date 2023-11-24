@@ -7,7 +7,8 @@ using UnityEngine;
 public class ObstacleTrigger : NetworkBehaviour
 {
     // Start is called before the first frame update
-    bool passed = false;
+    bool passed_player1 = false;
+    bool passed_player2 = false;
 
     void Start()
     {
@@ -22,18 +23,30 @@ public class ObstacleTrigger : NetworkBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (passed)
+            var playerNumber = other.gameObject.GetComponent<Spawn>().PlayerNumber;
+            if (playerNumber == 1 && passed_player1)
             {
                 return;
             }
-            var playerNumber = other.gameObject.GetComponent<Spawn>().PlayerNumber;
+            else if (playerNumber == 2 && passed_player2)
+            {
+                return;
+            }
+           ;
             if (playerNumber > 2)
                 return;
             if (playerNumber == 0)
                 return;
             UpdateLedColorServerRpc(playerNumber);
             
-            passed = true;
+            if (playerNumber == 1)
+            {
+                passed_player1 = true;
+            }
+            else if (playerNumber == 2)
+            {
+                passed_player2 = true;
+            }
         }
     }
 

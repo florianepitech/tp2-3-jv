@@ -8,9 +8,9 @@ public class ShootController : NetworkBehaviour
     public Rigidbody sphereRigidbody;
     public GameObject shootBarContainer;
     private float maxShootForce = 50f; // Current selected shoot force
-    private bool shotTaken = false;
+    public bool shotTaken = false;
     private float stopThreshold = 0.4f; // Velocity threshold for stopping
-    private bool canBeStopped = false;
+    public bool canBeStopped = false;
     private int playerNumber;
     
     void Update()
@@ -105,10 +105,17 @@ public class ShootController : NetworkBehaviour
         {
             canBeStopped = true;
         }
-        //Debug.Log( "Magnitude " + sphereRigidbody.velocity.magnitude);
-        //Debug.Log(canBeStopped);
+        
+        // //print postion and shotTaken
+        // Debug.Log("---------------------------");
+        // Debug.Log("Position: " + sphereRigidbody.position);
+        // Debug.Log("Velocity: " + sphereRigidbody.velocity.magnitude);
+        // Debug.Log("shotTaken: " + shotTaken);
+        // Debug.Log("canBeStopped: " + canBeStopped);
+        // Debug.Log("---------------------------");
         if (shotTaken && sphereRigidbody.velocity.magnitude < stopThreshold && canBeStopped)
         {
+            
             if (sphereRigidbody != null && shotTaken)
             {
                 Debug.Log("StopSphereServerRpc");
@@ -116,6 +123,9 @@ public class ShootController : NetworkBehaviour
                 sphereRigidbody.angularVelocity = Vector3.zero;
                 shotTaken = false;
                 canBeStopped = false;
+                //switch turn
+                Game.playerTurn.Value = Game.previousPlayerTurn.Value == 1 ? 2 : 1;
+                Game.previousPlayerTurn.Value = Game.playerTurn.Value;
                 NotifyStopSphereClientRpc();
             }
         }

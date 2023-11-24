@@ -115,6 +115,7 @@ public class ShootController : NetworkBehaviour
                 sphereRigidbody.velocity = Vector3.zero;
                 sphereRigidbody.angularVelocity = Vector3.zero;
                 shotTaken = false;
+                canBeStopped = false;
                 NotifyStopSphereClientRpc();
             }
         }

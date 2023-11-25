@@ -5,6 +5,7 @@ using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
@@ -17,7 +18,7 @@ public class Game : NetworkBehaviour
     public static NetworkVariable<int> PassedObstaclesPlayer1 = new(0);
     public static NetworkVariable<int> PassedObstaclesPlayer2 = new(0);
     private static NetworkVariable<bool> IsGameStarted = new(false);
-    private static NetworkVariable<FixedString512Bytes> GameInfoMessage = new("");
+    public static NetworkVariable<FixedString512Bytes> GameInfoMessage = new("");
     public static NetworkVariable<int> playerTurn = new(1);
     public static NetworkVariable<int> previousPlayerTurn = new(1);
     private float timer = 0f;
@@ -27,8 +28,6 @@ public class Game : NetworkBehaviour
     private int transformCounterPlayer1 = 0;
     private Vector3  cachedTransformPlayer2;
     private int transformCounterPlayer2 = 0;
-    
-    
 
     // Start is called before the first frame update
     void Start()
@@ -62,10 +61,14 @@ public class Game : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IsServer)
+        if (IsServer || IsHost)
+        {
             UpdatePlayerHost();
-        else if (IsClient)
+        } else if (IsClient)
+        {
             UpdatePlayerClient();
+        }
+
         UpdateAllPlayer();
         
     }
@@ -74,7 +77,7 @@ public class Game : NetworkBehaviour
 
     private void UpdatePlayerHost()
     {
-        
+        CheckEndGameFinish();
         if (connectedClients.Count != 2)
         {
             Debug.Log(connectedClients.Count);
@@ -367,100 +370,47 @@ public class Game : NetworkBehaviour
         }
     }
     
+    // End Game Detection
     
-    
-    // [ServerRpc(RequireOwnership = false)]
-    // void StopSphereServerRpc()
-    // {
-    //     if (player1Shootings.Value)
-    //     {
-    //         //get the game object of the player
-    //         
-    //         var player = connectedClients[0];
-    //         var sphere = player.PlayerObject.transform.GetChild(0).gameObject;
-    //         var sphereRigidbody = sphere.GetComponent<Rigidbody>();
-    //         Debug.Log(sphereRigidbody.velocity);
-    //         Debug.Log(sphereRigidbody.transform.position);
-    //         if (sphereRigidbody.velocity.magnitude > stopThreshold)
-    //         {
-    //             canStopPlayer1 = true;
-    //         }
-    //         if (sphereRigidbody.velocity.magnitude < stopThreshold && canStopPlayer1)
-    //         {
-    //             if (sphereRigidbody != null)
-    //             {
-    //                 Debug.Log("StopSphereServerRpc");
-    //                 sphereRigidbody.velocity = Vector3.zero;
-    //                 sphereRigidbody.angularVelocity = Vector3.zero;
-    //                 player1Shootings.Value = false;
-    //                 //switch turn
-    //                 Game.playerTurn.Value = Game.previousPlayerTurn.Value == 1 ? 2 : 1;
-    //                 Game.previousPlayerTurn.Value = Game.playerTurn.Value;
-    //                 var clientID = player.ClientId;
-    //                 NotifyStopSphereClientRpc(clientID);
-    //             }
-    //         }
-    //     }
-    //     if (player2Shootings.Value)
-    //     {
-    //         //get the game object of the player
-    //         var player = connectedClients[1];
-    //         var sphere = player.PlayerObject.transform.GetChild(0).gameObject;
-    //         var sphereRigidbody = sphere.GetComponent<Rigidbody>();
-    //         if (sphereRigidbody.velocity.magnitude > stopThreshold)
-    //         {
-    //             return;
-    //         }
-    //
-    //         if (sphereRigidbody.velocity.magnitude < stopThreshold)
-    //         {
-    //             Debug.Log("StopSphereServerRpc");
-    //             if (sphereRigidbody != null)
-    //             {
-    //                 Debug.Log("StopSphereServerRpc");
-    //                 sphereRigidbody.velocity = Vector3.zero;
-    //                 sphereRigidbody.angularVelocity = Vector3.zero;
-    //                 player2Shootings.Value = false;
-    //                 //switch turn
-    //                 Game.playerTurn.Value = Game.previousPlayerTurn.Value == 1 ? 2 : 1;
-    //                 Game.previousPlayerTurn.Value = Game.playerTurn.Value;
-    //                 var clientID = player.ClientId;
-    //                 NotifyStopSphereClientRpc(clientID);
-    //             }
-    //         }
-    //     }
-    // }
-    //
-    //
-    // [ClientRpc]
-    // void NotifyStopSphereClientRpc(ulong clientId)
-    // {
-    //     // Find the player and its sphere based on clientId
-    //     NetworkClient playerClient = null;
-    //     foreach (var client in connectedClients)
-    //     {
-    //         if (client.ClientId == clientId)
-    //         {
-    //             playerClient = client;
-    //             break;
-    //         }
-    //     }
-    //
-    //     if (playerClient == null)
-    //     {
-    //         Debug.LogError("Client not found.");
-    //         return;
-    //     }
-    //
-    //     var sphere = playerClient.PlayerObject.transform.GetChild(0).gameObject;
-    //     var sphereRigidbody = sphere.GetComponent<Rigidbody>();
-    //
-    //     // Stop the sphere's motion
-    //     if (sphereRigidbody != null)
-    //     {
-    //         sphereRigidbody.velocity = Vector3.zero;
-    //         sphereRigidbody.angularVelocity = Vector3.zero;
-    //     }
-    // }
+    public bool IsGameFinished = false;
+
+    private double _endGameTime = -1.0;
+
+    private bool _hasSwitchedScene = false;
+
+    private void CheckEndGameFinish()
+    {
+        int _numberOfObstacles = GameObject.FindGameObjectsWithTag("Obstacle").Length;
+        if (_numberOfObstacles <= 0)
+        {
+            Debug.Log("Impossible to find obstacles");
+            return;
+        }
+        // Check if player 1 has win
+        if (PassedObstaclesPlayer1.Value >= _numberOfObstacles && !IsGameFinished)
+        {
+            GameInfoMessage.Value = "Player 1 win";
+            _endGameTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            IsGameFinished = true;
+            playerTurn.Value = 0;
+            Debug.Log("Player 1 win");
+        } else if (PassedObstaclesPlayer2.Value >= _numberOfObstacles && !IsGameFinished)
+        {
+            GameInfoMessage.Value = "Player 2 win";
+            _endGameTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            IsGameFinished = true;
+            playerTurn.Value = 0;
+            Debug.Log("Player 2 win");
+        }
+        // check if 10 seconds are passed since the end of the game
+        if (_endGameTime == -1.0)
+            return;
+        if (!(DateTimeOffset.Now.ToUnixTimeMilliseconds() - _endGameTime >= 10000))
+            return;
+        GameInfoMessage.Value = "";
+        if (!_hasSwitchedScene)
+            NetworkManager.SceneManager.LoadScene("HomeMenu", LoadSceneMode.Single);
+        _hasSwitchedScene = true;
+    }
     
 }

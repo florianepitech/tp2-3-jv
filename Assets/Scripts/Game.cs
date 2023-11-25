@@ -311,6 +311,10 @@ public class Game : NetworkBehaviour
     [ServerRpc]
     void HandleSwitchingTurnServerRpc()
     {
+        if (IsGameFinished)
+        {
+            return;
+        }
         if (player1Shootings.Value)
         {
             //get the game object of the player
@@ -380,7 +384,7 @@ public class Game : NetworkBehaviour
 
     private void CheckEndGameFinish()
     {
-        int _numberOfObstacles = GameObject.FindGameObjectsWithTag("Obstacle").Length;
+        int _numberOfObstacles = obstacles.Count;
         if (_numberOfObstacles <= 0)
         {
             Debug.Log("Impossible to find obstacles");

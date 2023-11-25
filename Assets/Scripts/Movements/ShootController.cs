@@ -8,16 +8,16 @@ public class ShootController : NetworkBehaviour
     public Rigidbody sphereRigidbody;
     public GameObject shootBarContainer;
     private float maxShootForce = 50f; // Current selected shoot force
-    public bool shotTaken = false;
     private float stopThreshold = 0.4f; // Velocity threshold for stopping
-    public bool canBeStopped = false;
     private int playerNumber;
-    
     void Update()
     {
+        if (playerNumber == 0)
+            playerNumber = gameObject.GetComponent<Spawn>().PlayerNumber;
+        
+        
         if (IsOwner)
         {
-            StopSphereServerRpc();
             if (Game.playerTurn.Value != gameObject.GetComponent<Spawn>().PlayerNumber)
             {
                 
@@ -30,7 +30,14 @@ public class ShootController : NetworkBehaviour
                 return;
             } else if (!shootBarContainer.activeSelf) {
                 Debug.Log("Showing shoot bar");
-                shotTaken = false;
+                if (playerNumber == 0)
+                    return;
+                if (playerNumber == 1)
+                {
+                    Game.player1Shootings.Value = false;
+                } else if (playerNumber == 2) {
+                    Game.player2Shootings.Value = false;
+                }
                 shootBarContainer.GetComponent<ShootBar>().ToggleShootBarVisibilityOnAllClientsServerRpc(true);
             }
             else
@@ -39,47 +46,42 @@ public class ShootController : NetworkBehaviour
                     PowerBar.SetRun(true);
             }
             
-            if (KeyboardEvent.GetKey(KeyMovement.Shoot) && !shotTaken)
+            if (KeyboardEvent.GetKey(KeyMovement.Shoot))
             {
+                if (playerNumber == 1)
+                {
+                    if (Game.player1Shootings.Value)
+                        return;
+                } else if (playerNumber == 2) {
+                    if (Game.player2Shootings.Value)
+                        return;
+                } else if (playerNumber == 0) {
+                    return;
+                }
+                 
                 Debug.Log("Shoot");
-                shotTaken = true;
+                
+                //get my playerNumber
+                if (playerNumber == 0)
+                    return;
+                if (playerNumber == 1)
+                {
+                    setValueShootingServerRpc(1);
+                } else if (playerNumber == 2) {
+                    setValueShootingServerRpc(2);
+                }
                 PowerBar.SetRun(false);
                 ShootServerRpc(PowerBar.GetPower());
                  // Prevents further increase in power or re-shooting
             }
-            
-           
-
-            // Check if the ball's velocity is below the threshold
-            if (sphereRigidbody == null)
-            {
-                Debug.Log("Sphere rigidbody is null");
-                return;
-            }
-            
         }
     }
-
-    // [ClientRpc]
-    // void ShootClientRpc()
-    // {
-    //     if (IsLocalPlayer)
-    //     {
-    //         Debug.Log("ShootClientRpc");
-    //         if (!shootBarContainer.activeSelf)
-    //             return;
-    //         var shootBarContainerTransform = shootBarContainer.transform;
-    //         PowerBar.SetRun(false);
-    //         var currentShootForce = PowerBar.GetPower() * maxShootForce / 100f;
-    //         sphereRigidbody.AddForce(shootBarContainerTransform.forward * currentShootForce, ForceMode.Impulse);
-    //         //HideShootBarServerRpc();
-    //     }
     
     [ServerRpc]
     void ShootServerRpc(int power)
     {
         Game.playerTurn.Value = Game.playerTurn.Value = 0;
-        
+       
         Debug.Log("ShootServerRpc called");
         if (!shootBarContainer.activeSelf)
         {
@@ -97,49 +99,20 @@ public class ShootController : NetworkBehaviour
         sphereRigidbody.AddForce(shootDirection * currentShootForce, ForceMode.Impulse);
     }
     
-    
-    [ServerRpc (RequireOwnership = false)]
-    void StopSphereServerRpc()
+    [ServerRpc]
+    void setValueShootingServerRpc(int value)
     {
-        if (sphereRigidbody.velocity.magnitude > stopThreshold && shotTaken)
+        if (value == 1)
         {
-            canBeStopped = true;
+            Game.player1Shootings.Value = true;
         }
-        
-        // //print postion and shotTaken
-        // Debug.Log("---------------------------");
-        // Debug.Log("Position: " + sphereRigidbody.position);
-        // Debug.Log("Velocity: " + sphereRigidbody.velocity.magnitude);
-        // Debug.Log("shotTaken: " + shotTaken);
-        // Debug.Log("canBeStopped: " + canBeStopped);
-        // Debug.Log("---------------------------");
-        if (shotTaken && sphereRigidbody.velocity.magnitude < stopThreshold && canBeStopped)
+        else if (value == 2)
         {
-            
-            if (sphereRigidbody != null && shotTaken)
-            {
-                Debug.Log("StopSphereServerRpc");
-                sphereRigidbody.velocity = Vector3.zero;
-                sphereRigidbody.angularVelocity = Vector3.zero;
-                shotTaken = false;
-                canBeStopped = false;
-                //switch turn
-                Game.playerTurn.Value = Game.previousPlayerTurn.Value == 1 ? 2 : 1;
-                Game.previousPlayerTurn.Value = Game.playerTurn.Value;
-                NotifyStopSphereClientRpc();
-            }
+            Game.player2Shootings.Value = true;
         }
-
-    }
-
-    [ClientRpc]
-    void NotifyStopSphereClientRpc()
-    {
-        if (!IsServer && sphereRigidbody != null) // Check if not the server to avoid double execution
+        else
         {
-            Debug.Log("NotifyStopSphereClientRpc");
-            sphereRigidbody.velocity = Vector3.zero;
-            sphereRigidbody.angularVelocity = Vector3.zero;
+            Debug.Log("Error in setValueShooting");
         }
     }
 }

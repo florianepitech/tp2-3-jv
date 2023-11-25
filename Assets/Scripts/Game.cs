@@ -21,6 +21,16 @@ public class Game : NetworkBehaviour
     public static NetworkVariable<int> playerTurn = new(1);
     public static NetworkVariable<int> previousPlayerTurn = new(1);
     private float timer = 0f;
+    public static NetworkVariable<bool> player1Shootings = new(false);
+    public static NetworkVariable<bool> player2Shootings = new(false);
+    public float stopThreshold = 0.4f; // Velocity threshold for stopping
+    public bool canStopPlayer1 = false;
+    public bool canStopPlayer2 = false;
+    private Vector3  cachedTransformPlayer1;
+    private int transformCounterPlayer1 = 0;
+    private Vector3  cachedTransformPlayer2;
+    private int transformCounterPlayer2 = 0;
+    
     
 
     // Start is called before the first frame update
@@ -67,6 +77,7 @@ public class Game : NetworkBehaviour
 
     private void UpdatePlayerHost()
     {
+        
         if (connectedClients.Count != 2)
         {
             GameInfoMessage.Value = "Waiting for another player to join...";
@@ -144,7 +155,7 @@ public class Game : NetworkBehaviour
     
     private void FixedUpdate()
     {
-        
+        HandleSwitchingTurnServerRpc();
         //Say hello every 5 seconds below
         // if (!IsServer)
         //     return;
@@ -231,6 +242,162 @@ public class Game : NetworkBehaviour
         connectedClients = NetworkManager.Singleton.ConnectedClientsList;
     }
     
-    
+    [ServerRpc]
+    void HandleSwitchingTurnServerRpc()
+    {
+        if (player1Shootings.Value)
+        {
+            //get the game object of the player
+            var player = connectedClients[0];
+            var sphere = player.PlayerObject.transform.GetChild(0).gameObject;
+            var sphereRigidbody = sphere.GetComponent<Rigidbody>();
+            Debug.Log(sphereRigidbody.transform.position);
+            //check if for 1 second the ball is not moving
+            //get the transform of the sphere
+            float positionTolerance = 0.2f;
+            float distance = Vector3.Distance(sphereRigidbody.transform.position, cachedTransformPlayer1);
 
+            if (distance <= positionTolerance)
+            {
+                transformCounterPlayer1++;
+            }
+            else
+            {
+                cachedTransformPlayer1 = sphereRigidbody.transform.position;
+                transformCounterPlayer1 = 0;
+            }
+            if (transformCounterPlayer1 > 50)
+            {
+                player1Shootings.Value = false;
+                playerTurn.Value = previousPlayerTurn.Value == 1 ? 2 : 1;
+                previousPlayerTurn.Value = playerTurn.Value;
+                transformCounterPlayer1 = 0;
+            }
+        }
+        if (player2Shootings.Value)
+        {
+            //get the game object of the player
+            var player = connectedClients[1];
+            var sphere = player.PlayerObject.transform.GetChild(0).gameObject;
+            var sphereRigidbody = sphere.GetComponent<Rigidbody>();
+            //check if for 1 second the ball is not moving
+            //get the transform of the sphere
+            float positionTolerance = 0.2f;
+            float distance = Vector3.Distance(sphereRigidbody.transform.position, cachedTransformPlayer2);
+
+            if (distance <= positionTolerance)
+            {
+                transformCounterPlayer2++;
+            }
+            else
+            {
+                cachedTransformPlayer2 = sphereRigidbody.transform.position;
+                transformCounterPlayer2 = 0;
+            }
+            if (transformCounterPlayer2 > 50)
+            {
+                player2Shootings.Value = false;
+                playerTurn.Value = previousPlayerTurn.Value == 1 ? 2 : 1;
+                previousPlayerTurn.Value = playerTurn.Value;
+                transformCounterPlayer2 = 0;
+            }
+        }
+    }
+    
+    
+    
+    // [ServerRpc(RequireOwnership = false)]
+    // void StopSphereServerRpc()
+    // {
+    //     if (player1Shootings.Value)
+    //     {
+    //         //get the game object of the player
+    //         
+    //         var player = connectedClients[0];
+    //         var sphere = player.PlayerObject.transform.GetChild(0).gameObject;
+    //         var sphereRigidbody = sphere.GetComponent<Rigidbody>();
+    //         Debug.Log(sphereRigidbody.velocity);
+    //         Debug.Log(sphereRigidbody.transform.position);
+    //         if (sphereRigidbody.velocity.magnitude > stopThreshold)
+    //         {
+    //             canStopPlayer1 = true;
+    //         }
+    //         if (sphereRigidbody.velocity.magnitude < stopThreshold && canStopPlayer1)
+    //         {
+    //             if (sphereRigidbody != null)
+    //             {
+    //                 Debug.Log("StopSphereServerRpc");
+    //                 sphereRigidbody.velocity = Vector3.zero;
+    //                 sphereRigidbody.angularVelocity = Vector3.zero;
+    //                 player1Shootings.Value = false;
+    //                 //switch turn
+    //                 Game.playerTurn.Value = Game.previousPlayerTurn.Value == 1 ? 2 : 1;
+    //                 Game.previousPlayerTurn.Value = Game.playerTurn.Value;
+    //                 var clientID = player.ClientId;
+    //                 NotifyStopSphereClientRpc(clientID);
+    //             }
+    //         }
+    //     }
+    //     if (player2Shootings.Value)
+    //     {
+    //         //get the game object of the player
+    //         var player = connectedClients[1];
+    //         var sphere = player.PlayerObject.transform.GetChild(0).gameObject;
+    //         var sphereRigidbody = sphere.GetComponent<Rigidbody>();
+    //         if (sphereRigidbody.velocity.magnitude > stopThreshold)
+    //         {
+    //             return;
+    //         }
+    //
+    //         if (sphereRigidbody.velocity.magnitude < stopThreshold)
+    //         {
+    //             Debug.Log("StopSphereServerRpc");
+    //             if (sphereRigidbody != null)
+    //             {
+    //                 Debug.Log("StopSphereServerRpc");
+    //                 sphereRigidbody.velocity = Vector3.zero;
+    //                 sphereRigidbody.angularVelocity = Vector3.zero;
+    //                 player2Shootings.Value = false;
+    //                 //switch turn
+    //                 Game.playerTurn.Value = Game.previousPlayerTurn.Value == 1 ? 2 : 1;
+    //                 Game.previousPlayerTurn.Value = Game.playerTurn.Value;
+    //                 var clientID = player.ClientId;
+    //                 NotifyStopSphereClientRpc(clientID);
+    //             }
+    //         }
+    //     }
+    // }
+    //
+    //
+    // [ClientRpc]
+    // void NotifyStopSphereClientRpc(ulong clientId)
+    // {
+    //     // Find the player and its sphere based on clientId
+    //     NetworkClient playerClient = null;
+    //     foreach (var client in connectedClients)
+    //     {
+    //         if (client.ClientId == clientId)
+    //         {
+    //             playerClient = client;
+    //             break;
+    //         }
+    //     }
+    //
+    //     if (playerClient == null)
+    //     {
+    //         Debug.LogError("Client not found.");
+    //         return;
+    //     }
+    //
+    //     var sphere = playerClient.PlayerObject.transform.GetChild(0).gameObject;
+    //     var sphereRigidbody = sphere.GetComponent<Rigidbody>();
+    //
+    //     // Stop the sphere's motion
+    //     if (sphereRigidbody != null)
+    //     {
+    //         sphereRigidbody.velocity = Vector3.zero;
+    //         sphereRigidbody.angularVelocity = Vector3.zero;
+    //     }
+    // }
+    
 }

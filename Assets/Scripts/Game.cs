@@ -23,9 +23,6 @@ public class Game : NetworkBehaviour
     private float timer = 0f;
     public static NetworkVariable<bool> player1Shootings = new(false);
     public static NetworkVariable<bool> player2Shootings = new(false);
-    public float stopThreshold = 0.4f; // Velocity threshold for stopping
-    public bool canStopPlayer1 = false;
-    public bool canStopPlayer2 = false;
     private Vector3  cachedTransformPlayer1;
     private int transformCounterPlayer1 = 0;
     private Vector3  cachedTransformPlayer2;
@@ -80,6 +77,7 @@ public class Game : NetworkBehaviour
         
         if (connectedClients.Count != 2)
         {
+            Debug.Log(connectedClients.Count);
             GameInfoMessage.Value = "Waiting for another player to join...";
             //return;
         }  if (playerTurn.Value == 2) {
@@ -156,6 +154,7 @@ public class Game : NetworkBehaviour
     private void FixedUpdate()
     {
         HandleSwitchingTurnServerRpc();
+        KeepPlayerInPlaceServerRpc();   
         //Say hello every 5 seconds below
         // if (!IsServer)
         //     return;
@@ -241,6 +240,70 @@ public class Game : NetworkBehaviour
     {
         connectedClients = NetworkManager.Singleton.ConnectedClientsList;
     }
+
+
+    [ServerRpc]
+    void KeepPlayerInPlaceServerRpc()
+    {
+        if (connectedClients.Count != 2)
+            return;
+        if (playerTurn.Value == 2)
+        {
+            Debug.Log("KeepPlayerInPlaceServerRpc");
+            // //tp the player to the last position
+             var player = connectedClients[0];
+             var sphere = player.PlayerObject.transform.GetChild(0).gameObject;
+             var sphereRigidbody = sphere.GetComponent<Rigidbody>();
+             sphereRigidbody.transform.position = cachedTransformPlayer1;
+             var clientID = player.ClientId;
+            KeepPlayerInPlaceClientRpc(clientID, cachedTransformPlayer1);
+        }
+        
+        if (playerTurn.Value == 1)
+        {
+            // //tp the player to the last position
+             var player = connectedClients[1];
+             var sphere = player.PlayerObject.transform.GetChild(0).gameObject;
+             var sphereRigidbody = sphere.GetComponent<Rigidbody>();
+             sphereRigidbody.transform.position = cachedTransformPlayer2;
+             var clientID = player.ClientId;
+            KeepPlayerInPlaceClientRpc(clientID, cachedTransformPlayer2);
+        }
+    }
+    
+    [ClientRpc]
+    void KeepPlayerInPlaceClientRpc(ulong clientId, Vector3 transform)
+    {
+        // Find the player and its sphere based on clientId
+        NetworkClient playerClient = null;
+        foreach (var client in connectedClients)
+        {
+            if (client.ClientId == clientId)
+            {
+                playerClient = client;
+                break;
+            }
+        }
+
+        if (playerClient == null)
+        {
+            Debug.LogError("Client not found.");
+            return;
+        }
+
+        var sphere = playerClient.PlayerObject.transform.GetChild(0).gameObject;
+        var sphereRigidbody = sphere.GetComponent<Rigidbody>();
+
+        // Stop the sphere's motion
+        if (sphereRigidbody != null)
+        {
+            sphereRigidbody.velocity = Vector3.zero;
+            sphereRigidbody.angularVelocity = Vector3.zero;
+            sphereRigidbody.transform.position = transform;
+        } else {
+            Debug.Log("sphereRigidbody is null");
+        }
+    }
     
     [ServerRpc]
     void HandleSwitchingTurnServerRpc()
@@ -251,7 +314,7 @@ public class Game : NetworkBehaviour
             var player = connectedClients[0];
             var sphere = player.PlayerObject.transform.GetChild(0).gameObject;
             var sphereRigidbody = sphere.GetComponent<Rigidbody>();
-            Debug.Log(sphereRigidbody.transform.position);
+            //Debug.Log(sphereRigidbody.transform.position);
             //check if for 1 second the ball is not moving
             //get the transform of the sphere
             float positionTolerance = 0.2f;

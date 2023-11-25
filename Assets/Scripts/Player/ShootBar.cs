@@ -89,7 +89,16 @@ namespace DefaultNamespace.Player
         {
             //apply the rotation on the server
             shootBar.transform.Rotate(Vector3.up, horizontalRotationInput, Space.World);
-            shootBar.transform.Rotate(Vector3.right, verticalRotationInput, Space.World);
+            //shootBar.transform.Rotate(Vector3.right, verticalRotationInput, Space.World);
+            var rotationBar = shootBar.transform.rotation;
+
+            var newXRotation = rotationBar.eulerAngles.x + verticalRotationInput;
+
+            shootBar.transform.rotation = Quaternion.Euler(
+                newXRotation,
+                rotationBar.eulerAngles.y,
+                rotationBar.eulerAngles.z
+            );
             //broadcast the rotation to all clients
             UpdateRotationClientRpc(horizontalRotationInput, verticalRotationInput);
         }
@@ -99,7 +108,15 @@ namespace DefaultNamespace.Player
         {
             //apply the rotation on the client
             shootBar.transform.Rotate(Vector3.up, horizontalRotationInput, Space.World);
-            shootBar.transform.Rotate(Vector3.right, verticalRotationInput, Space.World);
+            var rotationBar = shootBar.transform.rotation;
+
+            var newXRotation = rotationBar.eulerAngles.x + verticalRotationInput;
+
+            shootBar.transform.rotation = Quaternion.Euler(
+                newXRotation,
+                rotationBar.eulerAngles.y,
+                rotationBar.eulerAngles.z
+            );
         }
 
 

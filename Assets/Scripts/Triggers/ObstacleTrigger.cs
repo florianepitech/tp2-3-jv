@@ -9,9 +9,12 @@ public class ObstacleTrigger : NetworkBehaviour
     // Start is called before the first frame update
     bool passed_player1 = false;
     bool passed_player2 = false;
+    
+    AudioSource audioSource;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -32,12 +35,12 @@ public class ObstacleTrigger : NetworkBehaviour
             {
                 return;
             }
-           ;
             if (playerNumber > 2)
                 return;
             if (playerNumber == 0)
                 return;
             //execute only once
+            audioSource.Play(); // Play the sound
             if (IsServer)
                 UpdateLedColorServerRpc(playerNumber);
             

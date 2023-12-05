@@ -19,7 +19,7 @@ public class Game : NetworkBehaviour
     public static NetworkVariable<int> PassedObstaclesPlayer2 = new(0);
     private static NetworkVariable<bool> IsGameStarted = new(false);
     public static NetworkVariable<FixedString512Bytes> GameInfoMessage = new("");
-    public static NetworkVariable<int> playerTurn = new(1);
+    public static NetworkVariable<int> playerTurn = new(3);
     public static NetworkVariable<int> previousPlayerTurn = new(1);
     private float timer = 0f;
     public static NetworkVariable<bool> player1Shootings = new(false);
@@ -78,11 +78,17 @@ public class Game : NetworkBehaviour
     private void UpdatePlayerHost()
     {
         CheckEndGameFinish();
+        if (connectedClients.Count == 2 && playerTurn.Value == 3)
+        {
+            playerTurn.Value = 1;
+            previousPlayerTurn.Value = 1;
+        }
+        
         if (connectedClients.Count != 2)
         {
             Debug.Log(connectedClients.Count);
             GameInfoMessage.Value = "Waiting for another player to join...";
-            //return;
+            return;
         }  if (playerTurn.Value == 2) {
             GameInfoMessage.Value = "Player 2 turn";
         } else if (playerTurn.Value == 1) {

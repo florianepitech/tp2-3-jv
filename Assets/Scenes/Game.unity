@@ -1524,6 +1524,7 @@ GameObject:
   - component: {fileID: 1057754259}
   - component: {fileID: 1057754260}
   - component: {fileID: 1057754261}
+  - component: {fileID: 1057754262}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -1657,7 +1658,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1057754255}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: bec1cfb465efc7a41bd5ccbac5b6f2a2, type: 3}
@@ -1746,6 +1747,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1057754262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057754255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83bca3b8c76e4bb4be542274f7c35bf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip1: {fileID: 8300000, guid: ae4c45098f138431eb561fe52e591da7, type: 3}
+  clip2: {fileID: 8300000, guid: bec1cfb465efc7a41bd5ccbac5b6f2a2, type: 3}
 --- !u!1 &1086682378
 GameObject:
   m_ObjectHideFlags: 0

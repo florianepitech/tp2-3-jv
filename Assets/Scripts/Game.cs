@@ -61,6 +61,16 @@ public class Game : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Check if p is pressed up
+        var pPressedUp = Input.GetKeyUp(KeyCode.P);
+        if (pPressedUp)
+        {
+            // Get the GameMusicManager
+            var gameMusicManager = gameObject.GetComponent<GameMusicManager>();
+            gameMusicManager.SwapTrack();
+        }
+        
+        
         if (IsServer || IsHost)
         {
             UpdatePlayerHost();

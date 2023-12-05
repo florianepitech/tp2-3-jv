@@ -200,6 +200,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 143b03cae2d4a4cbfa4d8af9b7818d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  musicType: 0
+  slider: {fileID: 780153317837709182}
 --- !u!1 &4554210351527167705
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,7 +457,7 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: 0
   m_MaxValue: 100
-  m_WholeNumbers: 0
+  m_WholeNumbers: 1
   m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:

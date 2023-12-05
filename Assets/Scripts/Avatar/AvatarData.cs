@@ -8,4 +8,4 @@ public class AvatarData : ScriptableObject
     public GameObject hat;
     public Material primaryColor;
     public Material secondaryColor;
-}gi
+}

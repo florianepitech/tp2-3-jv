@@ -10,6 +10,13 @@ public class ShootController : NetworkBehaviour
     private float maxShootForce = 50f; // Current selected shoot force
     private float stopThreshold = 0.4f; // Velocity threshold for stopping
     private int playerNumber;
+    
+    private AudioSource audioSource;
+    
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     void Update()
     {
         if (playerNumber == 0)
@@ -70,6 +77,7 @@ public class ShootController : NetworkBehaviour
                 } else if (playerNumber == 2) {
                     setValueShootingServerRpc(2);
                 }
+                audioSource.Play(); // Play the sound
                 PowerBar.SetRun(false);
                 ShootServerRpc(PowerBar.GetPower());
                  // Prevents further increase in power or re-shooting

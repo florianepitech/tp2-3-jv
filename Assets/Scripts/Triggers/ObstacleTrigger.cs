@@ -32,7 +32,6 @@ public class ObstacleTrigger : NetworkBehaviour
             {
                 return;
             }
-           ;
             if (playerNumber > 2)
                 return;
             if (playerNumber == 0)

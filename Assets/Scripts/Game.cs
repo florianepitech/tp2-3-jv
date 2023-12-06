@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 
+
 public class Game : NetworkBehaviour
 {
     public static GameType gameType;
@@ -68,7 +69,12 @@ public class Game : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // If P is pressed use VfxPool to spawn the Vfx at the position of the first player
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            _vfxPool.SpawnStartGame(connectedClients[0].PlayerObject.transform.position);
+          //  _vfxPool.SpawnEndGame(connectedClients[0].PlayerObject.transform.position);
+        }
         if (IsServer || IsHost)
         {
             UpdatePlayerHost();

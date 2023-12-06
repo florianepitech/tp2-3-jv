@@ -19,7 +19,7 @@ public class PlayerAvatarManager : NetworkBehaviour
         {
             
             //rename the player gameobject to the player's name Me
-            this.gameObject.name = "Me";
+            //this.gameObject.name = "Me";
             //set the material  of the player's avatar to the material that the player chose in the avatar editor
             if (AvatarManager.currentMaterial != null)
                 GetComponent<Renderer>().material = AvatarManager.currentMaterial;

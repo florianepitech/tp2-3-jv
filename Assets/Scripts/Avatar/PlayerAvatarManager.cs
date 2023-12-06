@@ -140,5 +140,3 @@ public class PlayerAvatarManager : NetworkBehaviour
         return newMaterialName;
     }
 }
-
-}

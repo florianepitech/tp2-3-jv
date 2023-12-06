@@ -1,24 +1,19 @@
 using UnityEngine;
-using UnityEditor;
 using System.Collections.Generic;
-using System.IO;
 
 public class MaterialLister : MonoBehaviour
 {
-    public string folderPath = "Materials/Avatar"; // Set your folder path here
+    public string folderPath = "Materials/Avatar"; // Set your folder path inside Resources
 
     public List<Material> GetMaterialsFromFolder()
     {
         List<Material> materials = new List<Material>();
 
-        // Get all asset paths in the folder and subfolders
-        string[] fileEntries = Directory.GetFiles(Application.dataPath + "/" + folderPath, "*.*", SearchOption.AllDirectories);
-        foreach (string fileName in fileEntries)
+        // Load all Materials from the specified folder in Resources
+        Object[] loadedMaterials = Resources.LoadAll(folderPath, typeof(Material));
+        foreach (Object obj in loadedMaterials)
         {
-            string assetPath = "Assets" + fileName.Replace(Application.dataPath, "").Replace('\\', '/');
-            Material material = AssetDatabase.LoadAssetAtPath<Material>(assetPath);
-            
-            if (material != null)
+            if (obj is Material material)
             {
                 materials.Add(material);
             }
@@ -32,7 +27,7 @@ public class MaterialLister : MonoBehaviour
         List<Material> materialsInFolder = GetMaterialsFromFolder();
         foreach (Material mat in materialsInFolder)
         {
-            Debug.Log("Find Material: " + mat.name);
+            Debug.Log("Found Material: " + mat.name);
         }
     }
 }

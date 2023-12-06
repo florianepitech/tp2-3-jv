@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+
 public class PlayerAvatarManager : NetworkBehaviour
 {
     // Start is called before the first frame update
@@ -11,6 +12,7 @@ public class PlayerAvatarManager : NetworkBehaviour
         
     }
     
+    [GenerateSerializationForTypeAttribute(typeof(UnityEngine.Material))]
     void FixedUpdate()
     {
         if (IsLocalPlayer)
@@ -22,6 +24,14 @@ public class PlayerAvatarManager : NetworkBehaviour
             {
                 Debug.Log("AvatarManager.currentMaterial is null");
             }
+            //get my player number
+                // SerializableMaterial serializableMaterial = new SerializableMaterial(GetComponent<Renderer>().material);
+                // int playerNumber = GetComponent<Spawn>().PlayerNumber;
+                //
+                // if (playerNumber == 1)
+                //     Game.player1Material.Value = serializableMaterial;
+                // else if (playerNumber == 2)
+                //     Game.player2Material.Value = serializableMaterial;
         }
         
     }

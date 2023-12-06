@@ -9,7 +9,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
-
 public class Game : NetworkBehaviour
 {
     public static GameType gameType;
@@ -28,8 +27,6 @@ public class Game : NetworkBehaviour
     private int transformCounterPlayer1 = 0;
     private Vector3  cachedTransformPlayer2;
     private int transformCounterPlayer2 = 0;
-    public static NetworkVariable<Material> player1Material = new(null);
-    public static NetworkVariable<Material> player2Material = new(null);
     
     private GameMusicManager _gameMusicManager;
     public AudioClip jingleEndGame;
@@ -136,18 +133,6 @@ public class Game : NetworkBehaviour
         //var shootController = player.PlayerObject.GetComponent<ShootController>();
         //shootController.ShowShootBarServerRpc();
     }
-
-
-    public void TempSwitchTurn()
-    {
-        //change the value of playerTurn when press ù on keyboard
-        //Don't Use KeyboardsEvent here bu KeyboardMovement
-        if (Input.GetKey(KeyCode.F6))
-        {
-            Debug.Log("Switching turn");
-            playerTurn.Value = playerTurn.Value == 1 ? 2 : 1;
-        }
-    }
     
     
     private void UpdatePlayerClient()
@@ -161,8 +146,6 @@ public class Game : NetworkBehaviour
         {
             _gameMusicManager.PlayTrack2();
         }
-        
-        TempSwitchTurn();
         
         // Check for pause menu
         var openPauseMenu = KeyboardEvent.GetKeyUp(KeyMovement.PauseMenu);

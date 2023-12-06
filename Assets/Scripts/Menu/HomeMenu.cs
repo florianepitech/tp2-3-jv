@@ -23,6 +23,10 @@ public class HomeMenu : MonoBehaviour
         Application.Quit();
     }
     
+    public void OnAvatarEditorButtonPressed()
+    {
+        SceneManager.LoadScene("Avatar");
+    }
     
 
     public void OnPlayButtonPressed()

@@ -13,6 +13,10 @@ public class AvatarManager : MonoBehaviour
     {
         materialLister = GetComponent<MaterialLister>();
         avatarMaterials = materialLister.GetMaterialsFromFolder();
+        if (currentMaterial != null)
+        {
+            GameObject.Find("Sphere").GetComponent<Renderer>().material = currentMaterial;
+        }
     }
     
 }

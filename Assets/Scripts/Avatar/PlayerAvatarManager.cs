@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -55,7 +56,7 @@ public class PlayerAvatarManager : NetworkBehaviour
                     Debug.Log("------------------");
                     Debug.Log("material.name: " + material.name);
                     Debug.Log("Game.player1MaterialName.Value: " + Game.player1MaterialName.Value);
-                    if (material.name == Game.player1MaterialName.Value)
+                    if (material.name == parseMaterialName(Game.player1MaterialName.Value.ToString()))
                     {
                         GetComponent<Renderer>().material = material;
                     }
@@ -77,7 +78,7 @@ public class PlayerAvatarManager : NetworkBehaviour
                     Debug.Log("------------------");
                     Debug.Log("material.name: " + material.name);
                     Debug.Log("Game.player2MaterialName.Value: " + Game.player2MaterialName.Value);
-                    if (material.name == Game.player2MaterialName.Value)
+                    if (material.name == parseMaterialName(Game.player2MaterialName.Value.ToString()))
                     {
                         Debug.Log("selected material : " + material.name);
                         GetComponent<Renderer>().material = material;
@@ -105,17 +106,39 @@ public class PlayerAvatarManager : NetworkBehaviour
             Game.player2MaterialName.Value = materialName;
         }
     }
-    
+
     [ServerRpc(RequireOwnership = false)]
-    void setMaterialColorServerRpc(Color color, int playerNumber)
+    void setMaterialColorServerRpc(Color color, Color color2, int playerNumber)
     {
         if (playerNumber == 1)
         {
             Game.player1Color.Value = color;
+            Game.player1SecondaryColor.Value = color2;
         }
         else
         {
             Game.player2Color.Value = color;
+            Game.player2SecondaryColor.Value = color2;
         }
     }
+
+    string parseMaterialName(string materialName)
+    {
+        //remove all (Instance) from the name
+        
+        string[] words = materialName.Split(' ');
+        string newMaterialName = "";
+        foreach (var word in words)
+        {
+            if (word != "(Instance)")
+            {
+                newMaterialName += word + " ";
+            }
+        }
+
+        newMaterialName = newMaterialName.Remove(newMaterialName.Length - 1);
+        return newMaterialName;
+    }
+}
+
 }

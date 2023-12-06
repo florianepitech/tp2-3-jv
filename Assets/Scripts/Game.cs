@@ -55,11 +55,23 @@ public class Game : NetworkBehaviour
         switch (gameType)
         {
             case GameType.JoinGame:
+                Debug.Log("Try to join game: " + JoinGame.HostInputFieldValue + ":" + JoinGame.PortInputFieldValue + "...");
                 networkManager.GetComponent<UnityTransport>().ConnectionData.Address = JoinGame.HostInputFieldValue;
-                networkManager.StartClient();
+                networkManager.GetComponent<UnityTransport>().ConnectionData.Port = ushort.Parse(JoinGame.PortInputFieldValue);
+                bool resultConnect = networkManager.StartClient();
+                if (!resultConnect)
+                {
+                    Debug.LogError("Failed to connect to server");
+                    break;
+                }
+                Debug.Log("Connected to server");
                 break;
             case GameType.HostGame:
-                networkManager.StartHost();
+                bool start = networkManager.StartHost();
+                if (!start)
+                {
+                    Debug.LogError("Failed to start host");
+                }
                 break;
             default:
                 gameType = GameType.HostGame;

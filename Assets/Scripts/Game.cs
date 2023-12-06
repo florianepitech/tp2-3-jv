@@ -163,8 +163,8 @@ public class Game : NetworkBehaviour
 
     private void UpdateAllPlayer()
     {
-        
-        if (PassedObstaclesPlayer1.Value == obstacles.Count - 1 || PassedObstaclesPlayer2.Value == obstacles.Count - 1)
+        var targetSwitchMusic = obstacles.Count - 1;
+        if (PassedObstaclesPlayer1.Value == targetSwitchMusic || PassedObstaclesPlayer2.Value == targetSwitchMusic)
         {
             _gameMusicManager.PlayTrack2();
         }

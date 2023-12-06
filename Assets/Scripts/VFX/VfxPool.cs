@@ -27,8 +27,13 @@ public class VfxPool : MonoBehaviour
         for (var i = 0; i < _particleSystemsPool.Count; i++)
         {
             var ps = _particleSystemsPool[i];
+            if (ps == null)
+            {
+                _particleSystemsPool.RemoveAt(i);
+                break;
+            }
             // Verifier si la particule est terminée
-            if (ps.IsAlive())
+            if (ps == null || ps.IsAlive())
             {
                 continue;
             }

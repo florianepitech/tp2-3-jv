@@ -19,6 +19,10 @@ public class ObstacleTrigger : NetworkBehaviour
     void Start()
     {
         _vfxPool = gameObject.GetComponent<VfxPool>();
+        if (_vfxPool == null)
+        {
+            Debug.LogError("VFX Pool is null");
+        }
         _audioSource = gameObject.AddComponent<AudioSource>();
         _audioSource.clip = audioClip;
         _audioSource.loop = false;
@@ -51,8 +55,8 @@ public class ObstacleTrigger : NetworkBehaviour
             if (IsServer)
                 UpdateLedColorServerRpc(playerNumber);
             _audioSource.Play();
-            var position = gameObject.transform.position;
-            _vfxPool.SpawnStartGame(position);
+            var position = other.gameObject.transform.position;
+            _vfxPool.Spawn(position);
             if (playerNumber == 1)
             {
                 passed_player1 = true;

@@ -12,10 +12,12 @@ public class ShootController : NetworkBehaviour
     private int playerNumber;
 
     private AudioSource _audioSource;
+    private VfxPool _vfxPool;
     public AudioClip shootAudioClip;
     
     void Start()
     {
+        _vfxPool = gameObject.GetComponent<VfxPool>();
         _audioSource = gameObject.AddComponent<AudioSource>();
         _audioSource.clip = shootAudioClip;
         _audioSource.loop = false;
@@ -82,6 +84,7 @@ public class ShootController : NetworkBehaviour
                     setValueShootingServerRpc(2);
                 }
                 _audioSource.Play();
+                _vfxPool.Spawn(gameObject.transform.position);
                 PowerBar.SetRun(false);
                 ShootServerRpc(PowerBar.GetPower());
                  // Prevents further increase in power or re-shooting

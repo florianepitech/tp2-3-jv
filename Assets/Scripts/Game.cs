@@ -40,14 +40,12 @@ public class Game : NetworkBehaviour
     public static NetworkVariable<FixedString512Bytes> player2MaterialName = new("Standard");
     
     private GameMusicManager _gameMusicManager;
-    private VfxPool _vfxPool;
     public AudioClip jingleEndGame;
 
     // Start is called before the first frame update
     void Start()
     {
         _gameMusicManager = gameObject.GetComponent<GameMusicManager>();
-        _vfxPool = gameObject.GetComponent<VfxPool>();
         //get all gameobject with the tag "Obstacle"
         var obstaclesArray = GameObject.FindGameObjectsWithTag("Obstacle");
         foreach (var obstacle in obstaclesArray)
@@ -89,12 +87,6 @@ public class Game : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        // If P is pressed use VfxPool to spawn the Vfx at the position of the first player
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            _vfxPool.SpawnStartGame(connectedClients[0].PlayerObject.transform.position);
-          //  _vfxPool.SpawnEndGame(connectedClients[0].PlayerObject.transform.position);
-        }
         if (IsServer || IsHost)
         {
             UpdatePlayerHost();
@@ -170,8 +162,8 @@ public class Game : NetworkBehaviour
 
     private void UpdateAllPlayer()
     {
-        
-        if (PassedObstaclesPlayer1.Value == obstacles.Count - 1 || PassedObstaclesPlayer2.Value == obstacles.Count - 1)
+        var targetSwitchMusic = obstacles.Count - 1;
+        if (PassedObstaclesPlayer1.Value == targetSwitchMusic || PassedObstaclesPlayer2.Value == targetSwitchMusic)
         {
             _gameMusicManager.PlayTrack2();
         }
@@ -288,7 +280,6 @@ public class Game : NetworkBehaviour
     {
         connectedClients = NetworkManager.Singleton.ConnectedClientsList;
     }
-
 
     [ServerRpc]
     void KeepPlayerInPlaceServerRpc()
@@ -450,7 +441,6 @@ public class Game : NetworkBehaviour
             IsGameFinished = true;
             playerTurn.Value = 0;
             PlayEndGameJingle();
-            PlayParticleWin();
             Debug.Log("Player 2 win");
         }
         // check if 10 seconds are passed since the end of the game
@@ -471,15 +461,6 @@ public class Game : NetworkBehaviour
         audioSource.loop = false;
         audioSource.volume = (float)MusicVolume.getMusicVolume(MusicType.VFX) / 100;
         audioSource.Play();
-    }
-
-    private void PlayParticleWin()
-    {
-        foreach (var player in connectedClients)
-        {
-            var position = player.PlayerObject.transform.position;
-            _vfxPool.SpawnStartGame(position);
-        }
     }
     
 }

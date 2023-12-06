@@ -31,11 +31,12 @@ public class GameMusicManager : MonoBehaviour
         track2.volume = (float)MusicVolume.getMusicVolume(MusicType.Music) / 100;
         
         isTrack1Playing = true;
-
-        SwapTrack();
+        
+        StopAllCoroutines();
+        StartCoroutine(FadeOut(clip1));
     }
     
-    public void SwapTrack()
+    private void SwapTrack()
     {
         var newTrack = isTrack1Playing ? clip2 : clip1;
         StopAllCoroutines();
@@ -57,12 +58,6 @@ public class GameMusicManager : MonoBehaviour
         {
             SwapTrack();
         }
-    }
-    
-    
-    public void ReturnToDefault()
-    {
-        SwapTrack();
     }
     
     private IEnumerator FadeOut(AudioClip newClip)

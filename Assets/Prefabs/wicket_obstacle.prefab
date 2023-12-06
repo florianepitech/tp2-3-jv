@@ -300,6 +300,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 43fedde4c2c834d51978299002db356c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5817467159992692152}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 43fedde4c2c834d51978299002db356c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2743706320834460876}
   m_SourcePrefab: {fileID: 100100000, guid: 43fedde4c2c834d51978299002db356c, type: 3}
 --- !u!4 &7330869215634584765 stripped
 Transform:
@@ -387,3 +390,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: c09dd6161d6084946a06429dd61d6756, type: 3}
+--- !u!114 &2743706320834460876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7996046694717238791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d84d88ca4ad346fe8c3f702f91719ba5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ParticleSystem: {fileID: 7022268795503775818, guid: 7377f38a94f13bd43924090d4a77f29e, type: 3}
+  POOL_SIZE: 3

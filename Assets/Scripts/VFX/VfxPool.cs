@@ -15,7 +15,7 @@ public class VfxPool : MonoBehaviour
         for (var i = 0; i < POOL_SIZE; i++)
         {
             // Créer une instance du prefab VFX
-            var particleSystem = Instantiate(this.ParticleSystem, Vector3.zero, Quaternion.identity);
+            var particleSystem = Instantiate(ParticleSystem, Vector3.zero, Quaternion.identity);
             particleSystem.gameObject.SetActive(false);
             // Ajouter l'instance au pool
             _particleSystemsPool.Add(particleSystem);
@@ -39,7 +39,7 @@ public class VfxPool : MonoBehaviour
 
     // Public methods
     
-    public void SpawnStartGame(Vector3 position)
+    public void Spawn(Vector3 position)
     {
         if (ParticleSystem != null)
         {

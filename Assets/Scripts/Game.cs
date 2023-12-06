@@ -67,12 +67,6 @@ public class Game : NetworkBehaviour
     void Update()
     {
         
-        // If P is pressed use VfxPool to spawn the Vfx at the position of the first player
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            _vfxPool.SpawnStartGame(connectedClients[0].PlayerObject.transform.position);
-        }
-        
         if (IsServer || IsHost)
         {
             UpdatePlayerHost();
@@ -426,6 +420,7 @@ public class Game : NetworkBehaviour
             IsGameFinished = true;
             playerTurn.Value = 0;
             PlayEndGameJingle();
+            PlayParticleWin();
             Debug.Log("Player 2 win");
         }
         // check if 10 seconds are passed since the end of the game
@@ -446,6 +441,15 @@ public class Game : NetworkBehaviour
         audioSource.loop = false;
         audioSource.volume = (float)MusicVolume.getMusicVolume(MusicType.VFX) / 100;
         audioSource.Play();
+    }
+
+    private void PlayParticleWin()
+    {
+        foreach (var player in connectedClients)
+        {
+            var position = player.PlayerObject.transform.position;
+            _vfxPool.SpawnStartGame(position);
+        }
     }
     
 }

@@ -73,7 +73,6 @@ public class Game : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             _vfxPool.SpawnStartGame(connectedClients[0].PlayerObject.transform.position);
-            _vfxPool.SpawnEndGame(connectedClients[0].PlayerObject.transform.position);
         }
         
         if (IsServer || IsHost)

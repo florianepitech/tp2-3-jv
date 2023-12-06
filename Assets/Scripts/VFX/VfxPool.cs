@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class VfxPool : MonoBehaviour
 {
-    public ParticleSystem startGameEffect;
-    public ParticleSystem endGameEffect;
+    public ParticleSystem ParticleSystem;
 
     public int POOL_SIZE = 10;
     private List<ParticleSystem> _particleSystemsPool = new();
@@ -15,7 +15,7 @@ public class VfxPool : MonoBehaviour
         for (var i = 0; i < POOL_SIZE; i++)
         {
             // Créer une instance du prefab VFX
-            var particleSystem = Instantiate(startGameEffect, Vector3.zero, Quaternion.identity);
+            var particleSystem = Instantiate(this.ParticleSystem, Vector3.zero, Quaternion.identity);
             particleSystem.gameObject.SetActive(false);
             // Ajouter l'instance au pool
             _particleSystemsPool.Add(particleSystem);
@@ -27,6 +27,13 @@ public class VfxPool : MonoBehaviour
         for (var i = 0; i < _particleSystemsPool.Count; i++)
         {
             var ps = _particleSystemsPool[i];
+            // Verifier si la particule est terminée
+            if (ps.IsAlive())
+            {
+                continue;
+            }
+            // Si terminée, la désactiver
+            ps.gameObject.SetActive(false);
         }
     }
 
@@ -34,20 +41,13 @@ public class VfxPool : MonoBehaviour
     
     public void SpawnStartGame(Vector3 position)
     {
-        if (startGameEffect != null)
+        if (ParticleSystem != null)
         {
             // Créer une instance du prefab VFX à la position spécifiée
-            var ps = GetParticleInPool(startGameEffect, position);
-            ps.Play();
-        }
-    }
-    
-    public void SpawnEndGame(Vector3 position)
-    {
-        if (endGameEffect != null)
-        {
-            // Créer une instance du prefab VFX à la position spécifiée
-            var ps = GetParticleInPool(endGameEffect, position);
+            var ps = GetParticleInPool(ParticleSystem, position);
+            // Set the position of the particle system
+            ps.transform.position = position;
+            ps.gameObject.SetActive(true);
             ps.Play();
         }
     }
@@ -58,7 +58,7 @@ public class VfxPool : MonoBehaviour
     {
         foreach (var ps in _particleSystemsPool)
         {
-            if (!ps.gameObject.activeInHierarchy)
+            if (!ps.gameObject.activeSelf)
             {
                 ps.gameObject.SetActive(true);
                 return ps;

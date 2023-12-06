@@ -178,8 +178,7 @@ public class Game : NetworkBehaviour
     
     private void FixedUpdate()
     {
-        HandleSwitchingTurnServerRpc();
-        KeepPlayerInPlaceServerRpc();   
+        
         //Say hello every 5 seconds below
         // if (!IsServer)
         //     return;
@@ -193,7 +192,12 @@ public class Game : NetworkBehaviour
         
         //only the server can get the number of connected clients
         if (IsServer)
+        {
+            HandleSwitchingTurnServerRpc();
+            KeepPlayerInPlaceServerRpc();
             getPlayersConnectedServerRpc();
+        }
+
     }
 
     private void setShootBarPosition(NetworkClient networkClient)
@@ -312,7 +316,6 @@ public class Game : NetworkBehaviour
 
         if (playerClient == null)
         {
-            Debug.LogError("Client not found.");
             return;
         }
 

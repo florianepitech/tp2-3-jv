@@ -35,8 +35,13 @@ public class PlayerAvatarManager : NetworkBehaviour
                 //     Game.player1Material.Value = serializableMaterial;
                 // else if (playerNumber == 2)
                 //     Game.player2Material.Value = serializableMaterial;
+        } //if not the local player and is the other player 
+
+        if (!IsLocalPlayer)
+        {
+            if(AvatarManager.currentMaterial != null)
+                GetComponent<Renderer>().material = AvatarManager.currentMaterial;
         }
-        //change the avatar of the client player 2
         
     }
 }

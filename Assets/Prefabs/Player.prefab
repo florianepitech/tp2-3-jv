@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 8597437328920266549}
   - component: {fileID: 1122597272162809896}
   - component: {fileID: 5667395323105436103}
+  - component: {fileID: 5060285613820224878}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -127,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1743558944
+  GlobalObjectIdHash: 4020239508
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -354,6 +355,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ParticleSystem: {fileID: 5601036089067188820, guid: 924e772d99fea934f8c7dff7c622e78a, type: 3}
   POOL_SIZE: 10
+--- !u!114 &5060285613820224878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7084981699422261968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abb89aa1ae7de40ea9ab578d50245b31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  folderPath: Materials/Avatar
 --- !u!1001 &7766523764324841985
 PrefabInstance:
   m_ObjectHideFlags: 0

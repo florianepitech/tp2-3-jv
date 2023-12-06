@@ -31,8 +31,13 @@ public class Game : NetworkBehaviour
     private Vector3  cachedTransformPlayer2;
     private int transformCounterPlayer2 = 0;
     
-    public NetworkVariable<Color> player1Color = new(Color.green);
-    public NetworkVariable<Color> player2Color = new(Color.red);
+    // Avatar Color
+    public static NetworkVariable<Color> player1Color = new(Color.green);
+    public static NetworkVariable<Color> player2Color = new(Color.red);
+    public static NetworkVariable<Color> player1SecondaryColor = new(Color.green);
+    public static NetworkVariable<Color> player2SecondaryColor = new(Color.red);
+    public static NetworkVariable<FixedString512Bytes> player1MaterialName = new("Standard");
+    public static NetworkVariable<FixedString512Bytes> player2MaterialName = new("Standard");
     
     private GameMusicManager _gameMusicManager;
     private VfxPool _vfxPool;
@@ -126,7 +131,6 @@ public class Game : NetworkBehaviour
         
         if (connectedClients.Count != 2)
         {
-            Debug.Log(connectedClients.Count);
             GameInfoMessage.Value = "Waiting for another player to join...";
             return;
         }  if (playerTurn.Value == 2) {

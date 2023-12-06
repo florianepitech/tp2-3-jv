@@ -5,7 +5,5 @@ using UnityEngine;
 public class AvatarData : ScriptableObject
 {
     public string avatarName;
-    public GameObject hat;
-    public Material primaryColor;
-    public Material secondaryColor;
+    public Material avatarMaterial;
 }

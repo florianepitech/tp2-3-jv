@@ -1,20 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SphereColor : MonoBehaviour
 {
-    FlexibleColorPicker colorPicker;
-    void Start()
-    {
-        colorPicker = GameObject.Find("ColorPicker").GetComponent<FlexibleColorPicker>();
-    }
-
+    public FlexibleColorPicker colorPicker;
+    public FlexibleColorPicker colorPicker2;
     // Update is called once per frame
     void FixedUpdate()
     {
         //set the color of the sphere to the color of the color picker
-        GetComponent<Renderer>().material.color = colorPicker.color;
+        Renderer rend = GetComponent<Renderer>();
+        rend.material.SetColor("_Color", colorPicker.color);
+        rend.material.SetColor("_SecondaryColor", colorPicker2.color);
         //I want the half of the sphere to be white and the other half to be the color of the color picker
         
         

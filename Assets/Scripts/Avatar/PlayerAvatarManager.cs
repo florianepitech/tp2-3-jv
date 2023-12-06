@@ -17,6 +17,9 @@ public class PlayerAvatarManager : NetworkBehaviour
     {
         if (IsLocalPlayer)
         {
+            
+            //rename the player gameobject to the player's name Me
+            this.gameObject.name = "Me";
             //set the material  of the player's avatar to the material that the player chose in the avatar editor
             if (AvatarManager.currentMaterial != null)
                 GetComponent<Renderer>().material = AvatarManager.currentMaterial;
@@ -33,6 +36,7 @@ public class PlayerAvatarManager : NetworkBehaviour
                 // else if (playerNumber == 2)
                 //     Game.player2Material.Value = serializableMaterial;
         }
+        //change the avatar of the client player 2
         
     }
 }

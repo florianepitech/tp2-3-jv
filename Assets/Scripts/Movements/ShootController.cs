@@ -84,7 +84,7 @@ public class ShootController : NetworkBehaviour
                     setValueShootingServerRpc(2);
                 }
                 _audioSource.Play();
-                _vfxPool.SpawnStartGame(gameObject.transform.position);
+                _vfxPool.Spawn(gameObject.transform.position);
                 PowerBar.SetRun(false);
                 ShootServerRpc(PowerBar.GetPower());
                  // Prevents further increase in power or re-shooting

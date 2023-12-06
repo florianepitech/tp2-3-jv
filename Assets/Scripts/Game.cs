@@ -9,6 +9,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
+
+
 public class Game : NetworkBehaviour
 {
     public static GameType gameType;

@@ -6,6 +6,11 @@ public class SubmitButton : MonoBehaviour
 {
     public void changeScene()
     {
+        AvatarManager.currentMaterial = GameObject.Find("Sphere").GetComponent<Renderer>().material;
+        AvatarManager.currentColor = GameObject.Find("Sphere").GetComponent<Renderer>().material.GetColor("_Color");
+        AvatarManager.secondaryColor = GameObject.Find("Sphere").GetComponent<Renderer>().material.GetColor("_SecondaryColor");
+        //also save the color of the material
+        
         UnityEngine.SceneManagement.SceneManager.LoadScene("HomeMenu");
     }
 }

@@ -28,6 +28,8 @@ public class Game : NetworkBehaviour
     private int transformCounterPlayer1 = 0;
     private Vector3  cachedTransformPlayer2;
     private int transformCounterPlayer2 = 0;
+    public static NetworkVariable<Material> player1Material = new(null);
+    public static NetworkVariable<Material> player2Material = new(null);
     
     private GameMusicManager _gameMusicManager;
     public AudioClip jingleEndGame;
@@ -74,10 +76,21 @@ public class Game : NetworkBehaviour
             UpdatePlayerClient();
         }
 
+        if (IsLocalPlayer)
+        {
+            UpdateLocalPlayer();
+        }
+
         UpdateAllPlayer();
         
     }
 
+
+    private void UpdateLocalPlayer()
+    {
+        
+        
+    }
     
 
     private void UpdatePlayerHost()

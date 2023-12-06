@@ -17,13 +17,13 @@ public class MenuMusicManager : MonoBehaviour
         _audioSource = gameObject.AddComponent<AudioSource>();
         _audioSource.clip = audioClip;
         _audioSource.loop = true;
-        _audioSource.volume = (float)MusicValue.getMusicVolume(MusicType.Music) / 100;
+        _audioSource.volume = (float)MusicVolume.getMusicVolume(MusicType.Music) / 100;
     }
     
     private void FixedUpdate()
     {
         // Adapt the volume to the slider value
-        _audioSource.volume = (float)MusicValue.getMusicVolume(MusicType.Music) / 100;
+        _audioSource.volume = (float)MusicVolume.getMusicVolume(MusicType.Music) / 100;
         // If the scene is game, not play the music
         if (IsGameScene())
         {

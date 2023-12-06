@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ObstacleTrigger : NetworkBehaviour
 {
@@ -10,11 +11,15 @@ public class ObstacleTrigger : NetworkBehaviour
     bool passed_player1 = false;
     bool passed_player2 = false;
     
-    AudioSource audioSource;
+    private AudioSource _audioSource;
+    public AudioClip audioClip;
 
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        _audioSource = gameObject.AddComponent<AudioSource>();
+        _audioSource.clip = audioClip;
+        _audioSource.loop = false;
+        _audioSource.volume = (float)MusicVolume.getMusicVolume(MusicType.VFX) / 100;
     }
 
     // Update is called once per frame
@@ -40,10 +45,9 @@ public class ObstacleTrigger : NetworkBehaviour
             if (playerNumber == 0)
                 return;
             //execute only once
-            audioSource.Play(); // Play the sound
             if (IsServer)
                 UpdateLedColorServerRpc(playerNumber);
-            
+            _audioSource.Play();
             if (playerNumber == 1)
             {
                 passed_player1 = true;

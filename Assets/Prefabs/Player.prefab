@@ -216,6 +216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sphereRigidbody: {fileID: 7355941263786112804}
   shootBarContainer: {fileID: 1973321838985905908}
+  shootAudioClip: {fileID: 8300000, guid: 2cec2ed5c1e3047318090d6f4f51b85a, type: 3}
 --- !u!114 &-4412926304424482897
 MonoBehaviour:
   m_ObjectHideFlags: 0

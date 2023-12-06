@@ -24,11 +24,11 @@ public class GameMusicManager : MonoBehaviour
         // Track 1
         track1 = gameObject.AddComponent<AudioSource>();
         track1.loop = true;
-        track1.volume = (float)MusicValue.getMusicVolume(MusicType.Music) / 100;
+        track1.volume = (float)MusicVolume.getMusicVolume(MusicType.Music) / 100;
         track2 = gameObject.AddComponent<AudioSource>();
         // Track 2
         track2.loop = true;
-        track2.volume = (float)MusicValue.getMusicVolume(MusicType.Music) / 100;
+        track2.volume = (float)MusicVolume.getMusicVolume(MusicType.Music) / 100;
         
         isTrack1Playing = true;
 
@@ -42,7 +42,24 @@ public class GameMusicManager : MonoBehaviour
         StartCoroutine(FadeOut(newTrack));
         isTrack1Playing = !isTrack1Playing;
     }
-
+    
+    public void PlayTrack1()
+    {
+        if (!isTrack1Playing)
+        {
+            SwapTrack();
+        }
+    }
+    
+    public void PlayTrack2()
+    {
+        if (isTrack1Playing)
+        {
+            SwapTrack();
+        }
+    }
+    
+    
     public void ReturnToDefault()
     {
         SwapTrack();
@@ -52,7 +69,7 @@ public class GameMusicManager : MonoBehaviour
     {
         float timeToFade = 1f;
         float timeElapsed = 0f;
-        var volume = (float)MusicValue.getMusicVolume(MusicType.Music) / 100;
+        var volume = (float)MusicVolume.getMusicVolume(MusicType.Music) / 100;
 
         if (isTrack1Playing)
         {

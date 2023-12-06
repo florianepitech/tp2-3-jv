@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MusicValue
+public class MusicVolume
 {
     // Cache the values to avoid PlayerPrefs.GetString calls
     private static Dictionary<MusicType, int> cache = new();

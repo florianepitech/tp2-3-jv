@@ -752,6 +752,7 @@ GameObject:
   - component: {fileID: 851896819}
   - component: {fileID: 851896818}
   - component: {fileID: 851896817}
+  - component: {fileID: 851896820}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -873,6 +874,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 851896815}
   m_CullTransparentMesh: 1
+--- !u!114 &851896820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 851896815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00984ad8777047ce9a6808252542d627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
+  hoverScale: {x: 1.1, y: 1.1, z: 1.1}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 0.5, g: 1, b: 0.5, a: 1}
+  audioClip: {fileID: 8300000, guid: f5c5f438581b89c4b96789e177c6254a, type: 3}
 --- !u!1 &1007352816
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,6 +1037,7 @@ GameObject:
   - component: {fileID: 1108277460}
   - component: {fileID: 1108277459}
   - component: {fileID: 1108277458}
+  - component: {fileID: 1108277461}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -1140,6 +1159,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1108277456}
   m_CullTransparentMesh: 1
+--- !u!114 &1108277461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108277456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00984ad8777047ce9a6808252542d627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
+  hoverScale: {x: 1.1, y: 1.1, z: 1.1}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 0.5, g: 1, b: 0.5, a: 1}
+  audioClip: {fileID: 8300000, guid: f5c5f438581b89c4b96789e177c6254a, type: 3}
 --- !u!1 &1374843622
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,10 +28,14 @@ public class Game : NetworkBehaviour
     private int transformCounterPlayer1 = 0;
     private Vector3  cachedTransformPlayer2;
     private int transformCounterPlayer2 = 0;
+    
+    private GameMusicManager _gameMusicManager;
+    public AudioClip jingleEndGame;
 
     // Start is called before the first frame update
     void Start()
     {
+        _gameMusicManager = gameObject.GetComponent<GameMusicManager>();
         //get all gameobject with the tag "Obstacle"
         var obstaclesArray = GameObject.FindGameObjectsWithTag("Obstacle");
         foreach (var obstacle in obstaclesArray)
@@ -61,15 +65,6 @@ public class Game : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Check if p is pressed up
-        var pPressedUp = Input.GetKeyUp(KeyCode.P);
-        if (pPressedUp)
-        {
-            // Get the GameMusicManager
-            var gameMusicManager = gameObject.GetComponent<GameMusicManager>();
-            gameMusicManager.SwapTrack();
-        }
-        
         
         if (IsServer || IsHost)
         {
@@ -148,6 +143,11 @@ public class Game : NetworkBehaviour
 
     private void UpdateAllPlayer()
     {
+        
+        if (PassedObstaclesPlayer1.Value == obstacles.Count - 1 || PassedObstaclesPlayer2.Value == obstacles.Count - 1)
+        {
+            _gameMusicManager.PlayTrack2();
+        }
         
         TempSwitchTurn();
         
@@ -413,6 +413,7 @@ public class Game : NetworkBehaviour
             _endGameTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             IsGameFinished = true;
             playerTurn.Value = 0;
+            PlayEndGameJingle();
             Debug.Log("Player 1 win");
         } else if (PassedObstaclesPlayer2.Value >= _numberOfObstacles && !IsGameFinished)
         {
@@ -420,6 +421,7 @@ public class Game : NetworkBehaviour
             _endGameTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             IsGameFinished = true;
             playerTurn.Value = 0;
+            PlayEndGameJingle();
             Debug.Log("Player 2 win");
         }
         // check if 10 seconds are passed since the end of the game
@@ -431,6 +433,15 @@ public class Game : NetworkBehaviour
         if (!_hasSwitchedScene)
             NetworkManager.SceneManager.LoadScene("HomeMenu", LoadSceneMode.Single);
         _hasSwitchedScene = true;
+    }
+    
+    private void PlayEndGameJingle()
+    {
+        var audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = jingleEndGame;
+        audioSource.loop = false;
+        audioSource.volume = (float)MusicVolume.getMusicVolume(MusicType.VFX) / 100;
+        audioSource.Play();
     }
     
 }

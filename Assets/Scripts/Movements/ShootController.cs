@@ -10,12 +10,16 @@ public class ShootController : NetworkBehaviour
     private float maxShootForce = 50f; // Current selected shoot force
     private float stopThreshold = 0.4f; // Velocity threshold for stopping
     private int playerNumber;
-    
-    private AudioSource audioSource;
+
+    private AudioSource _audioSource;
+    public AudioClip shootAudioClip;
     
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        _audioSource = gameObject.AddComponent<AudioSource>();
+        _audioSource.clip = shootAudioClip;
+        _audioSource.loop = false;
+        _audioSource.volume = (float)MusicVolume.getMusicVolume(MusicType.VFX) / 100;
     }
     void Update()
     {
@@ -77,7 +81,7 @@ public class ShootController : NetworkBehaviour
                 } else if (playerNumber == 2) {
                     setValueShootingServerRpc(2);
                 }
-                audioSource.Play(); // Play the sound
+                _audioSource.Play();
                 PowerBar.SetRun(false);
                 ShootServerRpc(PowerBar.GetPower());
                  // Prevents further increase in power or re-shooting

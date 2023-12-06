@@ -1649,6 +1649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2500d5e231c334593b99444cf49de62e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jingleEndGame: {fileID: 8300000, guid: 7fff69d4587594b6a9b8330ea88f3143, type: 3}
   IsGameFinished: 0
 --- !u!114 &1057754262
 MonoBehaviour:

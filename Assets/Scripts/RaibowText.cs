@@ -23,7 +23,6 @@ public class RaibowText : MonoBehaviour
         while (true)
         {
             //random color
-            Debug.Log("RainbowText");
             textMeshProUGUI.color = new Color(Random.value, Random.value, Random.value, 1f);
             yield return new WaitForSeconds(0.5f);
         }

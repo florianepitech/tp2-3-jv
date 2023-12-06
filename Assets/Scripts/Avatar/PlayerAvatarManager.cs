@@ -24,15 +24,21 @@ public class PlayerAvatarManager : NetworkBehaviour
             if (playerNumber == 1)
             {
                 setMaterialNameServerRpc(GetComponent<Renderer>().material.name, playerNumber);
+                Color secondColor = Color.white;
+                if (GetComponent<Renderer>().material.HasProperty("_SecondaryColor"))
+                    secondColor = GetComponent<Renderer>().material.GetColor("_SecondaryColor");
                 setMaterialColorServerRpc(GetComponent<Renderer>().material.GetColor("_Color"), 
-                    GetComponent<Renderer>().material.GetColor("_SecondaryColor"), playerNumber);
+                    secondColor, playerNumber);
                 Debug.Log("Game.player1Name.Value: " + Game.player1MaterialName.Value);
             }
             else if (playerNumber == 2)
             {
                 setMaterialNameServerRpc(GetComponent<Renderer>().material.name, playerNumber);
-                setMaterialColorServerRpc(GetComponent<Renderer>().material.GetColor("_Color"),
-                    GetComponent<Renderer>().material.GetColor("_SecondaryColor"), playerNumber);
+                Color secondColor = Color.white;
+                if (GetComponent<Renderer>().material.HasProperty("_SecondaryColor"))
+                    secondColor = GetComponent<Renderer>().material.GetColor("_SecondaryColor");
+                setMaterialColorServerRpc(GetComponent<Renderer>().material.GetColor("_Color"), 
+                    secondColor, playerNumber);
                 Debug.Log("Game.player2Name.Value: " + Game.player2MaterialName.Value);
 
             }

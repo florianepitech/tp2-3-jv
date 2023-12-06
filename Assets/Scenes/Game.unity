@@ -1524,6 +1524,7 @@ GameObject:
   - component: {fileID: 1057754259}
   - component: {fileID: 1057754260}
   - component: {fileID: 1057754262}
+  - component: {fileID: 1057754263}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -1665,6 +1666,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clip1: {fileID: 8300000, guid: bec1cfb465efc7a41bd5ccbac5b6f2a2, type: 3}
   clip2: {fileID: 8300000, guid: ea8cb62284d0d4d54a98432bd87994fe, type: 3}
+--- !u!114 &1057754263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057754255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d84d88ca4ad346fe8c3f702f91719ba5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startGameEffect: {fileID: 7022268795503775818, guid: 7377f38a94f13bd43924090d4a77f29e, type: 3}
+  endGameEffect: {fileID: 5601036089067188820, guid: 924e772d99fea934f8c7dff7c622e78a, type: 3}
+  POOL_SIZE: 10
 --- !u!1 &1086682378
 GameObject:
   m_ObjectHideFlags: 0

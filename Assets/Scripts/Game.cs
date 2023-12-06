@@ -29,12 +29,14 @@ public class Game : NetworkBehaviour
     private int transformCounterPlayer2 = 0;
     
     private GameMusicManager _gameMusicManager;
+    private VfxPool _vfxPool;
     public AudioClip jingleEndGame;
 
     // Start is called before the first frame update
     void Start()
     {
         _gameMusicManager = gameObject.GetComponent<GameMusicManager>();
+        _vfxPool = gameObject.GetComponent<VfxPool>();
         //get all gameobject with the tag "Obstacle"
         var obstaclesArray = GameObject.FindGameObjectsWithTag("Obstacle");
         foreach (var obstacle in obstaclesArray)
@@ -64,6 +66,13 @@ public class Game : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        // If P is pressed use VfxPool to spawn the Vfx at the position of the first player
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            _vfxPool.SpawnStartGame(connectedClients[0].PlayerObject.transform.position);
+            _vfxPool.SpawnEndGame(connectedClients[0].PlayerObject.transform.position);
+        }
         
         if (IsServer || IsHost)
         {

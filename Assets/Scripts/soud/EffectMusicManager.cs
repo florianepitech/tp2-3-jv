@@ -4,53 +4,37 @@ using UnityEngine;
 
 public class EffectMusicManager : MonoBehaviour
 {
-    public AudioClip ShootAudioClip;
-    public AudioClip GoalAudioClip;
-    
-    public AudioClip WinAudioClip;
-    public AudioClip LoseAudioClip;
-    
-    private List<AudioSource> _audioSources = new();
+    public AudioClip audioClip;
+    private AudioSource _audioSource;
 
-    private void OnDestroy()
+    private void Start()
     {
-        foreach (var audioSource in _audioSources)
-        {
-            Destroy(audioSource);
-        }
+        _audioSource = gameObject.AddComponent<AudioSource>();
+        _audioSource.loop = false;
+        _audioSource.clip = audioClip;
+        _audioSource.volume = (float)MusicVolume.getMusicVolume(MusicType.VFX) / 100;
     }
 
-    private void FixedUpdate()
+    public void Play()
     {
-        // Delete the audio sources that are not playing
-        _audioSources.RemoveAll(audioSource => !audioSource.isPlaying);
+        _audioSource.Play();
     }
 
-    public void PlayEffect(SoundEffect soundEffect)
-    {
-        var audioSource = gameObject.AddComponent<AudioSource>();
-        var audioClip = getAudioClip(soundEffect);
-        audioSource.clip = audioClip;
-        audioSource.volume = (float)MusicValue.getMusicVolume(MusicType.VFX) / 100;
-        audioSource.Play();
-        _audioSources.Add(audioSource);
-    }
-
-    private AudioClip getAudioClip(SoundEffect soundEffect)
-    {
-        switch (soundEffect)
-        {
-            case SoundEffect.Shoot:
-                return ShootAudioClip;
-            case SoundEffect.Goal:
-                return GoalAudioClip;
-            case SoundEffect.Win:
-                return WinAudioClip;
-            case SoundEffect.Loose:
-                return LoseAudioClip;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(soundEffect), soundEffect, null);
-        }
-    }
+    // private AudioClip GetAudioClip(SoundEffect soundEffect)
+    // {
+    //     switch (soundEffect)
+    //     {
+    //         case SoundEffect.Shoot:
+    //             return ShootAudioClip;
+    //         case SoundEffect.Goal:
+    //             return GoalAudioClip;
+    //         case SoundEffect.Win:
+    //             return WinAudioClip;
+    //         case SoundEffect.Loose:
+    //             return LoseAudioClip;
+    //         default:
+    //             throw new ArgumentOutOfRangeException(nameof(soundEffect), soundEffect, null);
+    //     }
+    // }
     
 }

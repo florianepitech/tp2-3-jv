@@ -13,10 +13,10 @@ public class MusicSlider : MonoBehaviour
         slider.onValueChanged.AddListener(OnSliderValueChanged);
         if (!PlayerPrefs.HasKey(musicType.ToString()))
         {
-            MusicValue.setMusicVolume(musicType, 100);
-            Debug.Log("Music volume for " + musicType + " music is " + MusicValue.getMusicVolume(musicType));
+            MusicVolume.setMusicVolume(musicType, 100);
+            Debug.Log("Music volume for " + musicType + " music is " + MusicVolume.getMusicVolume(musicType));
         }
-        var volume = MusicValue.getMusicVolume(musicType);
+        var volume = MusicVolume.getMusicVolume(musicType);
         slider.value = volume;
     }
 
@@ -29,7 +29,7 @@ public class MusicSlider : MonoBehaviour
     private void OnSliderValueChanged(float value)
     {
         Debug.Log("Slider value changed to " + value + " for " + musicType + " music");
-        MusicValue.setMusicVolume(musicType, (int) value);
+        MusicVolume.setMusicVolume(musicType, (int) value);
     }
     
 }

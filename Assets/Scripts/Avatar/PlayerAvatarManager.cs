@@ -7,10 +7,6 @@ using UnityEngine;
 public class PlayerAvatarManager : NetworkBehaviour
 {
     // Start is called before the first frame update
-    void Start()
-    {
-    }
-
     void FixedUpdate()
     {
         if (IsLocalPlayer)
@@ -19,31 +15,33 @@ public class PlayerAvatarManager : NetworkBehaviour
                 GetComponent<Renderer>().material = AvatarManager.currentMaterial;
             else
             {
-                
+
                 Debug.Log("AvatarManager.currentMaterial is null");
             }
+
             int playerNumber = GetComponent<Spawn>().PlayerNumber;
             if (playerNumber == 1)
             {
-                Game.player1MaterialName.Value = GetComponent<Renderer>().material.name;
+                setMaterialNameServerRpc(GetComponent<Renderer>().material.name, playerNumber);
                 Game.player1Color.Value = GetComponent<Renderer>().material.GetColor("_Color");
                 if (GetComponent<Renderer>().material.HasProperty("_SecondaryColor"))
-                Game.player1SecondaryColor.Value = GetComponent<Renderer>().material.GetColor("_SecondaryColor");
+                    Game.player1SecondaryColor.Value = GetComponent<Renderer>().material.GetColor("_SecondaryColor");
                 else Game.player1SecondaryColor.Value = Color.white;
                 Debug.Log("Game.player1Name.Value: " + Game.player1MaterialName.Value);
+
             }
             else if (playerNumber == 2)
             {
-                Game.player2MaterialName.Value = GetComponent<Renderer>().material.name;
+                setMaterialNameServerRpc(GetComponent<Renderer>().material.name, playerNumber);
                 Game.player2Color.Value = GetComponent<Renderer>().material.GetColor("_Color");
                 if (GetComponent<Renderer>().material.HasProperty("_SecondaryColor"))
-                Game.player2SecondaryColor.Value = GetComponent<Renderer>().material.GetColor("_SecondaryColor");
-                else 
+                    Game.player2SecondaryColor.Value = GetComponent<Renderer>().material.GetColor("_SecondaryColor");
+                else
                     Game.player2SecondaryColor.Value = Color.white;
                 Debug.Log("Game.player2Name.Value: " + Game.player2MaterialName.Value);
-                
+
             }
-        } 
+        }
 
         if (!IsLocalPlayer)
         {
@@ -62,13 +60,14 @@ public class PlayerAvatarManager : NetworkBehaviour
                         GetComponent<Renderer>().material = material;
                     }
                 }
+
                 if (Game.player1Color.Value != null)
                     GetComponent<Renderer>().material.SetColor("_Color", Game.player1Color.Value);
                 if (Game.player1SecondaryColor.Value != null)
                     GetComponent<Renderer>().material.SetColor("_SecondaryColor", Game.player1SecondaryColor.Value);
-               
-                
-                
+
+
+
             }
             else if (playerNumber == 2)
             {
@@ -84,12 +83,26 @@ public class PlayerAvatarManager : NetworkBehaviour
                         GetComponent<Renderer>().material = material;
                     }
                 }
+
                 if (Game.player2Color.Value != null)
                     GetComponent<Renderer>().material.SetColor("_Color", Game.player2Color.Value);
                 if (Game.player2SecondaryColor.Value != null)
                     GetComponent<Renderer>().material.SetColor("_SecondaryColor", Game.player2SecondaryColor.Value);
-                
+
             }
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void setMaterialNameServerRpc(string materialName, int playerNumber)
+    {
+        if (playerNumber == 1)
+        {
+            Game.player1MaterialName.Value = materialName;
+        }
+        else
+        {
+            Game.player2MaterialName.Value = materialName;
         }
     }
 }

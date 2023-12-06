@@ -23,7 +23,7 @@ public class PlayerAvatarManager : NetworkBehaviour
             if (playerNumber == 1)
             {
                 setMaterialNameServerRpc(GetComponent<Renderer>().material.name, playerNumber);
-                Game.player1Color.Value = GetComponent<Renderer>().material.GetColor("_Color");
+                setMaterialColorServerRpc(GetComponent<Renderer>().material.GetColor("_Color"), playerNumber);
                 if (GetComponent<Renderer>().material.HasProperty("_SecondaryColor"))
                     Game.player1SecondaryColor.Value = GetComponent<Renderer>().material.GetColor("_SecondaryColor");
                 else Game.player1SecondaryColor.Value = Color.white;
@@ -33,7 +33,7 @@ public class PlayerAvatarManager : NetworkBehaviour
             else if (playerNumber == 2)
             {
                 setMaterialNameServerRpc(GetComponent<Renderer>().material.name, playerNumber);
-                Game.player2Color.Value = GetComponent<Renderer>().material.GetColor("_Color");
+                setMaterialColorServerRpc(GetComponent<Renderer>().material.GetColor("_Color"), playerNumber);
                 if (GetComponent<Renderer>().material.HasProperty("_SecondaryColor"))
                     Game.player2SecondaryColor.Value = GetComponent<Renderer>().material.GetColor("_SecondaryColor");
                 else
@@ -103,6 +103,19 @@ public class PlayerAvatarManager : NetworkBehaviour
         else
         {
             Game.player2MaterialName.Value = materialName;
+        }
+    }
+    
+    [ServerRpc(RequireOwnership = false)]
+    void setMaterialColorServerRpc(Color color, int playerNumber)
+    {
+        if (playerNumber == 1)
+        {
+            Game.player1Color.Value = color;
+        }
+        else
+        {
+            Game.player2Color.Value = color;
         }
     }
 }

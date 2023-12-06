@@ -31,6 +31,9 @@ public class Game : NetworkBehaviour
     private Vector3  cachedTransformPlayer2;
     private int transformCounterPlayer2 = 0;
     
+    public NetworkVariable<Color> player1Color = new(Color.green);
+    public NetworkVariable<Color> player2Color = new(Color.red);
+    
     private GameMusicManager _gameMusicManager;
     private VfxPool _vfxPool;
     public AudioClip jingleEndGame;

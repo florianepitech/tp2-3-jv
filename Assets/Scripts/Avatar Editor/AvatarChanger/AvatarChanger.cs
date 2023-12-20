@@ -22,9 +22,7 @@ public class AvatarChanger : MonoBehaviour
         
         if (nextButton != null)
             nextButton.onClick.AddListener(ChangeToNextAvatar);
-
-        if (previousButton != null)
-            previousButton.onClick.AddListener(ChangeToPreviousAvatar);
+        
     }
     
     void ChangeToNextAvatar()
@@ -32,16 +30,7 @@ public class AvatarChanger : MonoBehaviour
         currentAvatarIndex = (currentAvatarIndex + 1) % avatarPrefabs.Count;
         ChangeAvatar();
     }
-
-    void ChangeToPreviousAvatar()
-    {
-        if (currentAvatarIndex == 0)
-            currentAvatarIndex = avatarPrefabs.Count - 1;
-        else
-            currentAvatarIndex--;
-
-        ChangeAvatar();
-    }
+    
 
     void ChangeAvatar()
     {

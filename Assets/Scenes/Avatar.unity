@@ -1346,6 +1346,7 @@ GameObject:
   - component: {fileID: 1255260796}
   - component: {fileID: 1255260795}
   - component: {fileID: 1255260794}
+  - component: {fileID: 1255260798}
   m_Layer: 5
   m_Name: SecondaryColorButton
   m_TagString: Untagged
@@ -1480,6 +1481,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1255260792}
   m_CullTransparentMesh: 1
+--- !u!114 &1255260798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255260792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00984ad8777047ce9a6808252542d627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
+  hoverScale: {x: 1.1, y: 1.1, z: 1.1}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 0.5, g: 1, b: 0.5, a: 1}
+  audioClip: {fileID: 0}
 --- !u!1 &1319602230
 GameObject:
   m_ObjectHideFlags: 0

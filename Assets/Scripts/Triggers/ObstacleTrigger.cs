@@ -26,6 +26,7 @@ public class ObstacleTrigger : NetworkBehaviour
         _audioSource = gameObject.AddComponent<AudioSource>();
         _audioSource.clip = audioClip;
         _audioSource.loop = false;
+        _audioSource.spatialize = true;
         _audioSource.volume = (float)MusicVolume.getMusicVolume(MusicType.VFX) / 100;
     }
 

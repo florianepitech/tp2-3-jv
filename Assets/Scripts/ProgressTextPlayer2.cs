@@ -18,7 +18,6 @@ public class ProgressTextPlayer2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         //get the specific TextMeshProUGUI component
         textMeshProUGUI = GetComponent<TextMeshProUGUI>();
         textMeshProUGUI.text = Game.PassedObstaclesPlayer2.Value.ToString();

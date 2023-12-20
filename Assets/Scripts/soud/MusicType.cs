@@ -1,5 +1,6 @@
 public enum MusicType
 {
     Music,
-    VFX
+    VFX,
+    Follet
 }

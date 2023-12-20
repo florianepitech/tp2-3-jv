@@ -106,7 +106,7 @@ public class PlayerAvatarManager : NetworkBehaviour
             Game.player2SecondaryColor.Value = color2;
         }
     }
-    g// Remove all (Instance) from the name
+    // Remove all (Instance) from the name
     string parseMaterialName(string materialName)
     {
         

@@ -14,11 +14,7 @@ public class PlayerAvatarManager : NetworkBehaviour
         {
             if (AvatarManager.currentMaterial != null)
                 GetComponent<Renderer>().material = AvatarManager.currentMaterial;
-            else
-            {
-
-                Debug.Log("AvatarManager.currentMaterial is null");
-            }
+           
 
             int playerNumber = GetComponent<Spawn>().PlayerNumber;
             if (playerNumber == 1)
@@ -29,7 +25,6 @@ public class PlayerAvatarManager : NetworkBehaviour
                     secondColor = GetComponent<Renderer>().material.GetColor("_SecondaryColor");
                 setMaterialColorServerRpc(GetComponent<Renderer>().material.GetColor("_Color"), 
                     secondColor, playerNumber);
-                Debug.Log("Game.player1Name.Value: " + Game.player1MaterialName.Value);
             }
             else if (playerNumber == 2)
             {
@@ -39,8 +34,6 @@ public class PlayerAvatarManager : NetworkBehaviour
                     secondColor = GetComponent<Renderer>().material.GetColor("_SecondaryColor");
                 setMaterialColorServerRpc(GetComponent<Renderer>().material.GetColor("_Color"), 
                     secondColor, playerNumber);
-                Debug.Log("Game.player2Name.Value: " + Game.player2MaterialName.Value);
-
             }
         }
 
@@ -53,9 +46,6 @@ public class PlayerAvatarManager : NetworkBehaviour
             {
                 foreach (var material in avatarMaterials)
                 {
-                    Debug.Log("------------------");
-                    Debug.Log("material.name: " + material.name);
-                    Debug.Log("Game.player1MaterialName.Value: " + Game.player1MaterialName.Value);
                     if (material.name == parseMaterialName(Game.player1MaterialName.Value.ToString()))
                     {
                         GetComponent<Renderer>().material = material;
@@ -72,15 +62,10 @@ public class PlayerAvatarManager : NetworkBehaviour
             }
             else if (playerNumber == 2)
             {
-                Debug.Log("Game.player2Color.Value: " + Game.player2Color.Value);
                 foreach (var material in avatarMaterials)
                 {
-                    Debug.Log("------------------");
-                    Debug.Log("material.name: " + material.name);
-                    Debug.Log("Game.player2MaterialName.Value: " + Game.player2MaterialName.Value);
                     if (material.name == parseMaterialName(Game.player2MaterialName.Value.ToString()))
                     {
-                        Debug.Log("selected material : " + material.name);
                         GetComponent<Renderer>().material = material;
                     }
                 }
@@ -121,10 +106,10 @@ public class PlayerAvatarManager : NetworkBehaviour
             Game.player2SecondaryColor.Value = color2;
         }
     }
-
+    g// Remove all (Instance) from the name
     string parseMaterialName(string materialName)
     {
-        //remove all (Instance) from the name
+        
         
         string[] words = materialName.Split(' ');
         string newMaterialName = "";

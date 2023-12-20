@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 1122597272162809896}
   - component: {fileID: 5667395323105436103}
   - component: {fileID: 5060285613820224878}
+  - component: {fileID: -5653931371165420024}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -368,6 +369,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   folderPath: Materials/Avatar
+--- !u!114 &-5653931371165420024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7084981699422261968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1412ed4341411469da7613fad33f8ccc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  folderPath: Prefabs/Avatar
 --- !u!1001 &7766523764324841985
 PrefabInstance:
   m_ObjectHideFlags: 0

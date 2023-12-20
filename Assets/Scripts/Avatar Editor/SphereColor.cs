@@ -30,7 +30,6 @@ public class SphereColor : MonoBehaviour
         rend.material.SetColor("_Color", colorPicker.color);
         rend.material.SetColor("_SecondaryColor", colorPicker2.color);
         AvatarManager.currentColor = colorPicker.color;
-        Debug.Log("colorPicker1.color: " + colorPicker.color);
         AvatarManager.secondaryColor = colorPicker2.color;
         //I want the half of the sphere to be white and the other half to be the color of the color picker
         

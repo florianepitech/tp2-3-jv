@@ -38,6 +38,8 @@ public class Game : NetworkBehaviour
     public static NetworkVariable<Color> player2SecondaryColor = new(Color.red);
     public static NetworkVariable<FixedString512Bytes> player1MaterialName = new("Standard");
     public static NetworkVariable<FixedString512Bytes> player2MaterialName = new("Standard");
+    public static NetworkVariable<FixedString512Bytes> player1AvatarName = new("Basic");
+    public static NetworkVariable<FixedString512Bytes> player2AvatarName = new("Basic");
     
     private GameMusicManager _gameMusicManager;
     public AudioClip jingleEndGame;

@@ -12,14 +12,33 @@ public class PlayerAvatarManager : NetworkBehaviour
     {
         if (IsLocalPlayer)
         {
+            List<GameObject> avatarPrefabs = new List<GameObject>();
+            avatarPrefabs = GetComponent<PrefabLister>().GetPrefabsFromFolder();
+            
+            foreach (var prefab in avatarPrefabs)
+            {
+                if (prefab.name == parseMaterialName(AvatarManager.prefabName))
+                {
+                    MeshRenderer prefabMeshRenderer = prefab.GetComponent<MeshRenderer>();
+                    MeshFilter prefabMeshFilter = prefab.GetComponent<MeshFilter>();
+
+                    if (prefabMeshRenderer != null && prefabMeshFilter != null)
+                    {
+                        GetComponent<MeshFilter>().mesh = prefabMeshFilter.sharedMesh;
+                        GetComponent<MeshRenderer>().materials = prefabMeshRenderer.sharedMaterials;
+                        break;
+                    }
+                }
+            }
+            
             if (AvatarManager.currentMaterial != null)
                 GetComponent<Renderer>().material = AvatarManager.currentMaterial;
-           
 
             int playerNumber = GetComponent<Spawn>().PlayerNumber;
             if (playerNumber == 1)
             {
                 setMaterialNameServerRpc(GetComponent<Renderer>().material.name, playerNumber);
+                setPrefabNameServerRpc(AvatarManager.prefabName, playerNumber);
                 Color secondColor = Color.white;
                 if (GetComponent<Renderer>().material.HasProperty("_SecondaryColor"))
                     secondColor = GetComponent<Renderer>().material.GetColor("_SecondaryColor");
@@ -28,6 +47,7 @@ public class PlayerAvatarManager : NetworkBehaviour
             }
             else if (playerNumber == 2)
             {
+                setPrefabNameServerRpc(AvatarManager.prefabName, playerNumber);
                 setMaterialNameServerRpc(GetComponent<Renderer>().material.name, playerNumber);
                 Color secondColor = Color.white;
                 if (GetComponent<Renderer>().material.HasProperty("_SecondaryColor"))
@@ -42,8 +62,27 @@ public class PlayerAvatarManager : NetworkBehaviour
             int playerNumber = GetComponent<Spawn>().PlayerNumber;
             List<Material> avatarMaterials = new List<Material>();
             avatarMaterials = GetComponent<MaterialLister>().GetMaterialsFromFolder();
+            List<GameObject> avatarPrefabs = new List<GameObject>();
+            avatarPrefabs = GetComponent<PrefabLister>().GetPrefabsFromFolder();
             if (playerNumber == 1)
             {
+                
+                foreach (var prefab in avatarPrefabs)
+                {
+                    if (prefab.name == parseMaterialName(Game.player1AvatarName.Value.ToString()))
+                    {
+                        MeshRenderer prefabMeshRenderer = prefab.GetComponent<MeshRenderer>();
+                        MeshFilter prefabMeshFilter = prefab.GetComponent<MeshFilter>();
+
+                        if (prefabMeshRenderer != null && prefabMeshFilter != null)
+                        {
+                            GetComponent<MeshFilter>().mesh = prefabMeshFilter.sharedMesh;
+                            GetComponent<MeshRenderer>().materials = prefabMeshRenderer.sharedMaterials;
+                            break;
+                        }
+                    }
+                }
+                
                 foreach (var material in avatarMaterials)
                 {
                     if (material.name == parseMaterialName(Game.player1MaterialName.Value.ToString()))
@@ -62,6 +101,23 @@ public class PlayerAvatarManager : NetworkBehaviour
             }
             else if (playerNumber == 2)
             {
+                
+                foreach (var prefab in avatarPrefabs)
+                {
+                    if (prefab.name == parseMaterialName(Game.player2AvatarName.Value.ToString()))
+                    {
+                        MeshRenderer prefabMeshRenderer = prefab.GetComponent<MeshRenderer>();
+                        MeshFilter prefabMeshFilter = prefab.GetComponent<MeshFilter>();
+
+                        if (prefabMeshRenderer != null && prefabMeshFilter != null)
+                        {
+                            GetComponent<MeshFilter>().mesh = prefabMeshFilter.sharedMesh;
+                            GetComponent<MeshRenderer>().materials = prefabMeshRenderer.sharedMaterials;
+                            break;
+                        }
+                    }
+                }
+                
                 foreach (var material in avatarMaterials)
                 {
                     if (material.name == parseMaterialName(Game.player2MaterialName.Value.ToString()))
@@ -124,4 +180,18 @@ public class PlayerAvatarManager : NetworkBehaviour
         newMaterialName = newMaterialName.Remove(newMaterialName.Length - 1);
         return newMaterialName;
     }
+    
+    [ServerRpc(RequireOwnership = false)]
+    void setPrefabNameServerRpc(string prefabName, int playerNumber)
+    {
+        if (playerNumber == 1)
+        {
+            Game.player1AvatarName.Value = prefabName;
+        }
+        else
+        {
+            Game.player2AvatarName.Value = prefabName;
+        }
+    }
+    
 }

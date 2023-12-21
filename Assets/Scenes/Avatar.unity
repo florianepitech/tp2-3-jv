@@ -1061,6 +1061,7 @@ GameObject:
   - component: {fileID: 1255260796}
   - component: {fileID: 1255260795}
   - component: {fileID: 1255260794}
+  - component: {fileID: 1255260798}
   m_Layer: 5
   m_Name: SecondaryColorButton
   m_TagString: Untagged
@@ -1195,6 +1196,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1255260792}
   m_CullTransparentMesh: 1
+--- !u!114 &1255260798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255260792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00984ad8777047ce9a6808252542d627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
+  hoverScale: {x: 1.1, y: 1.1, z: 1.1}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 0.5, g: 1, b: 0.5, a: 1}
+  audioClip: {fileID: 0}
 --- !u!1 &1319602230
 GameObject:
   m_ObjectHideFlags: 0
@@ -1208,6 +1226,7 @@ GameObject:
   - component: {fileID: 1319602233}
   - component: {fileID: 1319602232}
   - component: {fileID: 1319602235}
+  - component: {fileID: 1319602236}
   m_Layer: 5
   m_Name: Primary Color Button
   m_TagString: Untagged
@@ -1342,6 +1361,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorPicker: {fileID: 1957127514}
+--- !u!114 &1319602236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319602230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00984ad8777047ce9a6808252542d627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
+  hoverScale: {x: 1.1, y: 1.1, z: 1.1}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 0.5, g: 1, b: 0.5, a: 1}
+  audioClip: {fileID: 0}
 --- !u!1 &1360186065
 GameObject:
   m_ObjectHideFlags: 0
@@ -1941,6 +1977,7 @@ GameObject:
   - component: {fileID: 1687842128}
   - component: {fileID: 1687842127}
   - component: {fileID: 1687842126}
+  - component: {fileID: 1687842129}
   m_Layer: 5
   m_Name: Avatar Next
   m_TagString: Untagged
@@ -2062,6 +2099,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687842124}
   m_CullTransparentMesh: 1
+--- !u!114 &1687842129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687842124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00984ad8777047ce9a6808252542d627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
+  hoverScale: {x: 1.1, y: 1.1, z: 1.1}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 0.5, g: 1, b: 0.5, a: 1}
+  audioClip: {fileID: 0}
 --- !u!1 &1834392561
 GameObject:
   m_ObjectHideFlags: 0
@@ -2306,6 +2360,7 @@ GameObject:
   - component: {fileID: 1924807452}
   - component: {fileID: 1924807454}
   - component: {fileID: 1924807453}
+  - component: {fileID: 1924807455}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2429,6 +2484,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1924807451}
   m_CullTransparentMesh: 1
+--- !u!114 &1924807455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924807451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00984ad8777047ce9a6808252542d627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
+  hoverScale: {x: 1.1, y: 1.1, z: 1.1}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 0.5, g: 1, b: 0.5, a: 1}
+  audioClip: {fileID: 0}
 --- !u!1 &1933766271
 GameObject:
   m_ObjectHideFlags: 0
@@ -2442,6 +2514,7 @@ GameObject:
   - component: {fileID: 1933766274}
   - component: {fileID: 1933766273}
   - component: {fileID: 1933766276}
+  - component: {fileID: 1933766277}
   m_Layer: 5
   m_Name: Submit Button
   m_TagString: Untagged
@@ -2575,6 +2648,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acecc8d9235f147d9a07df80e0837362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1933766277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933766271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00984ad8777047ce9a6808252542d627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
+  hoverScale: {x: 1.1, y: 1.1, z: 1.1}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 0.5, g: 1, b: 0.5, a: 1}
+  audioClip: {fileID: 0}
 --- !u!1 &1957127514
 GameObject:
   m_ObjectHideFlags: 0

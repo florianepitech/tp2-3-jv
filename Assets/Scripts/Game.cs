@@ -280,7 +280,7 @@ public class Game : NetworkBehaviour
     [ServerRpc]
     void getPlayersConnectedServerRpc()
     {
-        connectedClients = NetworkManager.Singleton.ConnectedClientsList;
+        connectedClients =  NetworkManager.Singleton.ConnectedClientsList;
     }
 
     [ServerRpc]

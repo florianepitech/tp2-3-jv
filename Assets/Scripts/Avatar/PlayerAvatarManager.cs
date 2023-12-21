@@ -165,8 +165,8 @@ public class PlayerAvatarManager : NetworkBehaviour
     // Remove all (Instance) from the name
     string parseMaterialName(string materialName)
     {
-        
-        
+        if (materialName == null)
+            return null;
         string[] words = materialName.Split(' ');
         string newMaterialName = "";
         foreach (var word in words)
@@ -184,6 +184,8 @@ public class PlayerAvatarManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     void setPrefabNameServerRpc(string prefabName, int playerNumber)
     {
+        if (prefabName == null)
+            return;
         if (playerNumber == 1)
         {
             Game.player1AvatarName.Value = prefabName;
